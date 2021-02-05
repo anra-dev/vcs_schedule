@@ -11,7 +11,7 @@ class Event(models.Model):
     EVENT_TYPE_LOCAL = 'local'
 
     STATUS_CHOICES = (
-        (STATUS_CREATED, 'Мероприятие создано'),
+        (STATUS_CREATED, 'В статусе заявки'),
         (STATUS_READY, 'Подготовка окончена'),
         (STATUS_COMPLETED, 'Окончено')
     )

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mt-4">Необработанные заявки</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Время проведения</th>
+      <th scope="col">Наименование</th>
+      <th scope="col">Статус</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for event in events %}
+    <tr class="table-light">
+      <td>{{ event.date_of_event }}</td>
+      <td>{{ event.name }}</td>
+      <td>{{ event.responsible }}</td>
+      <td><button class="btn btn-success">Обработать</button> </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock content %}

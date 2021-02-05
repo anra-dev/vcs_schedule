@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Андреев Роман">
+
+  <title>ЦИТ ВО - система видеоконференцсвязи</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/simple-sidebar.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">ГБУ ВО "ЦИТ ВО"</div>
+      <div class="list-group list-group-flush">
+        <a href="{% url 'events' %}" class="list-group-item list-group-item-action bg-light">Мероприятия</a>
+        <a href="{% url 'orders' %}" class="list-group-item list-group-item-action bg-light">Заявки</a>
+        <a href="{% url 'archive' %}" class="list-group-item list-group-item-action bg-light">Архив</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Подать заявку</button>
+      </nav>
+
+      <div class="container-fluid">
+        <div class="col-md-8">
+        {% block content %}
+
+
+        {% endblock content %}
+        </div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>
