@@ -31,3 +31,13 @@ class ArchiveView(View):
             'events': events
         }
         return render(request, 'archive.html', context)
+
+
+class EventDetailView(View):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        event = Event.objects.get(id=id)
+        context = {
+            'event': event
+        }
+        return render(request, 'event_detail.html', context)

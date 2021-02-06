@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mt-4">Мероприятие "{{ event.name }}"</h1>
+<table class="table">
+  <tbody>
+    <tr>
+      <th class="col-md-4">Время и место проведения</th>
+      <td>{{ event.date_of_event|date:"H : i, d F Y" }} <hr> {{ event.room }}</td>
+    </tr>
+    <tr>
+      <th>Организатор</th>
+      <td>{{ event.organization }}</td>
+    </tr>
+    <tr>
+      <th>Описание</th>
+      <td>{{ event.description }}</td>
+    </tr>
+    <tr>
+      <th>Сотрудник ответственный за мероприятие</th>
+      <td>{{ event.responsible }}<hr>телефон: {{ event.responsible.phone }}, email: {{ event.responsible.email }}</td>
+    </tr>
+    <tr>
+      <th>Технический специалист</th>
+      <td>{{ event.application.responsible }}<hr>телефон: {{ event.application.responsible.phone }}, email: {{ event.application.responsible.email }}</td>
+    </tr>
+    <tr>
+      <th>Ассистент</th>
+      <td>{{ event.room.responsible }}<hr>телефон: {{ event.room.responsible.phone }}, email: {{ event.room.responsible.email }}</td>
+    </tr>
+    <tr>
+      <th>Приложение</th>
+      <td>{{ event.application }}({{ event.get_type_event_display }}) <hr> {{ event.link_to_event }}</td>
+    </tr>
+  </tbody>
+</table>
+<p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
+
+{% endblock content %}

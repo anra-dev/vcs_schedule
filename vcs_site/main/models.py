@@ -12,13 +12,13 @@ class Event(models.Model):
 
     STATUS_CHOICES = (
         (STATUS_CREATED, 'В статусе заявки'),
-        (STATUS_READY, 'Подготовка окончена'),
+        (STATUS_READY, 'Одобрено'),
         (STATUS_COMPLETED, 'Окончено')
     )
 
     EVENT_TYPE_CHOICES = (
-        (EVENT_TYPE_EXTERNAL, 'Внешнее'),
-        (EVENT_TYPE_LOCAL, 'Внутренее')
+        (EVENT_TYPE_EXTERNAL, 'Внешний'),
+        (EVENT_TYPE_LOCAL, 'Внутренний')
     )
     name = models.CharField(max_length=255, verbose_name='Название мероприятия')
     description = models.TextField(verbose_name='Описание')

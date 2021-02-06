@@ -17,7 +17,7 @@
     <tr class="{% if event.status == 'created' %} table-danger {% endif %}
                {% if event.status == 'is_ready' %} table-success {% endif %}">
       <td>{{ event.date_of_event }}</td>
-      <td>{{ event.name }}</td>
+      <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
       <td>{{ event.get_status_display }}</td>
       <td>{{ event.responsible }}</td>
     </tr>
