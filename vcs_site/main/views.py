@@ -1,5 +1,5 @@
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 
 from .models import Event
 from .forms import EventAddForm
@@ -48,6 +48,16 @@ class EventAddView(View):
 
     def get(self, request, *args, **kwargs):
         form = EventAddForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, 'event_add.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = EventAddForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
         context = {
             'form': form
         }

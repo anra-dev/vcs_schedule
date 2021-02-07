@@ -24,13 +24,15 @@ class Event(models.Model):
     description = models.TextField(verbose_name='Описание')
     organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.CASCADE)
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
-    date_of_event = models.DateTimeField(verbose_name='Дата проведения')
+    date = models.DateField(verbose_name='Дата проведения')
+    time_start = models.TimeField(verbose_name='Время начала мероприятия')
+    time_end = models.TimeField(verbose_name='Время окончания мероприятия')
     number_of_participants = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     type_event = models.CharField(
         max_length=100,
         verbose_name='Тип мероприятия',
         choices=EVENT_TYPE_CHOICES,
-        default=EVENT_TYPE_EXTERNAL
+        default=EVENT_TYPE_LOCAL
     )
     room = models.ForeignKey('Room', verbose_name='Место проведения', null=True, blank=True, on_delete=models.CASCADE)
     application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True, on_delete=models.CASCADE)
