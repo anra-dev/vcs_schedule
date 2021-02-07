@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<h1 class="mt-4">Заявка на организацию ВКС</h1>
+    <div class="col-md-8">
+        <form action="{% url 'events' %}"  method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-success btn-lg btn-block" value="Подать заявку">
+        </form>
+    </div>
+{% endblock content %}

@@ -3,7 +3,7 @@ from django import forms
 from .models import Event
 
 
-class EventDetailForm(forms.ModelForm):
+class EventAddForm(forms.ModelForm):
 
     class Meta:
         model = Event

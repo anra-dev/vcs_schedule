@@ -2,6 +2,7 @@ from django.views import View
 from django.shortcuts import render
 
 from .models import Event
+from .forms import EventAddForm
 
 
 class EventsView(View):
@@ -34,6 +35,7 @@ class ArchiveView(View):
 
 
 class EventDetailView(View):
+
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')
         event = Event.objects.get(id=id)
@@ -41,3 +43,12 @@ class EventDetailView(View):
             'event': event
         }
         return render(request, 'event_detail.html', context)
+
+class EventAddView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = EventAddForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, 'event_add.html', context)
