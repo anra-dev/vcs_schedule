@@ -33,24 +33,32 @@
     </div>
     <!-- /#sidebar-wrapper -->
 
-    <!-- Message -->
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-      <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
+
     <!-- Page Content -->
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <a href="{% url 'event_add' %}" class="btn btn-primary " role="button">Новое мероприятие</a>
+        <a href="{% url 'event_add' %}" class="btn btn-primary " role="button">Создать внутреннее мероприятие</a>
+        <a href="{% url 'event_add' %}" class="btn btn-primary ml-2" role="button">Создать внешнее мероприятие</a>
+        <a href="{% url 'event_add' %}" class="btn btn-primary ml-auto" role="button">Войти в систему</a>
       </nav>
-      <div class="container-fluid">
+      <div class="container-fluid row">
         <div class="col-md-8">
-        {% block content %}
+          {% block content %}
 
-
-        {% endblock content %}
+          {% endblock content %}
+        </div>
+        <div class="col-md-4 mt-2">
+          <!-- Message -->
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Успешно!</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+          {% endif %}
         </div>
       </div>
     </div>
@@ -58,6 +66,12 @@
 
   </div>
   <!-- /#wrapper -->
+  <footer class="py-5 bg-dark mt-3">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Roman Andreev 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 
   <!-- Bootstrap core JavaScript -->
   <script src="/static/vendor/jquery/jquery.min.js"></script>

@@ -1,5 +1,6 @@
 from django.views import View
 from django.shortcuts import render, HttpResponseRedirect
+from django.contrib import messages
 
 from .models import Event
 from .forms import EventAddForm
@@ -44,6 +45,7 @@ class EventDetailView(View):
         }
         return render(request, 'event_detail.html', context)
 
+
 class EventAddView(View):
 
     def get(self, request, *args, **kwargs):
@@ -56,7 +58,11 @@ class EventAddView(View):
     def post(self, request, *args, **kwargs):
         form = EventAddForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            event.time_start = form.cleaned_data['time_start']
+            event.time_end = form.cleaned_data['time_end']
+            event.save()
+            messages.add_message(request, messages.INFO, 'Мероприятие успешно создано!')
             return HttpResponseRedirect('/')
         context = {
             'form': form

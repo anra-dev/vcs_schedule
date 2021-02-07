@@ -47,7 +47,7 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'Мероприятие "{self.name}" запланировано на {self.date_of_event}'
+        return f'Мероприятие "{self.name}" запланировано на {self.date} c {self.time_start} по {self.time_end}'
 
 
 class Organization(models.Model):

@@ -7,7 +7,7 @@
   <tbody>
     <tr>
       <th class="col-md-4">Время и место проведения</th>
-      <td>{{ event.date|date:"d F Y" }} <hr> {{ event.room }}</td>
+      <td>начало: {{ event.time_start|date:"H i" }}, окончание: {{ event.time_end|date:"H i" }}, {{ event.date|date:"d F Y" }} <hr> {{ event.room }}</td>
     </tr>
     <tr>
       <th>Организатор</th>
