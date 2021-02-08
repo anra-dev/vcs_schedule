@@ -1,9 +1,9 @@
 from django.views import View
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib import messages
 
 from .models import Event
-from .forms import EventAddForm
+from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm
 
 
 class EventsView(View):
@@ -59,12 +59,54 @@ class EventAddView(View):
         form = EventAddForm(request.POST or None)
         if form.is_valid():
             event = form.save(commit=False)
-            event.time_start = form.cleaned_data['time_start']
-            event.time_end = form.cleaned_data['time_end']
             event.save()
             messages.add_message(request, messages.INFO, 'Мероприятие успешно создано!')
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('vcs_add'))
         context = {
             'form': form
         }
         return render(request, 'event_add.html', context)
+
+
+class VideoConfAddView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = VideoConfAddForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, 'video_conf_add.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = VideoConfAddForm(request.POST or None)
+        if form.is_valid():
+            vcs = form.save(commit=False)
+            vcs.save()
+            messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
+            return HttpResponseRedirect('/')
+        context = {
+            'form': form
+        }
+        return render(request, 'video_conf_add.html', context)
+
+
+class ReservedRoomAddView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = ReservedRoomAddForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, 'room_add.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = ReservedRoomAddForm(request.POST or None)
+        if form.is_valid():
+            vcs = form.save(commit=False)
+            vcs.save()
+            messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
+            return HttpResponseRedirect('/')
+        context = {
+            'form': form
+        }
+        return render(request, 'room_add.html', context)

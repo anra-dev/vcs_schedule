@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<h1 class="mt-4">Бронирование комнаты</h1>
+    <div class="col-md-8">
+        <form action=""  method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-success btn-lg btn-block" value="Готово">
+        </form>
+        <a type="submit" class="btn btn-secondary btn-lg btn-block mt-3" href="{% url 'events' %}" role="button">Комната не нужна</a>
+    </div>
+
+{% endblock content %}

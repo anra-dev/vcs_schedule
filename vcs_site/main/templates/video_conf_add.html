@@ -4,13 +4,14 @@
 
 {% block content %}
 
-<h1 class="mt-4">Создание нового мероприятия</h1>
+<h1 class="mt-4">Заявка на организацию видеоконференции</h1>
     <div class="col-md-8">
         <form action=""  method="POST">
             {% csrf_token %}
             {{ form|crispy }}
             <input type="submit" class="btn btn-success btn-lg btn-block" value="Далее">
         </form>
+        <a type="submit" class="btn btn-secondary btn-lg btn-block mt-3" href="{% url 'room_add' %}" role="button">Мне не требуется ВКС</a>
     </div>
 
 {% endblock content %}
