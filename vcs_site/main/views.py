@@ -1,9 +1,10 @@
 from django.views import View
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 from .models import Event
-from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm
+from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
 
 
 class EventsView(View):
@@ -110,3 +111,27 @@ class ReservedRoomAddView(View):
             'form': form
         }
         return render(request, 'room_add.html', context)
+
+
+class LoginView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = LoginForm(request.POST or None)
+        context = {
+            'form': form,
+        }
+        return render(request, 'login.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST or None)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+        context = {
+            'form': form,
+        }
+        return render(request, 'login.html', context)

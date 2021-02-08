@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Event(models.Model):
@@ -91,6 +94,7 @@ class Application(models.Model):
 
 
 class Staffer(models.Model):
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name='ФИО')
     email = models.EmailField(verbose_name='Электронная почта')
     phone = models.CharField(max_length=100, verbose_name='Телефон')
