@@ -5,6 +5,7 @@ from .models import Event, VideoConf, ReservedRoom
 
 User = get_user_model()
 
+
 class EventAddForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -16,7 +17,9 @@ class EventAddForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = (
-            '__all__'
+            'name',
+            'description',
+            'date'
         )
 
 
@@ -33,7 +36,11 @@ class VideoConfAddForm(forms.ModelForm):
     class Meta:
         model = VideoConf
         fields = (
-            '__all__'
+            'number_places',
+            'application',
+            'link_to_event',
+            'time_start',
+            'time_end',
         )
 
     # def clean(self):
@@ -79,7 +86,10 @@ class ReservedRoomAddForm(forms.ModelForm):
     class Meta:
         model = ReservedRoom
         fields = (
-            '__all__'
+            'room',
+            'number_places',
+            'time_start',
+            'time_end',
         )
 
 

@@ -43,7 +43,7 @@ class VideoConf(models.Model):
         (EVENT_TYPE_LOCAL, 'Внутренний')
     )
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
-    number_of_participants = models.PositiveSmallIntegerField(verbose_name='Количество участников')
+    number_places = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True, on_delete=models.CASCADE)
     link_to_event = models.CharField(max_length=255, verbose_name='Ссылка', null=True, blank=True)
     time_start = models.TimeField(verbose_name='Время начала мероприятия')
@@ -60,6 +60,7 @@ class ReservedRoom(models.Model):
 
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
     room = models.ForeignKey('Room', verbose_name='Место проведения', null=True, blank=True, on_delete=models.CASCADE)
+    number_places = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     time_start = models.TimeField(verbose_name='Время начала мероприятия')
     time_end = models.TimeField(verbose_name='Время окончания мероприятия')
 

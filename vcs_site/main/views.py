@@ -3,7 +3,7 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
-from .models import Event
+from .models import Event, VideoConf, ReservedRoom, Organization, Staffer
 from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
 
 
@@ -41,8 +41,12 @@ class EventDetailView(View):
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')
         event = Event.objects.get(id=id)
+        vcs = VideoConf.objects.filter(event=event).first()
+        reserved_room = ReservedRoom.objects.filter(event=event).first()
         context = {
-            'event': event
+            'event': event,
+            'vcs': vcs,
+            'reserved_room': reserved_room
         }
         return render(request, 'event_detail.html', context)
 
@@ -60,6 +64,8 @@ class EventAddView(View):
         form = EventAddForm(request.POST or None)
         if form.is_valid():
             event = form.save(commit=False)
+            event.responsible = Staffer.objects.get(user=request.user)
+            event.organization = Organization.objects.get(responsible=event.responsible)
             event.save()
             messages.add_message(request, messages.INFO, 'Мероприятие успешно создано!')
             return HttpResponseRedirect(reverse('vcs_add'))
@@ -82,9 +88,10 @@ class VideoConfAddView(View):
         form = VideoConfAddForm(request.POST or None)
         if form.is_valid():
             vcs = form.save(commit=False)
+            vcs.event = Event.objects.last()
             vcs.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('room_add'))
         context = {
             'form': form
         }
@@ -103,9 +110,10 @@ class ReservedRoomAddView(View):
     def post(self, request, *args, **kwargs):
         form = ReservedRoomAddForm(request.POST or None)
         if form.is_valid():
-            vcs = form.save(commit=False)
-            vcs.save()
-            messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
+            room = form.save(commit=False)
+            room.event = Event.objects.last()
+            room.save()
+            messages.add_message(request, messages.INFO, 'Направлена заявка на бронирование комнаты!')
             return HttpResponseRedirect('/')
         context = {
             'form': form
