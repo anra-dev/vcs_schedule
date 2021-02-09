@@ -7,6 +7,7 @@ from .views import (
     ArchiveView,
     EventDetailView,
     EventAddView,
+    EventTypeView,
     VideoConfAddView,
     ReservedRoomAddView
 )
@@ -19,6 +20,7 @@ urlpatterns = [
     path('archive/', ArchiveView.as_view(), name='archive'),
     path('event/<id>', EventDetailView.as_view(), name='event_detail'),
     path('event-add/', EventAddView.as_view(), name='event_add'),
+    path('event-type/', EventTypeView.as_view(), name='event_type'),
     path('vcs-add/', VideoConfAddView.as_view(), name='vcs_add'),
     path('room-add/', ReservedRoomAddView.as_view(), name='room_add')
 ]

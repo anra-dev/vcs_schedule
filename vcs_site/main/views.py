@@ -68,11 +68,17 @@ class EventAddView(View):
             event.organization = Organization.objects.get(responsible=event.responsible)
             event.save()
             messages.add_message(request, messages.INFO, 'Мероприятие успешно создано!')
-            return HttpResponseRedirect(reverse('vcs_add'))
+            return HttpResponseRedirect(reverse('event_type'))
         context = {
             'form': form
         }
         return render(request, 'event_add.html', context)
+
+
+class EventTypeView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'event_type.html', {})
 
 
 class VideoConfAddView(View):

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<h1 class="mt-4">Выбор типа мероприятия</h1>
+<div class="row">
+<div class="card m-3" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Домашняя видеоконференция</h5>
+    <p class="card-text">Я хочу создать видео конференцию и пригласить коллег и гостей для участия.</p>
+    <a href="{% url 'vcs_add' %}" class="btn btn-primary">Создать</a>
+  </div>
+</div>
+<div class="card m-3" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Внешняя видеоконференция</h5>
+    <p class="card-text">Я и мои коллеги приглашены на видео конференцию организованную не АВО.</p>
+    <a href="{% url 'vcs_add' %}" class="btn btn-primary">Создать</a>
+  </div>
+</div>
+<div class="card m-3" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Простое собрание</h5>
+    <p class="card-text">Мне не нужна видеоконференция. Я хочу забронировать помещение для очного совещания..</p>
+    <a href="{% url 'room_add' %}" class="btn btn-primary">Создать</a>
+  </div>
+</div>
+</div>
+
+{% endblock content %}
