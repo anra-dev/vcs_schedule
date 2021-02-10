@@ -10,16 +10,107 @@
       <th scope="col">Наименование</th>
       <th scope="col">Статус</th>
       <th scope="col">Ответственные лица</th>
+      <th scope="col">Действие</th>
     </tr>
   </thead>
   <tbody>
-  {% for event in events %}
+  {% for event, vcs, reserved_room in data %}
     <tr class="{% if event.status == 'created' %} table-danger {% endif %}
                {% if event.status == 'is_ready' %} table-success {% endif %}">
       <td>{{ event.date }}</td>
       <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
       <td>{{ event.get_status_display }}</td>
       <td>{{ event.responsible }}</td>
+      <!-- Button trigger modal -->
+      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-{{ event.id }}">Просмотр</button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal-{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Информацио о мероприятии</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h3 class="mt-4">Название: "{{ event.name }}" <span class="badge bg-warning">В работе</span></h3>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th class="col-md-4">Дата проведения</th>
+                    <td>{{ event.date|date:"d F Y" }}</td>
+                  </tr>
+                  <tr>
+                    <th>Организатор</th>
+                    <td>{{ event.organization }}</td>
+                  </tr>
+                  <tr>
+                    <th>Описание</th>
+                    <td>{{ event.description }}</td>
+                  </tr>
+                  <tr>
+                    <th>Сотрудник ответственный за мероприятие</th>
+                    <td>{{ event.responsible }}<hr>телефон: {{ event.responsible.phone }}, email: {{ event.responsible.email }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              {% if vcs %}
+              <h4 class="mt-4">Видеоконференция "{{ vcs.application }}" <span class="badge bg-success">Создана</span></h4>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th class="col-md-4">Время</th>
+                    <td>начало: {{ vcs.time_start|date:"H i" }}, окончание: {{ vcs.time_end|date:"H i" }}</td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-4">Приложение</th>
+                    <td>{{ vcs.application }}({{ vcs.get_type_event_display }})</td>
+                  </tr>
+                  <tr>
+                    <th>Ссылка</th>
+                    <td>{{ vcs.link_to_event }}</td>
+                  </tr>
+                  <tr>
+                    <th>Технический специалист</th>
+                    <td>{{ vcs.application.responsible }}<hr>телефон: {{ vcs.application.responsible.phone }}, email: {{ vcs.application.responsible.email }}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+              {% endif %}
+              {% if reserved_room %}
+              <h4 class="mt-4">Комната на {{ reserved_room.room.capacity }} мест(а) <span class="badge bg-danger">Нет брони</span></h4>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th class="col-md-4">Бронь</th>
+                    <td>с {{ vcs.time_start|date:"H i" }} по {{ vcs.time_end|date:"H i" }}</td>
+                  </tr>
+                  <tr>
+                    <th class="col-md-4">Адрес</th>
+                    <td>{{ reserved_room.room }}</td>
+                  </tr>
+                  <tr>
+                    <th>Количество участников</th>
+                    <td>{{ reserved_room.number_places }}</td>
+                  </tr>
+                  <tr>
+                    <th>Ассистент</th>
+                    <td>{{ reserved_room.room.responsible }}<hr>телефон: {{ reserved_room.room.responsible.phone }}, email: {{ reserved_room.room.responsible.email }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              {% endif %}
+              <p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+              <a href="/event/{{ event.id }}" type="button" class="btn btn-primary">Подробно</a>
+            </div>
+          </div>
+        </div>
+      </div></td>
     </tr>
   {% endfor %}
   </tbody>

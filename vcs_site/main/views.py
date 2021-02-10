@@ -10,9 +10,14 @@ from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginFor
 class EventsView(View):
 
     def get(self, request):
+        data = []
         events = Event.objects.filter(status__in=('created', 'is_ready'))
+        for event in events:
+            vcs = VideoConf.objects.filter(event=event).first()
+            reserved_room = ReservedRoom.objects.filter(event=event).first()
+            data.append((event, vcs, reserved_room,))
         context = {
-            'events': events
+            'data': data
         }
         return render(request, 'events.html', context)
 
