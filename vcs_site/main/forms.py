@@ -19,7 +19,8 @@ class EventAddForm(forms.ModelForm):
         fields = (
             'name',
             'description',
-            'date'
+            'date',
+            'type'
         )
 
 

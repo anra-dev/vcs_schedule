@@ -73,20 +73,43 @@ class EventAddView(View):
             event.organization = Organization.objects.get(responsible=event.responsible)
             event.save()
             messages.add_message(request, messages.INFO, 'Мероприятие успешно создано!')
-            return HttpResponseRedirect(reverse('event_type'))
+            print(event.type)
+            if event.type == 'local':
+                return HttpResponseRedirect(reverse('vcs_int_add'))
+            if event.type == 'external':
+                return HttpResponseRedirect(reverse('vcs_ext_add'))
+            if event.type == 'without_vcs':
+                return HttpResponseRedirect(reverse('room_add'))
         context = {
             'form': form
         }
         return render(request, 'event_add.html', context)
 
 
-class EventTypeView(View):
+class VideoIntConfAddView(View):
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'event_type.html', {})
+        form = VideoConfAddForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, 'video_conf_add.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = VideoConfAddForm(request.POST or None)
+        if form.is_valid():
+            vcs = form.save(commit=False)
+            vcs.event = Event.objects.last()
+            vcs.save()
+            messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
+            return HttpResponseRedirect(reverse('room_add'))
+        context = {
+            'form': form
+        }
+        return render(request, 'video_conf_add.html', context)
 
 
-class VideoConfAddView(View):
+class VideoExtConfAddView(View):
 
     def get(self, request, *args, **kwargs):
         form = VideoConfAddForm(request.POST or None)

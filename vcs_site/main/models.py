@@ -11,9 +11,19 @@ class Event(models.Model):
     STATUS_COMPLETED = 'completed'
 
     STATUS_CHOICES = (
-        (STATUS_CREATED, 'В статусе заявки'),
+        (STATUS_CREATED, 'Заявка'),
         (STATUS_READY, 'Одобрено'),
         (STATUS_COMPLETED, 'Окончено')
+    )
+
+    TYPE_EXTERNAL = 'local'
+    TYPE_LOCAL = 'external'
+    TYPE_WITHOUT_VCS = 'without_vcs'
+
+    TYPE_CHOICES = (
+        (TYPE_LOCAL, 'Внутренняя видеоконференция'),
+        (TYPE_EXTERNAL, 'Внешняя видеоконференция'),
+        (TYPE_WITHOUT_VCS, 'Без видеоконференции')
     )
 
     name = models.CharField(max_length=255, verbose_name='Название мероприятия')
@@ -21,6 +31,12 @@ class Event(models.Model):
     organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.CASCADE)
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
     date = models.DateField(verbose_name='Дата проведения')
+    type = models.CharField(
+        max_length=100,
+        verbose_name='Тип мероприятия',
+        choices=TYPE_CHOICES,
+        default=TYPE_LOCAL
+    )
     status = models.CharField(
         max_length=100,
         verbose_name='Статус мероприятия',
@@ -35,25 +51,12 @@ class Event(models.Model):
 
 class VideoConf(models.Model):
 
-    EVENT_TYPE_EXTERNAL = 'external'
-    EVENT_TYPE_LOCAL = 'local'
-
-    EVENT_TYPE_CHOICES = (
-        (EVENT_TYPE_EXTERNAL, 'Внешний'),
-        (EVENT_TYPE_LOCAL, 'Внутренний')
-    )
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
     number_places = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True, on_delete=models.CASCADE)
     link_to_event = models.CharField(max_length=255, verbose_name='Ссылка', null=True, blank=True)
     time_start = models.TimeField(verbose_name='Время начала мероприятия')
     time_end = models.TimeField(verbose_name='Время окончания мероприятия')
-    type_event = models.CharField(
-        max_length=100,
-        verbose_name='Тип мероприятия',
-        choices=EVENT_TYPE_CHOICES,
-        default=EVENT_TYPE_LOCAL
-    )
 
 
 class ReservedRoom(models.Model):
