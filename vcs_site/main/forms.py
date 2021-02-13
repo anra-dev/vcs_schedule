@@ -20,10 +20,8 @@ class EventAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['date'].label = 'Дата проведения'
-        self.fields['type'].label = 'Тип мероприятия'
 
     date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
-    type = forms.ChoiceField(choices=Event.TYPE_CHOICES, widget=forms.RadioSelect, error_messages=my_default_errors)
 
     def clean_date(self):
         date = self.cleaned_data['date']
@@ -37,7 +35,6 @@ class EventAddForm(forms.ModelForm):
             'name',
             'description',
             'date',
-            'type'
         )
 
 
@@ -55,15 +52,6 @@ class VideoIntConfAddForm(forms.ModelForm):
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
 
-    class Meta:
-        model = VideoConf
-        fields = (
-            'number_places',
-            'application',
-            'time_start',
-            'time_end',
-        )
-
     def clean(self):
         """Валидация формы"""
         time_start = self.cleaned_data['time_start']
@@ -80,6 +68,8 @@ class VideoIntConfAddForm(forms.ModelForm):
         date = self.event.date
         events_on_this_date = Event.objects.filter(date=date)
         for event in events_on_this_date:
+            if event == self.event:
+                continue
             video_conf = VideoConf.objects.filter(event=event).first()
             if video_conf:
                 if (video_conf.time_start <= time_start < video_conf.time_end) or (time_start <= video_conf.time_start < time_end):
@@ -93,6 +83,15 @@ class VideoIntConfAddForm(forms.ModelForm):
 
         return self.cleaned_data
 
+    class Meta:
+        model = VideoConf
+        fields = (
+            'number_places',
+            'application',
+            'time_start',
+            'time_end',
+        )
+
 
 class VideoExtConfAddForm(forms.ModelForm):
 
@@ -104,6 +103,17 @@ class VideoExtConfAddForm(forms.ModelForm):
 
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
+
+    def clean(self):
+        """Валидация формы"""
+        time_start = self.cleaned_data['time_start']
+        time_end = self.cleaned_data['time_end']
+
+        # Начало должно быть раньше конца
+        if time_start > time_end:
+            self.add_error('time_start', 'Время начала не может быть позже окончания')
+            self.add_error('time_end', 'Время окончания не может быть раньше начала')
+        return self.cleaned_data
 
     class Meta:
         model = VideoConf
@@ -125,6 +135,33 @@ class ReservedRoomAddForm(forms.ModelForm):
 
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
+
+    def clean(self):
+        """Валидация формы"""
+        time_start = self.cleaned_data['time_start']
+        time_end = self.cleaned_data['time_end']
+
+        # Начало должно быть раньше конца
+        if time_start > time_end:
+            self.add_error('time_start', 'Время начала не может быть позже окончания')
+            self.add_error('time_end', 'Время окончания не может быть раньше начала')
+        return self.cleaned_data
+
+        # # Время не должно быть занято кем то ранее
+        # date = self.event.date
+        # events_on_this_date = Event.objects.filter(date=date)
+        # for event in events_on_this_date:
+        #     video_conf = VideoConf.objects.filter(event=event).first()
+        #     if video_conf:
+        #         if (video_conf.time_start <= time_start < video_conf.time_end) or (
+        #                 time_start <= video_conf.time_start < time_end):
+        #             self.add_error('time_start', 'Время занято другим мероприятием')
+        #             self.add_error('time_end', 'Время занято другим мероприятием')
+        #
+        # # Количество участников не може превышать количество лицензий
+        # if number_places > application.number_of_licenses:
+        #     self.add_error('number_places', f'Количество участников превышает '
+        #                                     f'количество лицензий для программы "{application.name}"')
 
     class Meta:
         model = ReservedRoom

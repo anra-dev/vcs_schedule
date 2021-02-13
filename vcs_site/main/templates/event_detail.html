@@ -2,7 +2,12 @@
 
 {% block content %}
 
-<h1 class="mt-4">Мероприятие "{{ event.name }}" <span class="badge bg-warning">В работе</span></h1>
+<h1 class="mt-4" >Мероприятие "{{ event.name }}" <span class="badge bg-warning">В работе</span></h1>
+<div class="mt-4">
+  <a class="btn btn-primary" href="{% url 'add_int_vcs' event_id=event.id %}" role="button">Добавить внутреннюю ВКС</a>
+  <a class="btn btn-primary" href="{% url 'add_ext_vcs' event_id=event.id %}" role="button">Добавить внешнюю ВКС</a>
+  <a class="btn btn-primary" href="{% url 'add_room' event_id=event.id %}" role="button">Забронировать комнату</a>
+</div>
 <p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
 <table class="table">
   <tbody>
@@ -21,6 +26,13 @@
     <tr>
       <th>Сотрудник ответственный за мероприятие</th>
       <td>{{ event.responsible }}<hr>телефон: {{ event.responsible.phone }}, email: {{ event.responsible.email }}</td>
+    </tr>
+    <tr>
+      <th></th>
+      <td align="right">
+        <a class="btn btn-success" href="{% url 'edit_event' event_id=event.id %}" role="button">Изменить</a>
+        <a class="btn btn-danger" href="{% url 'del_event' event_id=event.id %}" role="button">Удалить</a>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -46,7 +58,13 @@
       <th>Технический специалист</th>
       <td>{{ vcs.application.responsible }}<hr>телефон: {{ vcs.application.responsible.phone }}, email: {{ vcs.application.responsible.email }}</td>
     </tr>
-
+    <tr>
+      <th></th>
+      <td align="right">
+        <a class="btn btn-success" href="{% url 'edit_int_vcs' event_id=event.id vcs_id=vcs.id %}" role="button">Изменить</a>
+        <a class="btn btn-danger" href="{% url 'del_int_vcs' event_id=event.id vcs_id=vcs.id %}" role="button">Удалить</a>
+      </td>
+    </tr>
   </tbody>
 </table>
 {% endfor %}
@@ -73,16 +91,18 @@
       <th>Ассистент</th>
       <td>{{ reserved_room.room.responsible }}<hr>телефон: {{ reserved_room.room.responsible.phone }}, email: {{ reserved_room.room.responsible.email }}</td>
     </tr>
+    <tr>
+      <th></th>
+      <td align="right">
+        <a class="btn btn-success" href="{% url 'edit_room' event_id=event.id room_id=reserved_room.id %}" role="button">Изменить</a>
+        <a class="btn btn-danger" href="{% url 'del_room' event_id=event.id room_id=reserved_room.id %}" role="button">Удалить</a>
+      </td>
+    </tr>
   </tbody>
 </table>
 {% endfor %}
 {% endif %}
 
-<div>
-  <a class="btn btn-primary" href="{{ event.get_url_add_int_vcs }}" role="button">Добавить внутреннюю ВКС</a>
-  <a class="btn btn-primary" href="{{ event.get_url_add_ext_vcs }}" role="button">Добавить внешнюю ВКС</a>
-  <a class="btn btn-primary" href="{{ event.get_url_add_room }}" role="button">Забронировать комнату</a>
-</div>
 
 
 {% endblock content %}

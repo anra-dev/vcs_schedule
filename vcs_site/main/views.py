@@ -11,7 +11,7 @@ class EventsView(View):
 
     def get(self, request):
         data = []
-        events = Event.objects.filter(status__in=('created', 'is_ready'))
+        events = Event.objects.filter(status__in=('created', 'is_ready')).order_by('date')
         for event in events:
             vcs = VideoConf.objects.filter(event=event).first()
             reserved_room = ReservedRoom.objects.filter(event=event).first()
@@ -44,7 +44,7 @@ class ArchiveView(View):
 class EventDetailView(View):
 
     def get(self, request, *args, **kwargs):
-        id = kwargs.get('id')
+        id = kwargs.get('event_id')
         event = Event.objects.get(id=id)
         vcss = VideoConf.objects.filter(event=event).order_by('time_start')
         reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
@@ -54,6 +54,9 @@ class EventDetailView(View):
             'reserved_rooms': reserved_rooms
         }
         return render(request, 'event_detail.html', context)
+
+
+""" Представление МЕРОПРИЯТИИ """
 
 
 class EventAddView(View):
@@ -80,6 +83,45 @@ class EventAddView(View):
         return render(request, 'event_add.html', context)
 
 
+class EventEditView(View):
+
+    def get(self, request, *args, **kwargs):
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        form = EventAddForm(request.POST or None, instance=event)
+        context = {
+            'form': form
+        }
+        return render(request, 'event_add.html', context)
+
+    def post(self, request, *args, **kwargs):
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        form = EventAddForm(request.POST or None, instance=event)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.save()
+            messages.add_message(request, messages.INFO, 'Мероприятие успешно изменено!')
+            return HttpResponseRedirect(event.get_absolute_url())
+        context = {
+            'form': form
+        }
+        return render(request, 'event_add.html', context)
+
+
+class EventDeleteView(View):
+
+    def get(self, request, *args, **kwargs):
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        try:
+            event.delete()
+        except:
+            pass
+        messages.add_message(request, messages.INFO, 'Мероприятие удалено!')
+        return HttpResponseRedirect('/')
+
+
+""" Представление ВНУТРЕННИХ ВИДЕОКОНФЕРЕНЦИЙ """
+
+
 class VideoIntConfAddView(View):
 
     def get(self, request, *args, **kwargs):
@@ -90,7 +132,7 @@ class VideoIntConfAddView(View):
         return render(request, 'video_conf_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        event = Event.objects.get(id=kwargs.get('id'))
+        event = Event.objects.get(id=kwargs.get('event_id'))
         form = VideoIntConfAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             vcs = form.save(commit=False)
@@ -104,6 +146,46 @@ class VideoIntConfAddView(View):
         return render(request, 'video_conf_add.html', context)
 
 
+class VideoIntConfEditView(View):
+
+    def get(self, request, *args, **kwargs):
+        vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
+        form = VideoIntConfAddForm(data=request.POST or None, for_event=None, instance=vcs)
+        context = {
+            'form': form
+        }
+        return render(request, 'video_conf_add.html', context)
+
+    def post(self, request, *args, **kwargs):
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
+        form = VideoIntConfAddForm(data=request.POST or None, for_event=event, instance=vcs)
+        if form.is_valid():
+            vcs.save()
+            messages.add_message(request, messages.INFO, 'Заявка успешно сохранена!')
+            return HttpResponseRedirect(event.get_absolute_url())
+        context = {
+            'form': form
+        }
+        return render(request, 'video_conf_add.html', context)
+
+
+class VideoIntConfDeleteView(View):
+
+    def get(self, request, *args, **kwargs):
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
+        try:
+            vcs.delete()
+        except:
+            pass
+        messages.add_message(request, messages.INFO, 'Видеоконференция удалено!')
+        return HttpResponseRedirect(event.get_absolute_url())
+
+
+""" Представление ВНЕШНИХ ВИДЕОКОНФЕРЕНЦИЙ """
+
+
 class VideoExtConfAddView(View):
 
     def get(self, request, *args, **kwargs):
@@ -114,7 +196,7 @@ class VideoExtConfAddView(View):
         return render(request, 'video_conf_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        event = Event.objects.get(id=kwargs.get('id'))
+        event = Event.objects.get(id=kwargs.get('event_id'))
         form = VideoExtConfAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             vcs = form.save(commit=False)
@@ -128,6 +210,9 @@ class VideoExtConfAddView(View):
         return render(request, 'video_conf_add.html', context)
 
 
+""" Представление БРОНИРОВАНИЯ КОМНАТ """
+
+
 class ReservedRoomAddView(View):
 
     def get(self, request, *args, **kwargs):
@@ -138,7 +223,7 @@ class ReservedRoomAddView(View):
         return render(request, 'room_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        event = Event.objects.get(id=kwargs.get('id'))
+        event = Event.objects.get(id=kwargs.get('event_id'))
         form = ReservedRoomAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             room = form.save(commit=False)
@@ -150,6 +235,46 @@ class ReservedRoomAddView(View):
             'form': form
         }
         return render(request, 'room_add.html', context)
+
+
+class ReservedRoomEditView(View):
+
+    def get(self, request, *args, **kwargs):
+        room = ReservedRoom.objects.get(id=kwargs.get('room_id'))
+        form = ReservedRoomAddForm(data=request.POST or None, for_event=None, instance=room)
+        context = {
+            'form': form
+        }
+        return render(request, 'room_add.html', context)
+
+    def post(self, request, *args, **kwargs):
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        room = ReservedRoom.objects.get(id=kwargs.get('room_id'))
+        form = ReservedRoomAddForm(data=request.POST or None, for_event=event, instance=room)
+        if form.is_valid():
+            room.save()
+            messages.add_message(request, messages.INFO, 'Направлена заявка на бронирование комнаты!')
+            return HttpResponseRedirect(event.get_absolute_url())
+        context = {
+            'form': form
+        }
+        return render(request, 'room_add.html', context)
+
+
+class ReservedRoomDeleteView(View):
+
+    def get(self, request, *args, **kwargs):
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        room = ReservedRoom.objects.get(id=kwargs.get('room_id'))
+        try:
+            room.delete()
+        except:
+            pass
+        messages.add_message(request, messages.INFO, 'Бронирование комнаты удалено!')
+        return HttpResponseRedirect(event.get_absolute_url())
+
+
+""" Представление АВТОРИЗАЦИИ """
 
 
 class LoginView(View):

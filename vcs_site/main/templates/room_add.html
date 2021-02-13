@@ -9,9 +9,10 @@
         <form action=""  method="POST">
             {% csrf_token %}
             {{ form|crispy }}
-            <input type="submit" class="btn btn-success btn-lg btn-block" value="Готово">
+            <div align="right">
+                <input type="submit" class="btn btn-success" value="Сохранить">
+            </div>
         </form>
-        <a type="submit" class="btn btn-secondary btn-lg btn-block mt-3" href="{% url 'events' %}" role="button">Комната не нужна</a>
     </div>
 
 {% endblock content %}
