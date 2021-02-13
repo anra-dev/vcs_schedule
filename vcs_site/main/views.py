@@ -31,12 +31,17 @@ class EventsView(View):
 class OrdersView(View):
 
     def get(self, request, *args, **kwargs):
+        data = []
         staffer = Staffer.objects.get(user=request.user)
-        events = Event.objects.filter(status='wait', responsible=staffer).order_by('date')
+        events = Event.objects.filter(status__in=('wait', 'ready', 'rejection'), responsible=staffer).order_by('date')
+        for event in events:
+            vcss = VideoConf.objects.filter(event=event).order_by('time_start')
+            reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
+            data.append((event, vcss, reserved_rooms,))
         context = {
-            'events': events
+            'data': data
         }
-        return render(request, 'orders.html', context)
+        return render(request, 'events.html', context)
 
 
 """ ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА ВИДЕОКОНФЕРЕНЦИИ"""
@@ -45,7 +50,7 @@ class OrdersView(View):
 class OrdersVideoConfView(View):
 
     def get(self, request, *args, **kwargs):
-        vcss = VideoConf.objects.filter(status='wait')
+        vcss = VideoConf.objects.filter(status='wait').order_by('id')
         context = {
             'vcss': vcss
         }
@@ -58,12 +63,11 @@ class OrdersVideoConfView(View):
 class OrdersRoomView(View):
 
     def get(self, request, *args, **kwargs):
-        staffer = Staffer.objects.get(user=request.user)
-        events = Event.objects.filter(status='wait', responsible=staffer).order_by('date')
+        reserved_rooms = ReservedRoom.objects.filter(status='wait').order_by('id')
         context = {
-            'events': events
+            'reserved_rooms': reserved_rooms
         }
-        return render(request, 'orders.html', context)
+        return render(request, 'orders_room.html', context)
 
 
 """ ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ПРОШЕДШИХ МЕРОПРИЯТИЙ """

@@ -2,22 +2,24 @@
 
 {% block content %}
 
-<h1 class="mt-4">Необработанные заявки</h1>
+<h1 class="mt-4">Мои заявки</h1>
 <table class="table">
   <thead>
     <tr>
       <th scope="col">Время проведения</th>
       <th scope="col">Наименование</th>
       <th scope="col">Ответственный</th>
+      <th scope="col">Статус</th>
       <th scope="col">Действие</th>
     </tr>
   </thead>
   <tbody>
   {% for event in events %}
     <tr class="table-light">
-      <td>{{ event.date }}</td>
+      <td>{{ event.date|date:"d F Y" }}</td>
       <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
       <td>{{ event.responsible }}</td>
+      <td>{{ event.get_status_display }}</td>
       <td><button class="btn btn-success">Обработать</button> </td>
     </tr>
   {% endfor %}

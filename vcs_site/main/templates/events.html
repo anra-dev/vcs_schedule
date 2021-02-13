@@ -17,8 +17,10 @@
   <tbody>
   {% for event, vcss, reserved_rooms in data %}
     <tr class="{% if event.status == 'wait' %} table-warning {% endif %}
-               {% if event.status == 'ready' %} table-success {% endif %}">
-      <td>{{ event.date }}</td>
+               {% if event.status == 'ready' %} table-success {% endif %}
+               {% if event.status == 'rejection' %} table-danger {% endif %}
+               {% if event.status == 'completed' %} table-secondary {% endif %}">
+      <td>{{ event.date|date:"d F Y" }}</td>
       <td>{{ event.name }}</td>
       <td>{{ event.get_status_display }}</td>
       <td>{{ event.organization }}</td>

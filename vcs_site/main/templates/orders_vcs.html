@@ -2,22 +2,28 @@
 
 {% block content %}
 
-<h1 class="mt-4">Необработанные заявки</h1>
+<h1 class="mt-4">Необработанные заявки на видеоконференции</h1>
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">Дата проведения</th>
       <th scope="col">Время проведения</th>
-      <th scope="col">Наименование</th>
+      <th scope="col">Приложение</th>
+      <th scope="col">Количество участников</th>
+      <th scope="col">Организация</th>
       <th scope="col">Ответственный</th>
       <th scope="col">Действие</th>
     </tr>
   </thead>
   <tbody>
-  {% for event in events %}
+  {% for vcs in vcss %}
     <tr class="table-light">
-      <td>{{ event.date }}</td>
-      <td><a href="/event/{{ event.id }}">{{ event.name }}</a></td>
-      <td>{{ event.responsible }}</td>
+      <td>{{ vcs.event.date|date:"d F Y" }}</td>
+      <td>{{ vcs.time_start|date:"H i" }} - {{ vcs.time_end|date:"H i" }}</td>
+      <td>{{ vcs.application }}</td>
+      <td>{{ vcs.quota }}</td>
+      <td>{{ vcs.event.organization }}</td>
+      <td>{{ vcs.event.responsible }}</td>
       <td><button class="btn btn-success">Обработать</button> </td>
     </tr>
   {% endfor %}
