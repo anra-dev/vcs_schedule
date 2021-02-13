@@ -21,6 +21,6 @@ urlpatterns = [
     path('event/<id>', EventDetailView.as_view(), name='event_detail'),
     path('event-add/', EventAddView.as_view(), name='event_add'),
     path('vcs-int-add/', VideoIntConfAddView.as_view(), name='vcs_int_add'),
-    path('vcs-ext-add/', VideoExtConfAddView.as_view(), name='vcs_xt_add'),
+    path('vcs-ext-add/', VideoExtConfAddView.as_view(), name='vcs_ext_add'),
     path('room-add/', ReservedRoomAddView.as_view(), name='room_add')
 ]

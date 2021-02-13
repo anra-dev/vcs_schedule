@@ -16,8 +16,8 @@ class Event(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
-    TYPE_EXTERNAL = 'local'
-    TYPE_LOCAL = 'external'
+    TYPE_LOCAL = 'local'
+    TYPE_EXTERNAL = 'external'
     TYPE_WITHOUT_VCS = 'without_vcs'
 
     TYPE_CHOICES = (
@@ -35,7 +35,8 @@ class Event(models.Model):
         max_length=100,
         verbose_name='Тип мероприятия',
         choices=TYPE_CHOICES,
-        default=TYPE_LOCAL
+        default=TYPE_LOCAL,
+        help_text="Please type your age."
     )
     status = models.CharField(
         max_length=100,

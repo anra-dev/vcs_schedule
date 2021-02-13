@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
 from .models import Event, VideoConf, ReservedRoom, Organization, Staffer
-from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
+from .forms import EventAddForm, VideoIntConfAddForm, VideoExtConfAddForm, ReservedRoomAddForm, LoginForm
 
 
 class EventsView(View):
@@ -73,7 +73,6 @@ class EventAddView(View):
             event.organization = Organization.objects.get(responsible=event.responsible)
             event.save()
             messages.add_message(request, messages.INFO, 'Мероприятие успешно создано!')
-            print(event.type)
             if event.type == 'local':
                 return HttpResponseRedirect(reverse('vcs_int_add'))
             if event.type == 'external':
@@ -89,17 +88,21 @@ class EventAddView(View):
 class VideoIntConfAddView(View):
 
     def get(self, request, *args, **kwargs):
-        form = VideoConfAddForm(request.POST or None)
+        staffer = Staffer.objects.get(user=request.user)
+        event = Event.objects.filter(responsible=staffer).last()
+        form = VideoIntConfAddForm(data=request.POST or None, for_event=event)
         context = {
             'form': form
         }
         return render(request, 'video_conf_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = VideoConfAddForm(request.POST or None)
+        staffer = Staffer.objects.get(user=request.user)
+        event = Event.objects.filter(responsible=staffer).last()
+        form = VideoIntConfAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             vcs = form.save(commit=False)
-            vcs.event = Event.objects.last()
+            vcs.event = event
             vcs.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
             return HttpResponseRedirect(reverse('room_add'))
@@ -112,17 +115,19 @@ class VideoIntConfAddView(View):
 class VideoExtConfAddView(View):
 
     def get(self, request, *args, **kwargs):
-        form = VideoConfAddForm(request.POST or None)
+        form = VideoExtConfAddForm(request.POST or None)
         context = {
             'form': form
         }
         return render(request, 'video_conf_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = VideoConfAddForm(request.POST or None)
+        staffer = Staffer.objects.get(user=request.user)
+        event = Event.objects.filter(responsible=staffer).last()
+        form = VideoExtConfAddForm(request.POST or None)
         if form.is_valid():
             vcs = form.save(commit=False)
-            vcs.event = Event.objects.last()
+            vcs.event = event
             vcs.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
             return HttpResponseRedirect(reverse('room_add'))
@@ -145,7 +150,7 @@ class ReservedRoomAddView(View):
         form = ReservedRoomAddForm(request.POST or None)
         if form.is_valid():
             room = form.save(commit=False)
-            room.event = Event.objects.last()
+            room.event = Event.objects.last(user=request.user)
             room.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на бронирование комнаты!')
             return HttpResponseRedirect('/')
