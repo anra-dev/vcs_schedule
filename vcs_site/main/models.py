@@ -7,13 +7,15 @@ User = get_user_model()
 
 class Event(models.Model):
 
-    STATUS_CREATED = 'created'
-    STATUS_READY = 'is_ready'
+    STATUS_WAIT = 'wait'
+    STATUS_READY = 'ready'
+    STATUS_REJECTION = 'rejection'
     STATUS_COMPLETED = 'completed'
 
     STATUS_CHOICES = (
-        (STATUS_CREATED, 'Заявка'),
-        (STATUS_READY, 'Одобрено'),
+        (STATUS_WAIT, 'Ожидание'),
+        (STATUS_READY, 'Готово'),
+        (STATUS_REJECTION, 'Отказ'),
         (STATUS_COMPLETED, 'Окончено')
     )
 
@@ -27,7 +29,7 @@ class Event(models.Model):
         max_length=100,
         verbose_name='Статус мероприятия',
         choices=STATUS_CHOICES,
-        default=STATUS_CREATED
+        default=STATUS_WAIT
     )
 
     def __str__(self):
@@ -39,13 +41,15 @@ class Event(models.Model):
 
 class VideoConf(models.Model):
 
-    STATUS_CREATED = 'created'
-    STATUS_READY = 'is_ready'
+    STATUS_WAIT = 'wait'
+    STATUS_READY = 'ready'
+    STATUS_REJECTION = 'rejection'
     STATUS_COMPLETED = 'completed'
 
     STATUS_CHOICES = (
-        (STATUS_CREATED, 'Заявка'),
-        (STATUS_READY, 'Одобрено'),
+        (STATUS_WAIT, 'Ожидание'),
+        (STATUS_READY, 'Готово'),
+        (STATUS_REJECTION, 'Отказ'),
         (STATUS_COMPLETED, 'Окончено')
     )
 
@@ -75,21 +79,24 @@ class VideoConf(models.Model):
         max_length=100,
         verbose_name='Статус видеоконференции',
         choices=STATUS_CHOICES,
-        default=STATUS_CREATED
+        default=STATUS_WAIT
     )
 
 
 class ReservedRoom(models.Model):
 
-    STATUS_CREATED = 'created'
-    STATUS_READY = 'is_ready'
+    STATUS_WAIT = 'wait'
+    STATUS_READY = 'ready'
+    STATUS_REJECTION = 'rejection'
     STATUS_COMPLETED = 'completed'
 
     STATUS_CHOICES = (
-        (STATUS_CREATED, 'Заявка'),
-        (STATUS_READY, 'Одобрено'),
+        (STATUS_WAIT, 'Ожидание'),
+        (STATUS_READY, 'Готово'),
+        (STATUS_REJECTION, 'Отказ'),
         (STATUS_COMPLETED, 'Окончено')
     )
+
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
     room = models.ForeignKey('Room', verbose_name='Место проведения', null=True, blank=True, on_delete=models.CASCADE)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников')
@@ -99,7 +106,7 @@ class ReservedRoom(models.Model):
         max_length=100,
         verbose_name='Статус бронирования',
         choices=STATUS_CHOICES,
-        default=STATUS_CREATED
+        default=STATUS_WAIT
     )
 
 

@@ -4,7 +4,10 @@ from .views import (
     LoginView,
     EventsView,
     OrdersView,
+    OrdersVideoConfView,
+    OrdersRoomView,
     ArchiveView,
+
     EventDetailView,
     EventAddView,
     EventEditView,
@@ -23,7 +26,10 @@ urlpatterns = [
     path('', EventsView.as_view(), name='events'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+
     path('order/', OrdersView.as_view(), name='orders'),
+    path('order-vcs/', OrdersVideoConfView.as_view(), name='orders_vcs'),
+    path('order-room/', OrdersRoomView.as_view(), name='orders_room'),
     path('archive/', ArchiveView.as_view(), name='archive'),
 
     path('add-event/', EventAddView.as_view(), name='add_event'),

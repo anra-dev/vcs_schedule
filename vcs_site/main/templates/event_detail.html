@@ -2,7 +2,12 @@
 
 {% block content %}
 
-<h1 class="mt-4" >Мероприятие "{{ event.name }}" <span class="badge bg-warning">В работе</span></h1>
+<h1 class="mt-4" >Мероприятие "{{ event.name }}"
+  {% if event.status == 'wait' %}<span class="badge bg-warning">{{ event.get_status_display  }}</span> {% endif %}
+  {% if event.status == 'ready' %}<span class="badge bg-success">{{ event.get_status_display  }}</span> {% endif %}
+  {% if event.status == 'rejection' %}<span class="badge bg-danger">{{ event.get_status_display  }}</span> {% endif %}
+  {% if event.status == 'completed' %}<span class="badge bg-secondary">{{ event.get_status_display  }}</span> {% endif %}
+</h1>
 <div class="mt-4">
   <a class="btn btn-primary" href="{% url 'add_vcs' event_id=event.id %}" role="button">Добавить видеоконференцию</a>
   <a class="btn btn-primary" href="{% url 'add_room' event_id=event.id %}" role="button">Забронировать комнату</a>
@@ -38,7 +43,12 @@
 
 {% if vcss %}
 {% for vcs in vcss %}
-<h3 class="mt-4">Видеоконференция "{{ vcs.application }}" <span class="badge bg-success">Создана</span></h3>
+<h3 class="mt-4">Видеоконференция "{{ vcs.application }}"
+  {% if vcs.status == 'wait' %}<span class="badge bg-warning">{{ vcs.get_status_display  }}</span> {% endif %}
+  {% if vcs.status == 'ready' %}<span class="badge bg-success">{{ vcs.get_status_display  }}</span> {% endif %}
+  {% if vcs.status == 'rejection' %}<span class="badge bg-danger">{{ vcs.get_status_display  }}</span> {% endif %}
+  {% if vcs.status == 'completed' %}<span class="badge bg-secondary">{{ vcs.get_status_display  }}</span> {% endif %}
+</h3>
 <table class="table">
   <tbody>
     <tr>
@@ -75,7 +85,12 @@
 
 {% if reserved_rooms %}
 {% for reserved_room in reserved_rooms %}
-<h3 class="mt-4">Комната на {{ reserved_room.room.capacity }} мест(а) <span class="badge bg-danger">Нет брони</span></h3>
+<h3 class="mt-4">Комната на {{ reserved_room.room.capacity }} мест(а)
+  {% if reserved_room.status == 'wait' %}<span class="badge bg-warning">{{ reserved_room.get_status_display  }}</span> {% endif %}
+  {% if reserved_room.status == 'ready' %}<span class="badge bg-success">{{ reserved_room.get_status_display  }}</span> {% endif %}
+  {% if reserved_room.status == 'rejection' %}<span class="badge bg-danger">{{ reserved_room.get_status_display  }}</span> {% endif %}
+  {% if reserved_room.status == 'completed' %}<span class="badge bg-secondary">{{ reserved_room.get_status_display  }}</span> {% endif %}
+</h3>
 <table class="table">
   <tbody>
     <tr>

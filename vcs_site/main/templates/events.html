@@ -15,9 +15,9 @@
     </tr>
   </thead>
   <tbody>
-  {% for event, vcs, reserved_room in data %}
-    <tr class="{% if event.status == 'created' %} table-danger {% endif %}
-               {% if event.status == 'is_ready' %} table-success {% endif %}">
+  {% for event, vcss, reserved_rooms in data %}
+    <tr class="{% if event.status == 'wait' %} table-warning {% endif %}
+               {% if event.status == 'ready' %} table-success {% endif %}">
       <td>{{ event.date }}</td>
       <td>{{ event.name }}</td>
       <td>{{ event.get_status_display }}</td>
@@ -36,7 +36,12 @@
               </button>
             </div>
             <div class="modal-body">
-              <h3 class="mt-4">Название: "{{ event.name }}" <span class="badge bg-warning">В работе</span></h3>
+              <h3 class="mt-4">Название: "{{ event.name }}"
+                  {% if event.status == 'wait' %}<span class="badge bg-warning">{{ event.get_status_display  }}</span> {% endif %}
+                  {% if event.status == 'ready' %}<span class="badge bg-success">{{ event.get_status_display  }}</span> {% endif %}
+                  {% if event.status == 'rejection' %}<span class="badge bg-danger">{{ event.get_status_display  }}</span> {% endif %}
+                  {% if event.status == 'completed' %}<span class="badge bg-secondary">{{ event.get_status_display  }}</span> {% endif %}
+              </h3>
               <table class="table">
                 <tbody>
                   <tr>
@@ -57,8 +62,14 @@
                   </tr>
                 </tbody>
               </table>
-              {% if vcs %}
-              <h4 class="mt-4">Видеоконференция "{{ vcs.application }}" <span class="badge bg-success">Создана</span></h4>
+              {% if vcss %}
+              {% for vcs in vcss %}
+              <h4 class="mt-4">Видеоконференция "{{ vcs.application }}"
+                  {% if vcs.status == 'wait' %}<span class="badge bg-warning">{{ vcs.get_status_display  }}</span> {% endif %}
+                  {% if vcs.status == 'ready' %}<span class="badge bg-success">{{ vcs.get_status_display  }}</span> {% endif %}
+                  {% if vcs.status == 'rejection' %}<span class="badge bg-danger">{{ vcs.get_status_display  }}</span> {% endif %}
+                  {% if vcs.status == 'completed' %}<span class="badge bg-secondary">{{ vcs.get_status_display  }}</span> {% endif %}
+              </h4>
               <table class="table">
                 <tbody>
                   <tr>
@@ -80,9 +91,16 @@
 
                 </tbody>
               </table>
+              {% endfor %}
               {% endif %}
-              {% if reserved_room %}
-              <h4 class="mt-4">Комната на {{ reserved_room.room.capacity }} мест(а) <span class="badge bg-danger">Нет брони</span></h4>
+              {% if reserved_rooms %}
+              {% for reserved_room in reserved_rooms %}
+              <h4 class="mt-4">Комната на {{ reserved_room.room.capacity }} мест(а)
+                  {% if reserved_room.status == 'wait' %}<span class="badge bg-warning">{{ reserved_room.get_status_display  }}</span> {% endif %}
+                  {% if reserved_room.status == 'ready' %}<span class="badge bg-success">{{ reserved_room.get_status_display  }}</span> {% endif %}
+                  {% if reserved_room.status == 'rejection' %}<span class="badge bg-danger">{{ reserved_room.get_status_display  }}</span> {% endif %}
+                  {% if reserved_room.status == 'completed' %}<span class="badge bg-secondary">{{ reserved_room.get_status_display  }}</span> {% endif %}
+              </h4>
               <table class="table">
                 <tbody>
                   <tr>
@@ -103,6 +121,7 @@
                   </tr>
                 </tbody>
               </table>
+              {% endfor %}
               {% endif %}
               <p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
             </div>

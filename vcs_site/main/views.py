@@ -7,29 +7,67 @@ from .models import Event, VideoConf, ReservedRoom, Organization, Staffer
 from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
 
 
+""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ВСЕХ МЕРОПРИЯТИЙ """
+
+
 class EventsView(View):
 
     def get(self, request):
         data = []
-        events = Event.objects.filter(status__in=('created', 'is_ready')).order_by('date')
+        events = Event.objects.filter(status__in=('wait', 'ready')).order_by('date')
         for event in events:
-            vcs = VideoConf.objects.filter(event=event).first()
-            reserved_room = ReservedRoom.objects.filter(event=event).first()
-            data.append((event, vcs, reserved_room,))
+            vcss = VideoConf.objects.filter(event=event).order_by('time_start')
+            reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
+            data.append((event, vcss, reserved_rooms,))
         context = {
             'data': data
         }
         return render(request, 'events.html', context)
 
 
+""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ МОИХ ЗАЯВОК """
+
+
 class OrdersView(View):
 
     def get(self, request, *args, **kwargs):
-        events = Event.objects.filter(status='created').order_by('date')
+        staffer = Staffer.objects.get(user=request.user)
+        events = Event.objects.filter(status='wait', responsible=staffer).order_by('date')
         context = {
             'events': events
         }
         return render(request, 'orders.html', context)
+
+
+""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА ВИДЕОКОНФЕРЕНЦИИ"""
+
+
+class OrdersVideoConfView(View):
+
+    def get(self, request, *args, **kwargs):
+        vcss = VideoConf.objects.filter(status='wait')
+        context = {
+            'vcss': vcss
+        }
+        return render(request, 'orders_vcs.html', context)
+
+
+""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА КОМНАТУ"""
+
+
+class OrdersRoomView(View):
+
+    def get(self, request, *args, **kwargs):
+        staffer = Staffer.objects.get(user=request.user)
+        events = Event.objects.filter(status='wait', responsible=staffer).order_by('date')
+        context = {
+            'events': events
+        }
+        return render(request, 'orders.html', context)
+
+
+""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ПРОШЕДШИХ МЕРОПРИЯТИЙ """
+
 
 class ArchiveView(View):
 
@@ -39,6 +77,9 @@ class ArchiveView(View):
             'events': events
         }
         return render(request, 'archive.html', context)
+
+
+""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ДЕТАЛЬНОГО ПРЕДСТАВЛЕНИЯ МЕРОПРИЯТИЙ """
 
 
 class EventDetailView(View):
@@ -56,7 +97,7 @@ class EventDetailView(View):
         return render(request, 'event_detail.html', context)
 
 
-""" Представление МЕРОПРИЯТИИ """
+""" ПРЕДСТАВЛЕНИЕ ДЛЯ ДОБАВЛЕНИЯ МЕРОПРИЯТИЙ """
 
 
 class EventAddView(View):
