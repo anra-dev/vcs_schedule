@@ -3,13 +3,14 @@
 {% block content %}
 
 <h1 class="mt-4">Предстоящие мероприятия</h1>
-<table class="table">
+<table class="table text-center">
   <thead>
     <tr>
       <th scope="col">Время проведения</th>
       <th scope="col">Наименование</th>
       <th scope="col">Статус</th>
-      <th scope="col">Ответственные лица</th>
+      <th scope="col">Организатор</th>
+      <th scope="col">Ответственное лицо</th>
       <th scope="col">Действие</th>
     </tr>
   </thead>
@@ -18,8 +19,9 @@
     <tr class="{% if event.status == 'created' %} table-danger {% endif %}
                {% if event.status == 'is_ready' %} table-success {% endif %}">
       <td>{{ event.date }}</td>
-      <td><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></td>
+      <td>{{ event.name }}</td>
       <td>{{ event.get_status_display }}</td>
+      <td>{{ event.organization }}</td>
       <td>{{ event.responsible }}</td>
       <!-- Button trigger modal -->
       <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-{{ event.id }}">Просмотр</button>

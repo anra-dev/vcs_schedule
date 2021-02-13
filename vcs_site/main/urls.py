@@ -10,11 +10,9 @@ from .views import (
     EventEditView,
     EventDeleteView,
 
-    VideoIntConfAddView,
-    VideoIntConfEditView,
-    VideoIntConfDeleteView,
-
-    VideoExtConfAddView,
+    VideoConfAddView,
+    VideoConfEditView,
+    VideoConfDeleteView,
 
     ReservedRoomAddView,
     ReservedRoomEditView,
@@ -33,15 +31,11 @@ urlpatterns = [
     path('event/<event_id>/event-edit/', EventEditView.as_view(), name='edit_event'),
     path('event/<event_id>/del-event', EventDeleteView.as_view(), name='del_event'),
 
-    path('event/<event_id>/add-int-vcs/', VideoIntConfAddView.as_view(), name='add_int_vcs'),
-    path('event/<event_id>/edit-int-vcs-<vcs_id>/', VideoIntConfEditView.as_view(), name='edit_int_vcs'),
-    path('event/<event_id>/del-int-vcs-<vcs_id>/', VideoIntConfDeleteView.as_view(), name='del_int_vcs'),
-
-    path('event/<event_id>/vcs-ext-add/', VideoExtConfAddView.as_view(), name='add_ext_vcs'),
-    path('event/<event_id>/edit-ext-vcs/', VideoIntConfAddView.as_view(), name='edit_ext_vcs'),
-    path('event/<event_id>/del-ext-vcs/', VideoIntConfAddView.as_view(), name='del_ext_vcs'),
+    path('event/<event_id>/add-int-vcs/', VideoConfAddView.as_view(), name='add_vcs'),
+    path('event/<event_id>/edit-vcs/<vcs_id>/', VideoConfEditView.as_view(), name='edit_vcs'),
+    path('event/<event_id>/del-vcs/<vcs_id>', VideoConfDeleteView.as_view(), name='del_vcs'),
 
     path('event/<event_id>/add-room/', ReservedRoomAddView.as_view(), name='add_room'),
-    path('event/<event_id>/edit-room-<room_id>/', ReservedRoomEditView.as_view(), name='edit_room'),
-    path('event/<event_id>/del-room-<room_id>/', ReservedRoomDeleteView.as_view(), name='del_room'),
+    path('event/<event_id>/edit-room/<room_id>/', ReservedRoomEditView.as_view(), name='edit_room'),
+    path('event/<event_id>/del-room/<room_id>', ReservedRoomDeleteView.as_view(), name='del_room'),
 ]

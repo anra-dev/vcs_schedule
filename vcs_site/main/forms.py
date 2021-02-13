@@ -38,7 +38,7 @@ class EventAddForm(forms.ModelForm):
         )
 
 
-class VideoIntConfAddForm(forms.ModelForm):
+class VideoConfAddForm(forms.ModelForm):
     """
     Форма для внутренней видеоконференции
     """
@@ -56,7 +56,7 @@ class VideoIntConfAddForm(forms.ModelForm):
         """Валидация формы"""
         time_start = self.cleaned_data['time_start']
         time_end = self.cleaned_data['time_end']
-        number_places = self.cleaned_data['number_places']
+        quota = self.cleaned_data['quota']
         application = self.cleaned_data['application']
 
         # Начало должно быть раньше конца
@@ -77,7 +77,7 @@ class VideoIntConfAddForm(forms.ModelForm):
                     self.add_error('time_end', 'Время занято другим мероприятием')
 
         # Количество участников не може превышать количество лицензий
-        if number_places > application.number_of_licenses:
+        if quota > application.quota:
             self.add_error('number_places', f'Количество участников превышает '
                                                      f'количество лицензий для программы "{application.name}"')
 
@@ -86,40 +86,11 @@ class VideoIntConfAddForm(forms.ModelForm):
     class Meta:
         model = VideoConf
         fields = (
-            'number_places',
             'application',
-            'time_start',
-            'time_end',
-        )
-
-
-class VideoExtConfAddForm(forms.ModelForm):
-
-    def __init__(self, for_event,  *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.event = for_event
-        self.fields['time_start'].label = 'Время начала'
-        self.fields['time_end'].label = 'Время окончания'
-
-    time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
-    time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
-
-    def clean(self):
-        """Валидация формы"""
-        time_start = self.cleaned_data['time_start']
-        time_end = self.cleaned_data['time_end']
-
-        # Начало должно быть раньше конца
-        if time_start > time_end:
-            self.add_error('time_start', 'Время начала не может быть позже окончания')
-            self.add_error('time_end', 'Время окончания не может быть раньше начала')
-        return self.cleaned_data
-
-    class Meta:
-        model = VideoConf
-        fields = (
-            'application',
+            'type',
+            'quota',
             'link_to_event',
+            'application',
             'time_start',
             'time_end',
         )
@@ -167,7 +138,7 @@ class ReservedRoomAddForm(forms.ModelForm):
         model = ReservedRoom
         fields = (
             'room',
-            'number_places',
+            'quota',
             'time_start',
             'time_end',
         )

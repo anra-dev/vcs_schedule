@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
 from .models import Event, VideoConf, ReservedRoom, Organization, Staffer
-from .forms import EventAddForm, VideoIntConfAddForm, VideoExtConfAddForm, ReservedRoomAddForm, LoginForm
+from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
 
 
 class EventsView(View):
@@ -25,7 +25,7 @@ class EventsView(View):
 class OrdersView(View):
 
     def get(self, request, *args, **kwargs):
-        events = Event.objects.filter(status='created')
+        events = Event.objects.filter(status='created').order_by('date')
         context = {
             'events': events
         }
@@ -34,7 +34,7 @@ class OrdersView(View):
 class ArchiveView(View):
 
     def get(self, request, *args, **kwargs):
-        events = Event.objects.filter(status='completed')
+        events = Event.objects.filter(status='completed').order_by('date')
         context = {
             'events': events
         }
@@ -119,13 +119,13 @@ class EventDeleteView(View):
         return HttpResponseRedirect('/')
 
 
-""" Представление ВНУТРЕННИХ ВИДЕОКОНФЕРЕНЦИЙ """
+""" Представление ВИДЕОКОНФЕРЕНЦИЙ """
 
 
-class VideoIntConfAddView(View):
+class VideoConfAddView(View):
 
     def get(self, request, *args, **kwargs):
-        form = VideoIntConfAddForm(data=request.POST or None, for_event=None)
+        form = VideoConfAddForm(data=request.POST or None, for_event=None)
         context = {
             'form': form
         }
@@ -133,7 +133,7 @@ class VideoIntConfAddView(View):
 
     def post(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
-        form = VideoIntConfAddForm(data=request.POST or None, for_event=event)
+        form = VideoConfAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             vcs = form.save(commit=False)
             vcs.event = event
@@ -146,11 +146,11 @@ class VideoIntConfAddView(View):
         return render(request, 'video_conf_add.html', context)
 
 
-class VideoIntConfEditView(View):
+class VideoConfEditView(View):
 
     def get(self, request, *args, **kwargs):
         vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
-        form = VideoIntConfAddForm(data=request.POST or None, for_event=None, instance=vcs)
+        form = VideoConfAddForm(data=request.POST or None, for_event=None, instance=vcs)
         context = {
             'form': form
         }
@@ -159,7 +159,7 @@ class VideoIntConfEditView(View):
     def post(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
         vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
-        form = VideoIntConfAddForm(data=request.POST or None, for_event=event, instance=vcs)
+        form = VideoConfAddForm(data=request.POST or None, for_event=event, instance=vcs)
         if form.is_valid():
             vcs.save()
             messages.add_message(request, messages.INFO, 'Заявка успешно сохранена!')
@@ -170,7 +170,7 @@ class VideoIntConfEditView(View):
         return render(request, 'video_conf_add.html', context)
 
 
-class VideoIntConfDeleteView(View):
+class VideoConfDeleteView(View):
 
     def get(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
@@ -181,33 +181,6 @@ class VideoIntConfDeleteView(View):
             pass
         messages.add_message(request, messages.INFO, 'Видеоконференция удалено!')
         return HttpResponseRedirect(event.get_absolute_url())
-
-
-""" Представление ВНЕШНИХ ВИДЕОКОНФЕРЕНЦИЙ """
-
-
-class VideoExtConfAddView(View):
-
-    def get(self, request, *args, **kwargs):
-        form = VideoExtConfAddForm(data=request.POST or None, for_event=None)
-        context = {
-            'form': form
-        }
-        return render(request, 'video_conf_add.html', context)
-
-    def post(self, request, *args, **kwargs):
-        event = Event.objects.get(id=kwargs.get('event_id'))
-        form = VideoExtConfAddForm(data=request.POST or None, for_event=event)
-        if form.is_valid():
-            vcs = form.save(commit=False)
-            vcs.event = event
-            vcs.save()
-            messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
-            return HttpResponseRedirect(event.get_absolute_url())
-        context = {
-            'form': form
-        }
-        return render(request, 'video_conf_add.html', context)
 
 
 """ Представление БРОНИРОВАНИЯ КОМНАТ """

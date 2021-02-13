@@ -4,8 +4,7 @@
 
 <h1 class="mt-4" >Мероприятие "{{ event.name }}" <span class="badge bg-warning">В работе</span></h1>
 <div class="mt-4">
-  <a class="btn btn-primary" href="{% url 'add_int_vcs' event_id=event.id %}" role="button">Добавить внутреннюю ВКС</a>
-  <a class="btn btn-primary" href="{% url 'add_ext_vcs' event_id=event.id %}" role="button">Добавить внешнюю ВКС</a>
+  <a class="btn btn-primary" href="{% url 'add_vcs' event_id=event.id %}" role="button">Добавить видеоконференцию</a>
   <a class="btn btn-primary" href="{% url 'add_room' event_id=event.id %}" role="button">Забронировать комнату</a>
 </div>
 <p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
@@ -48,7 +47,11 @@
     </tr>
     <tr>
       <th class="col-md-4">Приложение</th>
-      <td>{{ vcs.application }}({{ vcs.get_type_event_display }})</td>
+      <td>{{ vcs.application }}({{ vcs.get_type_display }})</td>
+    </tr>
+    <tr>
+      <th>Количество участников</th>
+      <td>{{ vcs.quota }}</td>
     </tr>
     <tr>
       <th>Ссылка</th>
@@ -61,8 +64,8 @@
     <tr>
       <th></th>
       <td align="right">
-        <a class="btn btn-success" href="{% url 'edit_int_vcs' event_id=event.id vcs_id=vcs.id %}" role="button">Изменить</a>
-        <a class="btn btn-danger" href="{% url 'del_int_vcs' event_id=event.id vcs_id=vcs.id %}" role="button">Удалить</a>
+        <a class="btn btn-success" href="{% url 'edit_vcs' event_id=event.id vcs_id=vcs.id %}" role="button">Изменить</a>
+        <a class="btn btn-danger" href="{% url 'del_vcs' event_id=event.id vcs_id=vcs.id %}" role="button">Удалить</a>
       </td>
     </tr>
   </tbody>
@@ -85,7 +88,7 @@
     </tr>
     <tr>
       <th>Количество участников</th>
-      <td>{{ reserved_room.number_places }}</td>
+      <td>{{ reserved_room.quota }}</td>
     </tr>
     <tr>
       <th>Ассистент</th>

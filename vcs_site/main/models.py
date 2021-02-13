@@ -49,15 +49,31 @@ class VideoConf(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
+    EVENT_TYPE_EXTERNAL = 'external'
+    EVENT_TYPE_LOCAL = 'local'
+
+    EVENT_TYPE_CHOICES = (
+        (EVENT_TYPE_EXTERNAL, 'Внешний'),
+        (EVENT_TYPE_LOCAL, 'Внутренний')
+    )
+
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
-    number_places = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
-    application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True, on_delete=models.CASCADE)
+    application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True,
+                                    on_delete=models.CASCADE)
+
+    quota = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
     link_to_event = models.CharField(max_length=255, verbose_name='Ссылка', null=True, blank=True)
-    time_start = models.TimeField(verbose_name='Время начала мероприятия')
-    time_end = models.TimeField(verbose_name='Время окончания мероприятия')
+    time_start = models.TimeField(verbose_name='Время начала')
+    time_end = models.TimeField(verbose_name='Время окончания')
+    type = models.CharField(
+        max_length=100,
+        verbose_name='Тип видеоконференции',
+        choices=EVENT_TYPE_CHOICES,
+        default=EVENT_TYPE_LOCAL
+    )
     status = models.CharField(
         max_length=100,
-        verbose_name='Статус мероприятия',
+        verbose_name='Статус видеоконференции',
         choices=STATUS_CHOICES,
         default=STATUS_CREATED
     )
@@ -76,18 +92,19 @@ class ReservedRoom(models.Model):
     )
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
     room = models.ForeignKey('Room', verbose_name='Место проведения', null=True, blank=True, on_delete=models.CASCADE)
-    number_places = models.PositiveSmallIntegerField(verbose_name='Количество участников')
-    time_start = models.TimeField(verbose_name='Время начала мероприятия')
-    time_end = models.TimeField(verbose_name='Время окончания мероприятия')
+    quota = models.PositiveSmallIntegerField(verbose_name='Количество участников')
+    time_start = models.TimeField(verbose_name='Время начала')
+    time_end = models.TimeField(verbose_name='Время окончания')
     status = models.CharField(
         max_length=100,
-        verbose_name='Статус мероприятия',
+        verbose_name='Статус бронирования',
         choices=STATUS_CHOICES,
         default=STATUS_CREATED
     )
 
 
 class Organization(models.Model):
+
     name = models.CharField(max_length=255, verbose_name='Название организации')
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
 
@@ -96,9 +113,10 @@ class Organization(models.Model):
 
 
 class Room(models.Model):
+
     address = models.CharField(max_length=255, verbose_name='Адрес')
     room = models.CharField(max_length=255, verbose_name='Комната')
-    capacity = models.PositiveIntegerField(verbose_name='Вместимость')
+    quota = models.PositiveIntegerField(verbose_name='Вместимость')
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
     applications = models.ManyToManyField('Application', verbose_name='Приложения', related_name='related_room')
 
@@ -107,9 +125,10 @@ class Room(models.Model):
 
 
 class Application(models.Model):
+
     name = models.CharField(max_length=255, verbose_name='Название приложения')
     server_name = models.CharField(max_length=50, verbose_name='Имя сервера')
-    number_of_licenses = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
+    quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -117,6 +136,7 @@ class Application(models.Model):
 
 
 class Staffer(models.Model):
+
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name='ФИО')
     email = models.EmailField(verbose_name='Электронная почта')
