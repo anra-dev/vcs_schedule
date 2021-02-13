@@ -3,6 +3,7 @@
 {% block content %}
 
 <h1 class="mt-4">Мероприятие "{{ event.name }}" <span class="badge bg-warning">В работе</span></h1>
+<p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
 <table class="table">
   <tbody>
     <tr>
@@ -23,7 +24,9 @@
     </tr>
   </tbody>
 </table>
-{% if vcs %}
+
+{% if vcss %}
+{% for vcs in vcss %}
 <h3 class="mt-4">Видеоконференция "{{ vcs.application }}" <span class="badge bg-success">Создана</span></h3>
 <table class="table">
   <tbody>
@@ -46,14 +49,17 @@
 
   </tbody>
 </table>
+{% endfor %}
 {% endif %}
-{% if reserved_room %}
+
+{% if reserved_rooms %}
+{% for reserved_room in reserved_rooms %}
 <h3 class="mt-4">Комната на {{ reserved_room.room.capacity }} мест(а) <span class="badge bg-danger">Нет брони</span></h3>
 <table class="table">
   <tbody>
     <tr>
       <th class="col-md-4">Бронь</th>
-      <td>с {{ vcs.time_start|date:"H i" }} по {{ vcs.time_end|date:"H i" }}</td>
+      <td>с {{ reserved_room.time_start|date:"H i" }} по {{ reserved_room.time_end|date:"H i" }}</td>
     </tr>
     <tr>
       <th class="col-md-4">Адрес</th>
@@ -69,7 +75,14 @@
     </tr>
   </tbody>
 </table>
+{% endfor %}
 {% endif %}
-<p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
+
+<div>
+  <a class="btn btn-primary" href="{{ event.get_url_add_int_vcs }}" role="button">Добавить внутреннюю ВКС</a>
+  <a class="btn btn-primary" href="{{ event.get_url_add_ext_vcs }}" role="button">Добавить внешнюю ВКС</a>
+  <a class="btn btn-primary" href="{{ event.get_url_add_room }}" role="button">Забронировать комнату</a>
+</div>
+
 
 {% endblock content %}

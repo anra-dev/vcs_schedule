@@ -9,9 +9,8 @@
         <form action=""  method="POST">
             {% csrf_token %}
             {{ form|crispy }}
-            <input type="submit" class="btn btn-success btn-lg btn-block" value="Далее">
+            <input type="submit" class="btn btn-success btn-lg btn-block" value="Создать">
         </form>
-        <a type="submit" class="btn btn-secondary btn-lg btn-block mt-3" href="{% url 'room_add' %}" role="button">Мне не требуется ВКС</a>
     </div>
 
 {% endblock content %}

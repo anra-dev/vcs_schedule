@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -48,6 +49,18 @@ class Event(models.Model):
 
     def __str__(self):
         return f'Мероприятие "{self.name}" запланировано на {self.date}'
+
+    def get_absolute_url(self):
+        return reverse('event_detail', kwargs={'id': self.id})
+
+    def get_url_add_int_vcs(self):
+        return reverse('add_int_vcs', kwargs={'id': self.id})
+
+    def get_url_add_ext_vcs(self):
+        return reverse('add_ext_vcs', kwargs={'id': self.id})
+
+    def get_url_add_room(self):
+        return reverse('add_room', kwargs={'id': self.id})
 
 
 class VideoConf(models.Model):

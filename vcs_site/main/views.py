@@ -46,12 +46,12 @@ class EventDetailView(View):
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')
         event = Event.objects.get(id=id)
-        vcs = VideoConf.objects.filter(event=event).first()
-        reserved_room = ReservedRoom.objects.filter(event=event).first()
+        vcss = VideoConf.objects.filter(event=event).order_by('time_start')
+        reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
         context = {
             'event': event,
-            'vcs': vcs,
-            'reserved_room': reserved_room
+            'vcss': vcss,
+            'reserved_rooms': reserved_rooms
         }
         return render(request, 'event_detail.html', context)
 
@@ -73,12 +73,7 @@ class EventAddView(View):
             event.organization = Organization.objects.get(responsible=event.responsible)
             event.save()
             messages.add_message(request, messages.INFO, 'Мероприятие успешно создано!')
-            if event.type == 'local':
-                return HttpResponseRedirect(reverse('vcs_int_add'))
-            if event.type == 'external':
-                return HttpResponseRedirect(reverse('vcs_ext_add'))
-            if event.type == 'without_vcs':
-                return HttpResponseRedirect(reverse('room_add'))
+            return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
@@ -88,24 +83,21 @@ class EventAddView(View):
 class VideoIntConfAddView(View):
 
     def get(self, request, *args, **kwargs):
-        staffer = Staffer.objects.get(user=request.user)
-        event = Event.objects.filter(responsible=staffer).last()
-        form = VideoIntConfAddForm(data=request.POST or None, for_event=event)
+        form = VideoIntConfAddForm(data=request.POST or None, for_event=None)
         context = {
             'form': form
         }
         return render(request, 'video_conf_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        staffer = Staffer.objects.get(user=request.user)
-        event = Event.objects.filter(responsible=staffer).last()
+        event = Event.objects.get(id=kwargs.get('id'))
         form = VideoIntConfAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             vcs = form.save(commit=False)
             vcs.event = event
             vcs.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
-            return HttpResponseRedirect(reverse('room_add'))
+            return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
@@ -115,22 +107,21 @@ class VideoIntConfAddView(View):
 class VideoExtConfAddView(View):
 
     def get(self, request, *args, **kwargs):
-        form = VideoExtConfAddForm(request.POST or None)
+        form = VideoExtConfAddForm(data=request.POST or None, for_event=None)
         context = {
             'form': form
         }
         return render(request, 'video_conf_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        staffer = Staffer.objects.get(user=request.user)
-        event = Event.objects.filter(responsible=staffer).last()
-        form = VideoExtConfAddForm(request.POST or None)
+        event = Event.objects.get(id=kwargs.get('id'))
+        form = VideoExtConfAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             vcs = form.save(commit=False)
             vcs.event = event
             vcs.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
-            return HttpResponseRedirect(reverse('room_add'))
+            return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
@@ -140,20 +131,21 @@ class VideoExtConfAddView(View):
 class ReservedRoomAddView(View):
 
     def get(self, request, *args, **kwargs):
-        form = ReservedRoomAddForm(request.POST or None)
+        form = ReservedRoomAddForm(data=request.POST or None, for_event=None)
         context = {
             'form': form
         }
         return render(request, 'room_add.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = ReservedRoomAddForm(request.POST or None)
+        event = Event.objects.get(id=kwargs.get('id'))
+        form = ReservedRoomAddForm(data=request.POST or None, for_event=event)
         if form.is_valid():
             room = form.save(commit=False)
-            room.event = Event.objects.last(user=request.user)
+            room.event = event
             room.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на бронирование комнаты!')
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
