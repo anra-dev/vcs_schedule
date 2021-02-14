@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 
 from .models import Event, VideoConf, ReservedRoom, Organization, Staffer
 from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
-from .services import get_context_for_event_view
+from .services import get_context_for_event_view, get_context_for_video_conf_view
 
 
 class EventsView(View):
@@ -23,7 +23,7 @@ class OrdersView(View):
     ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ МОИХ ЗАЯВОК
     """
     def get(self, request, *args, **kwargs):
-        context = get_context_for_event_view(request=request, filter_status=('wait', 'ready', 'rejection'),
+        context = get_context_for_event_view(request=request, filter_status=(),
                                              filter_user=True)
         return render(request, 'orders.html', context)
 
@@ -33,11 +33,12 @@ class OrdersVideoConfView(View):
     ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА ВИДЕОКОНФЕРЕНЦИИ
     """
     def get(self, request, *args, **kwargs):
-        vcss = VideoConf.objects.filter(status='wait').order_by('id')
-        context = {
-            'vcss': vcss
-        }
+        context = get_context_for_video_conf_view(request=request, filter_status=('wait',),
+                                                  filter_user=False)
         return render(request, 'orders_vcs.html', context)
+
+    def post(self, request, *args, **kwargs):
+        pass
 
 
 class OrdersRoomView(View):
@@ -145,7 +146,7 @@ class EventDeleteView(View):
         return HttpResponseRedirect('/')
 
 
-""" Представление ВИДЕОКОНФЕРЕНЦИЙ """
+""" Представление ДОБАВЛЕНИЯ ЗАЯВКИ НА ВИДЕОКОНФЕРЕНЦИЮ """
 
 
 class VideoConfAddView(View):
