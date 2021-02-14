@@ -5,50 +5,33 @@ from django.contrib.auth import authenticate, login
 
 from .models import Event, VideoConf, ReservedRoom, Organization, Staffer
 from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
-
-
-""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ВСЕХ МЕРОПРИЯТИЙ """
+from .services import get_context_for_event_view
 
 
 class EventsView(View):
-
-    def get(self, request):
-        data = []
-        events = Event.objects.filter(status__in=('wait', 'ready')).order_by('date')
-        for event in events:
-            vcss = VideoConf.objects.filter(event=event).order_by('time_start')
-            reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
-            data.append((event, vcss, reserved_rooms,))
-        context = {
-            'data': data
-        }
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ВСЕХ МЕРОПРИЯТИЙ
+    """
+    def get(self, request, *args, **kwargs):
+        context = get_context_for_event_view(request=request, filter_status=('wait', 'ready'),
+                                             filter_user=False)
         return render(request, 'events.html', context)
-
-
-""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ МОИХ ЗАЯВОК """
 
 
 class OrdersView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ МОИХ ЗАЯВОК
+    """
     def get(self, request, *args, **kwargs):
-        data = []
-        staffer = Staffer.objects.get(user=request.user)
-        events = Event.objects.filter(status__in=('wait', 'ready', 'rejection'), responsible=staffer).order_by('date')
-        for event in events:
-            vcss = VideoConf.objects.filter(event=event).order_by('time_start')
-            reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
-            data.append((event, vcss, reserved_rooms,))
-        context = {
-            'data': data
-        }
-        return render(request, 'events.html', context)
-
-
-""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА ВИДЕОКОНФЕРЕНЦИИ"""
+        context = get_context_for_event_view(request=request, filter_status=('wait', 'ready', 'rejection'),
+                                             filter_user=True)
+        return render(request, 'orders.html', context)
 
 
 class OrdersVideoConfView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА ВИДЕОКОНФЕРЕНЦИИ
+    """
     def get(self, request, *args, **kwargs):
         vcss = VideoConf.objects.filter(status='wait').order_by('id')
         context = {
@@ -57,11 +40,10 @@ class OrdersVideoConfView(View):
         return render(request, 'orders_vcs.html', context)
 
 
-""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА КОМНАТУ"""
-
-
 class OrdersRoomView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА КОМНАТУ
+    """
     def get(self, request, *args, **kwargs):
         reserved_rooms = ReservedRoom.objects.filter(status='wait').order_by('id')
         context = {
@@ -70,24 +52,20 @@ class OrdersRoomView(View):
         return render(request, 'orders_room.html', context)
 
 
-""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ПРОШЕДШИХ МЕРОПРИЯТИЙ """
-
-
 class ArchiveView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ПРОШЕДШИХ МЕРОПРИЯТИЙ
+    """
     def get(self, request, *args, **kwargs):
-        events = Event.objects.filter(status='completed').order_by('date')
-        context = {
-            'events': events
-        }
+        context = get_context_for_event_view(request=request, filter_status=('completed',),
+                                             filter_user=False)
         return render(request, 'archive.html', context)
 
 
-""" ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ДЕТАЛЬНОГО ПРЕДСТАВЛЕНИЯ МЕРОПРИЯТИЙ """
-
-
 class EventDetailView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ДЕТАЛЬНОГО ПРЕДСТАВЛЕНИЯ МЕРОПРИЯТИЙ
+    """
     def get(self, request, *args, **kwargs):
         id = kwargs.get('event_id')
         event = Event.objects.get(id=id)
@@ -101,11 +79,10 @@ class EventDetailView(View):
         return render(request, 'event_detail.html', context)
 
 
-""" ПРЕДСТАВЛЕНИЕ ДЛЯ ДОБАВЛЕНИЯ МЕРОПРИЯТИЙ """
-
-
 class EventAddView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ДОБАВЛЕНИЯ МЕРОПРИЯТИЙ
+    """
     def get(self, request, *args, **kwargs):
         form = EventAddForm(request.POST or None)
         context = {
@@ -129,7 +106,9 @@ class EventAddView(View):
 
 
 class EventEditView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ РЕДАКТИРОВАНИЯ МЕРОПРИЯТИЙ
+    """
     def get(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
         form = EventAddForm(request.POST or None, instance=event)
@@ -153,7 +132,9 @@ class EventEditView(View):
 
 
 class EventDeleteView(View):
-
+    """
+    ПРЕДСТАВЛЕНИЕ ДЛЯ УДАЛЕНИЯ  МЕРОПРИЯТИЙ
+    """
     def get(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
         try:
