@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1 class="mt-4">Необработанные заявки на видеоконференции</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Дата проведения</th>
+      <th scope="col">Время проведения</th>
+      <th scope="col">Приложение</th>
+      <th scope="col">Количество участников</th>
+      <th scope="col">Организация</th>
+      <th scope="col">Ответственный</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for conference in query_set %}
+    <tr class="table-light">
+      <td>{{ conference.event.date|date:"d F Y" }}</td>
+      <td>{{ conference.time_start|date:"H i" }} - {{ conference.time_end|date:"H i" }}</td>
+      <td>{{ conference.application }}</td>
+      <td>{{ conference.quota }}</td>
+      <td>{{ conference.event.organization }}</td>
+      <td>{{ conference.event.responsible }}</td>
+      <td><button class="btn btn-success">Создать</button></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock content %}

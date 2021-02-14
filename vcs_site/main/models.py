@@ -39,7 +39,7 @@ class Event(models.Model):
         return reverse('event_detail', kwargs={'event_id': self.id})
 
 
-class VideoConf(models.Model):
+class Conference(models.Model):
 
     STATUS_WAIT = 'wait'
     STATUS_READY = 'ready'
@@ -83,7 +83,7 @@ class VideoConf(models.Model):
     )
 
 
-class ReservedRoom(models.Model):
+class Booking(models.Model):
 
     STATUS_WAIT = 'wait'
     STATUS_READY = 'ready'

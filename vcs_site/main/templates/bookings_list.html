@@ -16,15 +16,15 @@
     </tr>
   </thead>
   <tbody>
-  {% for reserved_room in reserved_rooms %}
+  {% for booking in query_set %}
     <tr class="table-light">
-      <td>{{ reserved_room.event.date|date:"d F Y" }}</td>
-      <td>{{ reserved_room.time_start|date:"H i" }} - {{ reserved_room.time_end|date:"H i" }}</td>
-      <td>{{ reserved_room.room.address }} ({{ reserved_room.room.room }})</td>
-      <td>{{ reserved_room.quota }}</td>
-      <td>{{ reserved_room.event.organization }}</td>
-      <td>{{ reserved_room.event.responsible }}</td>
-      <td><button class="btn btn-success">Принять в рабоу</button> </td>
+      <td>{{ booking.event.date|date:"d F Y" }}</td>
+      <td>{{ booking.time_start|date:"H i" }} - {{ booking.time_end|date:"H i" }}</td>
+      <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
+      <td>{{ booking.quota }}</td>
+      <td>{{ booking.event.organization }}</td>
+      <td>{{ booking.event.responsible }}</td>
+      <td><button class="btn btn-success">Принять в работу</button></td>
     </tr>
   {% endfor %}
   </tbody>

@@ -1,4 +1,4 @@
-from .models import Event, Staffer, VideoConf, ReservedRoom
+from .models import Event, Staffer, Conference, Booking
 from .forms import VideoConfAddForm
 
 
@@ -19,9 +19,9 @@ def get_context_for_event_view(request: str, filter_status: tuple, filter_user: 
         kwargs['responsible'] = staffer
     events = Event.objects.filter(**kwargs).order_by('date')
     for event in events:
-        vcss = VideoConf.objects.filter(event=event).order_by('time_start')
-        reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
-        data.append((event, vcss, reserved_rooms,))
+        conferences = Conference.objects.filter(event=event).order_by('time_start')
+        bookings = Booking.objects.filter(event=event).order_by('time_start')
+        data.append((event, conferences, bookings,))
     return {'data': data}
 
 
@@ -40,8 +40,8 @@ def get_context_for_video_conf_view(request: str, filter_status: tuple, filter_u
     if filter_user:
         staffer = Staffer.objects.get(user=request.user)
         kwargs['responsible'] = staffer
-    vcss = VideoConf.objects.filter(**kwargs).order_by('id')
-    for vcs in vcss:
-        form = VideoConfAddForm(data=request.POST or None, instance=vcs, for_event=vcs.event)
-        data.append((vcs, form))
+    conferences = Conference.objects.filter(**kwargs).order_by('id')
+    for conference in conferences:
+        form = VideoConfAddForm(data=request.POST or None, instance=conference)
+        data.append((conference, form))
     return {'data': data}

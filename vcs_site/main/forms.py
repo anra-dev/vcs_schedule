@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 import datetime
 
-from .models import Event, VideoConf, ReservedRoom
+from .models import Event, Conference, Booking
 
 User = get_user_model()
 
@@ -43,48 +43,16 @@ class VideoConfAddForm(forms.ModelForm):
     Форма для внутренней видеоконференции
     """
 
-    def __init__(self, for_event,  *args, **kwargs):
+    def __init__(self,  *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.event = for_event
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
 
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
 
-    def clean(self):
-        """Валидация формы"""
-        time_start = self.cleaned_data['time_start']
-        time_end = self.cleaned_data['time_end']
-        quota = self.cleaned_data['quota']
-        application = self.cleaned_data['application']
-
-        # Начало должно быть раньше конца
-        if time_start > time_end:
-            self.add_error('time_start', 'Время начала не может быть позже окончания')
-            self.add_error('time_end', 'Время окончания не может быть раньше начала')
-
-        # Время не должно быть занято кем то ранее
-        date = self.event.date
-        events_on_this_date = Event.objects.filter(date=date)
-        for event in events_on_this_date:
-            if event == self.event:
-                continue
-            video_conf = VideoConf.objects.filter(event=event).first()
-            if video_conf:
-                if (video_conf.time_start <= time_start < video_conf.time_end) or (time_start <= video_conf.time_start < time_end):
-                    self.add_error('time_start', 'Время занято другим мероприятием')
-                    self.add_error('time_end', 'Время занято другим мероприятием')
-
-        # Количество участников не може превышать количество лицензий
-        if quota > application.quota:
-            self.add_error('number_places', f'Количество участников превышает '
-                                                     f'количество лицензий для программы "{application.name}"')
-
-        return self.cleaned_data
-
     class Meta:
-        model = VideoConf
+        model = Conference
         fields = (
             'application',
             'type',
@@ -107,35 +75,8 @@ class ReservedRoomAddForm(forms.ModelForm):
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
 
-    def clean(self):
-        """Валидация формы"""
-        time_start = self.cleaned_data['time_start']
-        time_end = self.cleaned_data['time_end']
-
-        # Начало должно быть раньше конца
-        if time_start > time_end:
-            self.add_error('time_start', 'Время начала не может быть позже окончания')
-            self.add_error('time_end', 'Время окончания не может быть раньше начала')
-        return self.cleaned_data
-
-        # # Время не должно быть занято кем то ранее
-        # date = self.event.date
-        # events_on_this_date = Event.objects.filter(date=date)
-        # for event in events_on_this_date:
-        #     video_conf = VideoConf.objects.filter(event=event).first()
-        #     if video_conf:
-        #         if (video_conf.time_start <= time_start < video_conf.time_end) or (
-        #                 time_start <= video_conf.time_start < time_end):
-        #             self.add_error('time_start', 'Время занято другим мероприятием')
-        #             self.add_error('time_end', 'Время занято другим мероприятием')
-        #
-        # # Количество участников не може превышать количество лицензий
-        # if number_places > application.number_of_licenses:
-        #     self.add_error('number_places', f'Количество участников превышает '
-        #                                     f'количество лицензий для программы "{application.name}"')
-
     class Meta:
-        model = ReservedRoom
+        model = Booking
         fields = (
             'room',
             'quota',

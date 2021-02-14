@@ -3,64 +3,58 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
-from .models import Event, VideoConf, ReservedRoom, Organization, Staffer
+from .models import Event, Conference, Booking, Organization, Staffer
 from .forms import EventAddForm, VideoConfAddForm, ReservedRoomAddForm, LoginForm
 from .services import get_context_for_event_view, get_context_for_video_conf_view
+from .mixins import ObjectsListViewMixin
 
 
-class EventsView(View):
+class EventsListView(ObjectsListViewMixin, View):
     """
     ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ВСЕХ МЕРОПРИЯТИЙ
     """
-    def get(self, request, *args, **kwargs):
-        context = get_context_for_event_view(request=request, filter_status=('wait', 'ready'),
-                                             filter_user=False)
-        return render(request, 'events.html', context)
+    model = Event
+    template = 'events_list.html'
+    order_by = 'date'
+    filter_status = ('wait', 'ready')
 
 
-class OrdersView(View):
+class MyEventsListView(ObjectsListViewMixin, View):
     """
-    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ МОИХ ЗАЯВОК
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ МЕРОПРИЯТИЙ ПОЛЬЗОВАТЕЛЯ
     """
-    def get(self, request, *args, **kwargs):
-        context = get_context_for_event_view(request=request, filter_status=(),
-                                             filter_user=True)
-        return render(request, 'orders.html', context)
+    model = Event
+    template = 'my_events_list.html'
+    order_by = 'date'
+    filter_staffer = True
 
 
-class OrdersVideoConfView(View):
+class ConferencesListView(ObjectsListViewMixin, View):
     """
-    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА ВИДЕОКОНФЕРЕНЦИИ
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ КОНФЕРЕНЦИЙ
     """
-    def get(self, request, *args, **kwargs):
-        context = get_context_for_video_conf_view(request=request, filter_status=('wait',),
-                                                  filter_user=False)
-        return render(request, 'orders_vcs.html', context)
-
-    def post(self, request, *args, **kwargs):
-        pass
+    model = Conference
+    template = 'conferences_list.html'
+    filter_status = ('wait',)
 
 
-class OrdersRoomView(View):
+class BookingsListView(ObjectsListViewMixin, View):
     """
-    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ЗАЯВОК НА КОМНАТУ
+    ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ БРОНИРОВАНИЯ
     """
-    def get(self, request, *args, **kwargs):
-        reserved_rooms = ReservedRoom.objects.filter(status='wait').order_by('id')
-        context = {
-            'reserved_rooms': reserved_rooms
-        }
-        return render(request, 'orders_room.html', context)
+    model = Booking
+    template = 'bookings_list.html'
+    filter_status = ('wait',)
 
 
-class ArchiveView(View):
+class ArchiveEventsListView(ObjectsListViewMixin, View):
     """
     ПРЕДСТАВЛЕНИЕ ДЛЯ ОТОБРАЖЕНИЯ ПРОШЕДШИХ МЕРОПРИЯТИЙ
     """
-    def get(self, request, *args, **kwargs):
-        context = get_context_for_event_view(request=request, filter_status=('completed',),
-                                             filter_user=False)
-        return render(request, 'archive.html', context)
+    model = Event
+    template = 'events_archive_list.html'
+    order_by = 'date'
+    filter_status = ('completed',)
 
 
 class EventDetailView(View):
@@ -70,12 +64,12 @@ class EventDetailView(View):
     def get(self, request, *args, **kwargs):
         id = kwargs.get('event_id')
         event = Event.objects.get(id=id)
-        vcss = VideoConf.objects.filter(event=event).order_by('time_start')
-        reserved_rooms = ReservedRoom.objects.filter(event=event).order_by('time_start')
+        conferences = Conference.objects.filter(event=event).order_by('time_start')
+        bookings = Booking.objects.filter(event=event).order_by('time_start')
         context = {
             'event': event,
-            'vcss': vcss,
-            'reserved_rooms': reserved_rooms
+            'conferences': conferences,
+            'bookings': bookings
         }
         return render(request, 'event_detail.html', context)
 
@@ -143,67 +137,69 @@ class EventDeleteView(View):
         except:
             pass
         messages.add_message(request, messages.INFO, 'Мероприятие удалено!')
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/') # ЗАМЕНИТЬ!!!
 
 
-""" Представление ДОБАВЛЕНИЯ ЗАЯВКИ НА ВИДЕОКОНФЕРЕНЦИЮ """
 
 
-class VideoConfAddView(View):
+class ConferenceAddView(View):
+    """
+    Представление ДОБАВЛЕНИЯ ЗАЯВКИ НА ВИДЕОКОНФЕРЕНЦИЮ
+    """
 
     def get(self, request, *args, **kwargs):
-        form = VideoConfAddForm(data=request.POST or None, for_event=None)
+        form = VideoConfAddForm(data=request.POST or None)
         context = {
             'form': form
         }
-        return render(request, 'video_conf_add.html', context)
+        return render(request, 'conference_add.html', context)
 
     def post(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
-        form = VideoConfAddForm(data=request.POST or None, for_event=event)
+        form = VideoConfAddForm(data=request.POST or None)
         if form.is_valid():
-            vcs = form.save(commit=False)
-            vcs.event = event
-            vcs.save()
+            conference = form.save(commit=False)
+            conference.event = event
+            conference.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на видеоконференцию!')
             return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
-        return render(request, 'video_conf_add.html', context)
+        return render(request, 'conference_add.html', context)
 
 
-class VideoConfEditView(View):
+class ConferenceEditView(View):
 
     def get(self, request, *args, **kwargs):
-        vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
-        form = VideoConfAddForm(data=request.POST or None, for_event=None, instance=vcs)
+        conference = Conference.objects.get(id=kwargs.get('conference_id'))
+        form = VideoConfAddForm(data=request.POST or None, instance=conference)
         context = {
             'form': form
         }
-        return render(request, 'video_conf_add.html', context)
+        return render(request, 'conference_add.html', context)
 
     def post(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
-        vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
-        form = VideoConfAddForm(data=request.POST or None, for_event=event, instance=vcs)
+        conference = Conference.objects.get(id=kwargs.get('conference_id'))
+        form = VideoConfAddForm(data=request.POST or None, instance=conference)
         if form.is_valid():
-            vcs.save()
+            conference.save()
             messages.add_message(request, messages.INFO, 'Заявка успешно сохранена!')
             return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
-        return render(request, 'video_conf_add.html', context)
+        return render(request, 'conference_add.html', context)
 
 
-class VideoConfDeleteView(View):
+class ConferenceDeleteView(View):
 
     def get(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
-        vcs = VideoConf.objects.get(id=kwargs.get('vcs_id'))
+        conference = Conference.objects.get(id=kwargs.get('conference_id'))
         try:
-            vcs.delete()
+            conference.delete()
         except:
             pass
         messages.add_message(request, messages.INFO, 'Видеоконференция удалено!')
@@ -213,61 +209,61 @@ class VideoConfDeleteView(View):
 """ Представление БРОНИРОВАНИЯ КОМНАТ """
 
 
-class ReservedRoomAddView(View):
+class BookingAddView(View):
 
     def get(self, request, *args, **kwargs):
-        form = ReservedRoomAddForm(data=request.POST or None, for_event=None)
+        form = ReservedRoomAddForm(data=request.POST or None,)
         context = {
             'form': form
         }
-        return render(request, 'room_add.html', context)
+        return render(request, 'booking_add.html', context)
 
     def post(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
-        form = ReservedRoomAddForm(data=request.POST or None, for_event=event)
+        form = ReservedRoomAddForm(data=request.POST or None,)
         if form.is_valid():
-            room = form.save(commit=False)
-            room.event = event
-            room.save()
+            booking = form.save(commit=False)
+            booking.event = event
+            booking.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на бронирование комнаты!')
             return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
-        return render(request, 'room_add.html', context)
+        return render(request, 'booking_add.html', context)
 
 
-class ReservedRoomEditView(View):
+class BookingEditView(View):
 
     def get(self, request, *args, **kwargs):
-        room = ReservedRoom.objects.get(id=kwargs.get('room_id'))
-        form = ReservedRoomAddForm(data=request.POST or None, for_event=None, instance=room)
+        booking = Booking.objects.get(id=kwargs.get('booking_id'))
+        form = ReservedRoomAddForm(data=request.POST or None, instance=booking)
         context = {
             'form': form
         }
-        return render(request, 'room_add.html', context)
+        return render(request, 'booking_add.html', context)
 
     def post(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
-        room = ReservedRoom.objects.get(id=kwargs.get('room_id'))
-        form = ReservedRoomAddForm(data=request.POST or None, for_event=event, instance=room)
+        booking = Booking.objects.get(id=kwargs.get('booking_id'))
+        form = ReservedRoomAddForm(data=request.POST or None, instance=booking)
         if form.is_valid():
-            room.save()
+            booking.save()
             messages.add_message(request, messages.INFO, 'Направлена заявка на бронирование комнаты!')
             return HttpResponseRedirect(event.get_absolute_url())
         context = {
             'form': form
         }
-        return render(request, 'room_add.html', context)
+        return render(request, 'booking_add.html', context)
 
 
-class ReservedRoomDeleteView(View):
+class BookingDeleteView(View):
 
     def get(self, request, *args, **kwargs):
         event = Event.objects.get(id=kwargs.get('event_id'))
-        room = ReservedRoom.objects.get(id=kwargs.get('room_id'))
+        booking = Booking.objects.get(id=kwargs.get('booking_id'))
         try:
-            room.delete()
+            booking.delete()
         except:
             pass
         messages.add_message(request, messages.INFO, 'Бронирование комнаты удалено!')
