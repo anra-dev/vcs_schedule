@@ -66,9 +66,8 @@ class VideoConfAddForm(forms.ModelForm):
 
 class ReservedRoomAddForm(forms.ModelForm):
 
-    def __init__(self, for_event,  *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.event = for_event
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
 
