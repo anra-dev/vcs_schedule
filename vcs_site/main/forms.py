@@ -38,7 +38,7 @@ class EventAddForm(forms.ModelForm):
         )
 
 
-class VideoConfAddForm(forms.ModelForm):
+class ConferenceAddForm(forms.ModelForm):
     """
     Форма для внутренней видеоконференции
     """
@@ -64,7 +64,7 @@ class VideoConfAddForm(forms.ModelForm):
         )
 
 
-class ReservedRoomAddForm(forms.ModelForm):
+class BookingAddForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

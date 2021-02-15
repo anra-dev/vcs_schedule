@@ -7,6 +7,12 @@ User = get_user_model()
 
 class Event(models.Model):
 
+    MESSAGES = {
+        'create': 'Мероприятие создано!',
+        'edit': 'Мероприятие изменено!',
+        'delete': 'Мероприятие удалено!'
+    }
+
     STATUS_WAIT = 'wait'
     STATUS_READY = 'ready'
     STATUS_REJECTION = 'rejection'
@@ -38,8 +44,19 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'event_id': self.id})
 
+    def get_redirect_url_for_mixin(self):
+        if self.id:
+            return reverse('event_detail', kwargs={'event_id': self.id})
+        return '/'
+
 
 class Conference(models.Model):
+
+    MESSAGES = {
+        'create': 'Видеоконференция создана!',
+        'edit': 'Видеоконференция изменена!',
+        'delete': 'Видеоконференция удалена!'
+    }
 
     STATUS_WAIT = 'wait'
     STATUS_READY = 'ready'
@@ -82,8 +99,17 @@ class Conference(models.Model):
         default=STATUS_WAIT
     )
 
+    def get_redirect_url_for_mixin(self):
+        return reverse('event_detail', kwargs={'event_id': self.event.id})
+
 
 class Booking(models.Model):
+
+    MESSAGES = {
+        'create': 'Бронирование создано!',
+        'edit': 'Бронирование изменено!',
+        'delete': 'Бронирование удалено!'
+    }
 
     STATUS_WAIT = 'wait'
     STATUS_READY = 'ready'
@@ -108,6 +134,9 @@ class Booking(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_WAIT
     )
+
+    def get_redirect_url_for_mixin(self):
+        return reverse('event_detail', kwargs={'event_id': self.event.id})
 
 
 class Organization(models.Model):

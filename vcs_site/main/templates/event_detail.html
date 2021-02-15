@@ -112,8 +112,8 @@
     <tr>
       <th></th>
       <td align="right">
-        <a class="btn btn-success" href="{% url 'edit_booking' event_id=event.id booking_id=booking.id %}" role="button">Изменить</a>
-        <a class="btn btn-danger" href="{% url 'del_booking' event_id=event.id booking_id=booking.id %}" role="button">Удалить</a>
+        <a class="btn btn-success" href="{% url 'edit_booking' booking_id=booking.id %}" role="button">Изменить</a>
+        <a class="btn btn-danger" href="{% url 'del_booking' booking_id=booking.id %}" role="button">Удалить</a>
       </td>
     </tr>
   </tbody>
