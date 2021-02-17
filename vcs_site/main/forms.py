@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 import datetime
 
 from .models import Event, Conference, Booking
+from .services import check_ability_to_create
 
 User = get_user_model()
 
@@ -42,18 +43,38 @@ class ConferenceAddForm(forms.ModelForm):
     """
     Форма для внутренней видеоконференции
     """
-
-    def __init__(self,  *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['event'].widget.attrs['readonly'] = True
+        self.fields['date'].widget.attrs['readonly'] = True
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
 
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
 
+    def clean(self):
+        """Валидация формы"""
+        time_start = self.cleaned_data['time_start']
+        time_end = self.cleaned_data['time_end']
+        quota = self.cleaned_data['quota']
+        application = self.cleaned_data['application']
+        date = self.cleaned_data['date']
+        # Начало должно быть раньше конца
+        if time_start >= time_end:
+            self.add_error('time_start', 'Время начала не может совпадать или быть позже окончания')
+            self.add_error('time_end', 'Время окончания не может совпадать или быть раньше начала')
+
+        if not check_ability_to_create(application=application, date=date, time_start=time_start, time_end=time_end, quote=quota):
+            self.add_error('quota', 'Превышено количество пользователей (учитываются все уже назначенный конференции).'
+                                    'Измените количество участников или время проведения')
+
+
     class Meta:
         model = Conference
         fields = (
+            'event',
+            'date',
             'application',
             'type',
             'quota',
@@ -62,6 +83,10 @@ class ConferenceAddForm(forms.ModelForm):
             'time_start',
             'time_end',
         )
+        widgets = {
+            'event': forms.HiddenInput(),
+            'date': forms.HiddenInput(),
+        }
 
 
 class BookingAddForm(forms.ModelForm):

@@ -29,15 +29,14 @@ class ObjectDependentCreateMixin:
     template = None
 
     def get(self, request, *args, **kwargs):
-        bound_form = self.form(request.POST or None)
+        event = Event.objects.get(id=kwargs.get('event_id'))
+        bound_form = self.form(request.POST or None, initial={'event': event, 'date': event.date})
         return render(request, self.template, {'form': bound_form})
 
     def post(self, request, *args, **kwargs):
-        event = Event.objects.get(id=kwargs.get('event_id'))
         bound_form = self.form(request.POST or None)
         if bound_form.is_valid():
             new_obj = bound_form.save(commit=False)
-            new_obj.event = event
             new_obj.save()
             messages.add_message(request, messages.INFO, new_obj.MESSAGES['create'])
             return redirect(new_obj.get_redirect_url_for_mixin())
