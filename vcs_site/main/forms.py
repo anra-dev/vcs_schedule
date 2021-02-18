@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 import datetime
 
-from .models import Event, Conference, Booking, Room
+from .models import Event, Conference, Booking
 from .services import check_ability_to_create_conf, check_room_is_free
 
 User = get_user_model()
@@ -49,21 +49,6 @@ class ConferenceAddForm(forms.ModelForm):
         self.fields['date'].widget.attrs['readonly'] = True
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-        self.fields['quota'].widget.attrs['class'] = 'my_class'
-
-        # instance = kwargs.get('instance')
-        # print(dir(self.fields['type']))
-        # if instance:
-        #     if instance.type == 'external':
-        #         self.fields['quota'].widget.attrs.update({
-        #             'readonly': True,
-        #             'style': 'background: lightgrey'
-        #         })
-        #     if instance.type == 'local':
-        #         self.fields['link_to_event'].widget.attrs.update({
-        #             'readonly': True,
-        #             'style': 'background: lightgrey'
-        #         })
 
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))

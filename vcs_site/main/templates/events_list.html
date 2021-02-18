@@ -22,7 +22,12 @@
                {% if event.status == 'completed' %} table-secondary {% endif %}">
       <td>{{ event.date|date:"d F Y" }}</td>
       <td>{{ event.name }}</td>
-      <td>{{ event.get_status_display }}</td>
+      <td>
+          {% if event.status == 'wait' %}<h4><span class="badge bg-warning">{{ event.get_status_display  }}</span></h4> {% endif %}
+          {% if event.status == 'ready' %}<h4><span class="badge bg-success">{{ event.get_status_display  }}</span></h4> {% endif %}
+          {% if event.status == 'rejection' %}<h4><span class="badge bg-danger">{{ event.get_status_display  }}</span></h4> {% endif %}
+          {% if event.status == 'completed' %}<h4><span class="badge bg-secondary">{{ event.get_status_display  }}</span></h4> {% endif %}
+      </td>
       <td>{{ event.organization }}</td>
       <td>{{ event.responsible }}</td>
       <!-- Button trigger modal -->

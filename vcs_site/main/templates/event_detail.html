@@ -43,7 +43,7 @@
 
 {% if conferences %}
 {% for conference in conferences %}
-<h3 class="mt-4">Видеоконференция "{{ vcs.application }}"
+<h3 class="mt-4">Видеоконференция "{{ conference.application }}"
   {% if conference.status == 'wait' %}<span class="badge bg-warning">{{ conference.get_status_display  }}</span> {% endif %}
   {% if conference.status == 'ready' %}<span class="badge bg-success">{{ conference.get_status_display  }}</span> {% endif %}
   {% if conference.status == 'rejection' %}<span class="badge bg-danger">{{ conference.get_status_display  }}</span> {% endif %}
