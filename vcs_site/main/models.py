@@ -79,8 +79,7 @@ class Conference(models.Model):
     )
 
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
-    application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True,
-                                    on_delete=models.CASCADE)
+    application = models.ForeignKey('Application', verbose_name='Приложение', on_delete=models.CASCADE)
 
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
     link_to_event = models.CharField(max_length=255, verbose_name='Ссылка', null=True, blank=True)

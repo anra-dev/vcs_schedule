@@ -49,6 +49,21 @@ class ConferenceAddForm(forms.ModelForm):
         self.fields['date'].widget.attrs['readonly'] = True
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
+        self.fields['quota'].widget.attrs['class'] = 'my_class'
+
+        # instance = kwargs.get('instance')
+        # print(dir(self.fields['type']))
+        # if instance:
+        #     if instance.type == 'external':
+        #         self.fields['quota'].widget.attrs.update({
+        #             'readonly': True,
+        #             'style': 'background: lightgrey'
+        #         })
+        #     if instance.type == 'local':
+        #         self.fields['link_to_event'].widget.attrs.update({
+        #             'readonly': True,
+        #             'style': 'background: lightgrey'
+        #         })
 
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
@@ -59,20 +74,25 @@ class ConferenceAddForm(forms.ModelForm):
         time_end = self.cleaned_data['time_end']
         quota = self.cleaned_data['quota']
         application = self.cleaned_data['application']
+        link_to_event = self.cleaned_data['link_to_event']
         date = self.cleaned_data['date']
         type = self.cleaned_data['type']
         conf_id = self.instance.id  # почему не падает при создании конфы если равно None?
-
         # Начало должно быть раньше конца
         if time_start >= time_end:
             self.add_error('time_start', 'Время начала не может совпадать или быть позже окончания')
             self.add_error('time_end', 'Время окончания не может совпадать или быть раньше начала')
-        # Проверка на наличие свободных лицензий
+        # Проверка на наличие свободных лицензий и обязателых полей
         if type == 'local':
-            if not check_ability_to_create_conf(conf_id=conf_id, application=application, date=date, time_start=time_start,
-                                                time_end=time_end, quote=quota):
+            if not quota:
+                self.add_error('quota', my_default_errors['required'])
+            elif not check_ability_to_create_conf(conf_id=conf_id, application=application, date=date,
+                                                  time_start=time_start, time_end=time_end, quote=quota):
                 self.add_error('quota', 'Превышено количество пользователей (учитываются все уже назначенный '
                                         'конференции). Измените количество участников или время проведения')
+        if type == 'external':
+            if not link_to_event:
+                self.add_error('link_to_event', my_default_errors['required'])
         return self.cleaned_data
 
     class Meta:
@@ -92,6 +112,9 @@ class ConferenceAddForm(forms.ModelForm):
             'event': forms.HiddenInput(),
             'date': forms.HiddenInput(),
         }
+
+        class Media:
+            js = ('js/base.js',)
 
 
 class BookingAddForm(forms.ModelForm):

@@ -61,11 +61,11 @@
     </tr>
     <tr>
       <th>Количество участников</th>
-      <td>{{ conference.quota }}</td>
+      <td>{{ conference.quota|default_if_none:'' }}</td>
     </tr>
     <tr>
       <th>Ссылка</th>
-      <td>{{ conference.link_to_event }}</td>
+      <td>{{ conference.link_to_event|default_if_none:'' }}</td>
     </tr>
     <tr>
       <th>Технический специалист</th>
