@@ -1,16 +1,11 @@
 from django.views import View
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from django.contrib import messages
-
+from django.views.generic import DetailView, ListView, ArchiveIndexView
 
 from .models import Event, Conference, Booking, Organization, Staffer
 from .forms import EventAddForm, ConferenceAddForm, BookingAddForm
 from .mixins import ObjectsListMixin, ObjectEditMixin, ObjectDeleteMixin, ObjectDependentCreateMixin
-
-
-def homepage(request):
-    """Редирект корня"""
-    return redirect(reverse('events_list'))
 
 
 class EventsListView(ObjectsListMixin, View):
@@ -18,8 +13,6 @@ class EventsListView(ObjectsListMixin, View):
     ПРОСМОТР СПИСКА МЕРОПРИЯТИЙ
     """
     model = Event
-    template = 'events_list.html'
-    order_by = 'date'
     filter_status = ('wait', 'ready')
 
 
@@ -28,9 +21,9 @@ class MyEventsListView(ObjectsListMixin, View):
     ПРОСМОТР СПИСКА МЕРОПРИЯТИЙ ПОЛЬЗОВАТЕЛЯ
     """
     model = Event
-    template = 'my_events_list.html'
-    order_by = 'date'
+    template_name = 'schedule/my_event_list.html'
     filter_staffer = True
+    filter_status = ('wait', 'ready', 'rejection')
 
 
 class ConferencesListView(ObjectsListMixin, View):
@@ -38,7 +31,6 @@ class ConferencesListView(ObjectsListMixin, View):
     ПРОСМОТР СПИСКА КОНФЕРЕНЦИЙ
     """
     model = Conference
-    template = 'conferences_list.html'
     filter_status = ('wait',)
 
 
@@ -47,7 +39,6 @@ class BookingsListView(ObjectsListMixin, View):
     ПРОСМОТР СПИСКА БРОНИ
     """
     model = Booking
-    template = 'bookings_list.html'
     filter_status = ('wait',)
 
 
@@ -56,9 +47,8 @@ class ArchiveEventsListView(ObjectsListMixin, View):
     ПРОСМОТР СПИСКА ПРОШЕДШИХ МЕРОПРИЯТИЙ
     """
     model = Event
-    template = 'events_archive_list.html'
-    order_by = 'date'
     filter_status = ('completed',)
+    template_name = 'schedule/event_archive.html'
 
 
 class EventDetailView(View):
@@ -75,7 +65,7 @@ class EventDetailView(View):
             'conferences': conferences,
             'bookings': bookings
         }
-        return render(request, 'event_detail.html', context)
+        return render(request, 'schedule/event_detail.html', context)
 
 
 class EventAddView(View):
@@ -87,7 +77,7 @@ class EventAddView(View):
         context = {
             'form': form
         }
-        return render(request, 'event_add.html', context)
+        return render(request, 'schedule/event_add.html', context)
 
     def post(self, request, *args, **kwargs):
         form = EventAddForm(request.POST or None)
@@ -101,7 +91,7 @@ class EventAddView(View):
         context = {
             'form': form
         }
-        return render(request, 'event_add.html', context)
+        return render(request, 'schedule/event_add.html', context)
 
 
 class EventEditView(ObjectEditMixin, View):
@@ -110,7 +100,7 @@ class EventEditView(ObjectEditMixin, View):
     """
     model = Event
     form = EventAddForm
-    template = 'event_add.html'
+    template = 'schedule/event_add.html'
 
 
 class EventDeleteView(ObjectDeleteMixin, View):
@@ -125,7 +115,7 @@ class ConferenceAddView(ObjectDependentCreateMixin, View):
     СОЗДАНИЕ  ВИДЕОКОНФЕРЕНЦИЙ
     """
     form = ConferenceAddForm
-    template = 'conference_add.html'
+    template = 'schedule/conference_add.html'
 
 
 class ConferenceEditView(ObjectEditMixin, View):
@@ -134,7 +124,7 @@ class ConferenceEditView(ObjectEditMixin, View):
     """
     model = Conference
     form = ConferenceAddForm
-    template = 'conference_add.html'
+    template = 'schedule/conference_add.html'
 
 
 class ConferenceDeleteView(ObjectDeleteMixin, View):
@@ -149,7 +139,7 @@ class BookingAddView(ObjectDependentCreateMixin, View):
     СОЗДАНИЕ БРОНИ
     """
     form = BookingAddForm
-    template = 'booking_add.html'
+    template = 'schedule/booking_add.html'
 
 
 
@@ -159,7 +149,7 @@ class BookingEditView(ObjectEditMixin, View):
     """
     model = Booking
     form = BookingAddForm
-    template = 'booking_add.html'
+    template = 'schedule/booking_add.html'
 
 
 class BookingDeleteView(ObjectDeleteMixin, View):

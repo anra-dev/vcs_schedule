@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 
 <head>
 
@@ -11,10 +12,10 @@
   <title>ЦИТ ВО - система видеоконференцсвязи</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+ {% static 'css/simple-sidebar.css' %}
   <!-- Custom styles for this template -->
-  <link href="/static/css/simple-sidebar.css" rel="stylesheet">
+  <link href=" {% static 'css/simple-sidebar.css' %}" rel="stylesheet">
 
 </head>
 
@@ -27,10 +28,10 @@
       <div class="sidebar-heading">ГБУ ВО "ЦИТ ВО"</div>
       <div class="list-group list-group-flush">
         <a href="{% url 'events_list' %}" class="list-group-item list-group-item-action bg-light">Все мероприятия</a>
-        <a href="{% url 'my_events_list' %}" class="list-group-item list-group-item-action bg-light">Мои заявки</a>
+        <a href="{% url 'my_events_list' %}" class="list-group-item list-group-item-action bg-light">Мои мероприятия</a>
         <a href="{% url 'conferences_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на ВКС</a>
         <a href="{% url 'bookings_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на помещения</a>
-        <a href="{% url 'events_archive_list' %}" class="list-group-item list-group-item-action bg-light">Архив</a>
+        <a href="{% url 'events_archive_list' %}" class="list-group-item list-group-item-action bg-light">Мой архив</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -87,9 +88,9 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="/static/vendor/jquery/jquery.min.js"></script>
-  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript" src="/static/main/js/base.js"></script>
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'main/js/base.js' %}"></script>
 
 </body>
 

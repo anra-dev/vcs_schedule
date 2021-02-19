@@ -17,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-  {% for conference in query_set %}
+  {% for conference in page_obj %}
     <tr class="table-light">
       <td>{{ conference.event.date|date:"d F Y" }}</td>
       <td>{{ conference.time_start|date:"H i" }} - {{ conference.time_end|date:"H i" }}</td>
@@ -30,5 +30,29 @@
   {% endfor %}
   </tbody>
 </table>
-
+{% if is_paginated %}
+  <nav aria-label="...">
+    <ul class="pagination justify-content-end">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">&laquo;</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a></li>
+      {% endif %}
+      {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+          <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
 {% endblock content %}

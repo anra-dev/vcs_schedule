@@ -1,6 +1,6 @@
 from django.views import View
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 
 from .forms import LoginForm
 
@@ -14,7 +14,7 @@ class LoginView(View):
         context = {
             'form': form,
         }
-        return render(request, 'login.html', context)
+        return render(request, 'accounts/login.html', context)
 
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST or None)
@@ -24,7 +24,7 @@ class LoginView(View):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('/')
+                return redirect(reverse('events_list'))
         context = {
             'form': form,
         }

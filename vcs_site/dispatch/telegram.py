@@ -1,11 +1,6 @@
 import os
 import requests
 
-
-
-
-
-
 def send_telegram(text: str):
     token = os.getenv("TELEGRAM_API_TOKEN")
     url = "https://api.telegram.org/bot"
