@@ -70,8 +70,8 @@ class ConferenceAddForm(forms.ModelForm):
                 self.add_error('quota', my_default_errors['required'])
             elif not check_ability_to_create_conf(conf_id=conf_id, application=application, date=date,
                                                   time_start=time_start, time_end=time_end, quote=quota):
-                self.add_error('quota', 'Превышено количество пользователей (учитываются все уже назначенный '
-                                        'конференции). Измените количество участников или время проведения')
+                self.add_error('quota', f'Превышено количество лицензий! Максимальное число пользователей: '
+                                        f'{application.quota}')
         if type == 'external':
             if not link_to_event:
                 self.add_error('link_to_event', my_default_errors['required'])
@@ -132,7 +132,7 @@ class BookingAddForm(forms.ModelForm):
 
         # Количество участников не должно превышать вместимость комнаты
         if quota > room.quota:
-            self.add_error('quota', f'Количество участников превышает вместимость "{room.__str__()}"')
+            self.add_error('quota', f'Максимальное количество мест для этого помещения: {room.quota}')
         return self.cleaned_data
 
     class Meta:

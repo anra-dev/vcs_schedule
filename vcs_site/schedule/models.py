@@ -50,6 +50,8 @@ class Event(models.Model):
             return reverse('event_detail', kwargs={'event_id': self.id})
         return '/'
 
+    class Meta:
+        ordering = ['-date']
 
 class Conference(models.Model):
 
@@ -103,6 +105,9 @@ class Conference(models.Model):
     def get_redirect_url_for_mixin(self):
         return reverse('event_detail', kwargs={'event_id': self.event.id})
 
+    class Meta:
+        ordering = ['-date']
+
 
 class Booking(models.Model):
 
@@ -139,6 +144,9 @@ class Booking(models.Model):
 
     def get_redirect_url_for_mixin(self):
         return reverse('event_detail', kwargs={'event_id': self.event.id})
+
+    class Meta:
+        ordering = ['-date']
 
 
 class Organization(models.Model):

@@ -1,26 +1,32 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views.generic import DetailView, ListView, ArchiveIndexView
 
 from .models import Event, Staffer
 
 
-class ObjectsListMixin:
-
-    model = None
-    template = None
-    order_by = 'id'
+class ObjectsListMixin(ListView):
+    paginate_by = 7
     filter_status = False
     filter_staffer = False
+    staffer = None
 
-    def get(self, request,):
+    def get_queryset(self):
+        queryset = super().get_queryset()
         kwargs = {}
         if self.filter_status:
             kwargs['status__in'] = self.filter_status
         if self.filter_staffer:
-            staffer = Staffer.objects.get(user=request.user)
-            kwargs['responsible'] = staffer
-        query_set = self.model.objects.filter(**kwargs).order_by(self.order_by)
-        return render(request, self.template, {'query_set': query_set})
+            kwargs['responsible'] = self.staffer
+        queryset = queryset.filter(**kwargs)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        self.staffer = Staffer.objects.get(user=request.user)
+        response = super().get(request, *args, **kwargs)
+        return response
+
+
 
 
 class ObjectDependentCreateMixin:
