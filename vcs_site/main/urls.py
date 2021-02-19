@@ -1,8 +1,6 @@
 from django.urls import path
-from django.contrib.auth.views import LogoutView
 from .views import (
     homepage,
-    LoginView,
     EventsListView,
     MyEventsListView,
     ConferencesListView,
@@ -43,7 +41,4 @@ urlpatterns = [
     path('event/<event_id>/add-booking/', BookingAddView.as_view(), name='add_booking'),
     path('edit-booking/<booking_id>/', BookingEditView.as_view(), name='edit_booking'),
     path('del-booking/<booking_id>/', BookingDeleteView.as_view(), name='del_booking'),
-
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
 ]

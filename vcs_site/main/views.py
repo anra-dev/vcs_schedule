@@ -1,10 +1,10 @@
 from django.views import View
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+
 
 from .models import Event, Conference, Booking, Organization, Staffer
-from .forms import EventAddForm, ConferenceAddForm, BookingAddForm, LoginForm
+from .forms import EventAddForm, ConferenceAddForm, BookingAddForm
 from .mixins import ObjectsListMixin, ObjectEditMixin, ObjectDeleteMixin, ObjectDependentCreateMixin
 
 
@@ -168,29 +168,3 @@ class BookingDeleteView(ObjectDeleteMixin, View):
     """
     model = Booking
 
-
-""" Представление АВТОРИЗАЦИИ """
-
-
-class LoginView(View):
-
-    def get(self, request, *args, **kwargs):
-        form = LoginForm(request.POST or None)
-        context = {
-            'form': form,
-        }
-        return render(request, 'login.html', context)
-
-    def post(self, request, *args, **kwargs):
-        form = LoginForm(request.POST or None)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('/')
-        context = {
-            'form': form,
-        }
-        return render(request, 'login.html', context)

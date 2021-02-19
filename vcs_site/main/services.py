@@ -46,7 +46,7 @@ def check_room_is_free(booking_id, room, date, time_start, time_end):
 @receiver(post_save, sender=Conference)
 @receiver(post_save, sender=Booking)
 def update_status_event(instance, **kwargs):
-    print('Сигнал', instance)
+    """Функция обновляет статус мероприятия"""
     event = instance.event
     conferences_status = [conf.status for conf in Conference.objects.filter(event=event)]
     bookings_status = [booking.status for booking in Booking.objects.filter(event=event)]
@@ -55,10 +55,10 @@ def update_status_event(instance, **kwargs):
     def _set_event_status(set_status: str):
         event.status = set_status
         event.save()
-    print(status)
+
     if 'rejection' in status:
         _set_event_status('rejection')
-    if status[1:] == status[:-1] and status[0] == 'wait':
+    if status[1:] == status[:-1] and status[0] == 'wait':  # Все элементы списка равны
         _set_event_status('wait')
     if status[1:] == status[:-1] and status[0] == 'ready':
         _set_event_status('ready')
