@@ -5,7 +5,7 @@ from django.views.generic import DetailView, ListView, ArchiveIndexView
 from .models import Event, Staffer
 
 
-class ObjectsListMixin(ListView):
+class CustomListView(ListView):
     paginate_by = 7
     filter_status = False
     filter_staffer = False
@@ -23,8 +23,7 @@ class ObjectsListMixin(ListView):
 
     def get(self, request, *args, **kwargs):
         self.staffer = Staffer.objects.get(user=request.user)
-        response = super().get(request, *args, **kwargs)
-        return response
+        return super().get(request, *args, **kwargs)
 
 
 class ObjectDependentCreateMixin:
@@ -63,6 +62,7 @@ class ObjectEditMixin:
         bound_form = self.form(request.POST or None, instance=obj)
         if bound_form.is_valid():
             new_obj = bound_form.save(commit=False)
+            new_obj.status = 'wait'
             new_obj.save()
             messages.add_message(request, messages.INFO, new_obj.MESSAGES['edit'])
             return redirect(new_obj.get_redirect_url_for_mixin())

@@ -52,11 +52,11 @@
 <table class="table">
   <tbody>
     <tr>
-      <th class="col-md-4">Время</th>
+      <th>Время</th>
       <td>начало: {{ conference.time_start|date:"H i" }}, окончание: {{ conference.time_end|date:"H i" }}</td>
     </tr>
     <tr>
-      <th class="col-md-4">Приложение</th>
+      <th>Приложение</th>
       <td>{{ conference.application }}({{ conference.get_type_display }})</td>
     </tr>
     <tr>
@@ -94,11 +94,11 @@
 <table class="table">
   <tbody>
     <tr>
-      <th class="col-md-4">Бронь</th>
+      <th>Бронь</th>
       <td>с {{ booking.time_start|date:"H i" }} по {{ booking.time_end|date:"H i" }}</td>
     </tr>
     <tr>
-      <th class="col-md-4">Адрес</th>
+      <th>Адрес</th>
       <td>{{ booking.room }}</td>
     </tr>
     <tr>

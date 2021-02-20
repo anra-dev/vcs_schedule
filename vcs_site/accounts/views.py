@@ -10,11 +10,16 @@ class LoginView(View):
     Представление аутентификации
     """
     def get(self, request, *args, **kwargs):
-        form = LoginForm(request.POST or None)
-        context = {
-            'form': form,
-        }
-        return render(request, 'accounts/login.html', context)
+        if request.user.is_authenticated:
+            # Пользователь авторизован.
+            return redirect(reverse('event_list'))
+        else:
+            # Анонимный пользователь.
+            form = LoginForm(request.POST or None)
+            context = {
+                'form': form,
+            }
+            return render(request, 'accounts/login.html', context)
 
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST or None)

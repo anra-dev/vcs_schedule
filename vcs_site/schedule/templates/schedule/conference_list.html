@@ -23,7 +23,9 @@
       <td>{{ conference.quota|default_if_none:'' }}</td>
       <td>{{ conference.event.organization }}</td>
       <td>{{ conference.event.responsible }}</td>
-      <td><button class="btn btn-success">Обработать</button></td>
+      <td>
+        <a class="btn btn-success" href="{% url 'conf-update' pk=conference.id %}" role="button">Обработать</a>
+      </td>
     </tr>
   {% endfor %}
   </tbody>

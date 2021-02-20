@@ -1,24 +1,5 @@
 from django.urls import path
-from .views import (
-    EventsListView,
-    MyEventsListView,
-    ConferencesListView,
-    BookingsListView,
-    ArchiveEventsListView,
-
-    EventDetailView,
-    EventAddView,
-    EventEditView,
-    EventDeleteView,
-
-    ConferenceAddView,
-    ConferenceEditView,
-    ConferenceDeleteView,
-
-    BookingAddView,
-    BookingEditView,
-    BookingDeleteView
-)
+from .views import *
 
 urlpatterns = [
     path('event-list/', EventsListView.as_view(), name='event_list'),
@@ -33,6 +14,7 @@ urlpatterns = [
     path('event/<event_id>/del-event', EventDeleteView.as_view(), name='del_event'),
 
     path('event/<event_id>/add-conference/', ConferenceAddView.as_view(), name='add_conference'),
+    path('conf/<int:pk>/', ConferenceUpdateView.as_view(), name='conf-update'),
     path('event/<event_id>/edit-conference/<conference_id>/', ConferenceEditView.as_view(), name='edit_conference'),
     path('event/<event_id>/del-conference/<conference_id>', ConferenceDeleteView.as_view(), name='del_conference'),
 

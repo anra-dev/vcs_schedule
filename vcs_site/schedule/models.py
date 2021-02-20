@@ -53,6 +53,7 @@ class Event(models.Model):
     class Meta:
         ordering = ['-date']
 
+
 class Conference(models.Model):
 
     MESSAGES = {
@@ -101,6 +102,9 @@ class Conference(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_WAIT
     )
+
+    def get_absolute_url(self):
+        return reverse('conference_list')
 
     def get_redirect_url_for_mixin(self):
         return reverse('event_detail', kwargs={'event_id': self.event.id})

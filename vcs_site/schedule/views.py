@@ -1,14 +1,14 @@
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import DetailView, ListView, ArchiveIndexView
+from django.views.generic import DetailView, ListView, ArchiveIndexView, UpdateView
 
 from .models import Event, Conference, Booking, Organization, Staffer
 from .forms import EventAddForm, ConferenceAddForm, BookingAddForm
-from .mixins import ObjectsListMixin, ObjectEditMixin, ObjectDeleteMixin, ObjectDependentCreateMixin
+from .mixins import CustomListView, ObjectEditMixin, ObjectDeleteMixin, ObjectDependentCreateMixin
 
 
-class EventsListView(ObjectsListMixin, View):
+class EventsListView(CustomListView):
     """
     ПРОСМОТР СПИСКА МЕРОПРИЯТИЙ
     """
@@ -16,7 +16,7 @@ class EventsListView(ObjectsListMixin, View):
     filter_status = ('wait', 'ready')
 
 
-class MyEventsListView(ObjectsListMixin, View):
+class MyEventsListView(CustomListView):
     """
     ПРОСМОТР СПИСКА МЕРОПРИЯТИЙ ПОЛЬЗОВАТЕЛЯ
     """
@@ -26,7 +26,7 @@ class MyEventsListView(ObjectsListMixin, View):
     filter_status = ('wait', 'ready', 'rejection')
 
 
-class ConferencesListView(ObjectsListMixin, View):
+class ConferencesListView(CustomListView):
     """
     ПРОСМОТР СПИСКА КОНФЕРЕНЦИЙ
     """
@@ -34,7 +34,7 @@ class ConferencesListView(ObjectsListMixin, View):
     filter_status = ('wait',)
 
 
-class BookingsListView(ObjectsListMixin, View):
+class BookingsListView(CustomListView):
     """
     ПРОСМОТР СПИСКА БРОНИ
     """
@@ -42,7 +42,7 @@ class BookingsListView(ObjectsListMixin, View):
     filter_status = ('wait',)
 
 
-class ArchiveEventsListView(ObjectsListMixin, View):
+class ArchiveEventsListView(CustomListView):
     """
     ПРОСМОТР СПИСКА ПРОШЕДШИХ МЕРОПРИЯТИЙ
     """
@@ -116,6 +116,30 @@ class ConferenceAddView(ObjectDependentCreateMixin, View):
     """
     form = ConferenceAddForm
     template = 'schedule/conference_add.html'
+
+
+class ConferenceUpdateView(UpdateView):
+    """
+    РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ ОПЕРАТОРОМ
+    """
+    model = Conference
+    fields = ['link_to_event']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['conference'] = self.object
+        return context
+
+    def form_valid(self, form):
+        if 'ready' in form.data:
+            if not form.cleaned_data['link_to_event']:
+                form.add_error('link_to_event', 'Невозможно завершить без ссылки')
+                return self.form_invalid(form)
+            else:
+                form.instance.status = 'ready'
+        elif 'rejection' in form.data:
+            form.instance.status = 'rejection'
+        return super(ConferenceUpdateView, self).form_valid(form)
 
 
 class ConferenceEditView(ObjectEditMixin, View):
