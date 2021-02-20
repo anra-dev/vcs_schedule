@@ -5,51 +5,53 @@
 <h1 class="mt-4">Заявки на помещения</h1>
 <table class="table text-center table-sm table-hover">
   <thead>
-    <tr>
-      <th scope="col">Дата и время</th>
-      <th scope="col">Адрес</th>
-      <th scope="col">Количество участников</th>
-      <th scope="col">Организация</th>
-      <th scope="col">Ответственный</th>
-      <th scope="col">Действие</th>
-    </tr>
+  <tr>
+    <th scope="col">Дата и время</th>
+    <th scope="col">Адрес</th>
+    <th scope="col">Количество участников</th>
+    <th scope="col">Организация</th>
+    <th scope="col">Ответственный</th>
+    <th scope="col">Действие</th>
+  </tr>
   </thead>
   <tbody>
   {% for booking in page_obj %}
-    <tr>
-      <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} <br> {{ booking.event.date|date:"d F Y" }}</td>
-      <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
-      <td>{{ booking.quota }}</td>
-      <td>{{ booking.event.organization }}</td>
-      <td>{{ booking.event.responsible }}</td>
-      <td><button class="btn btn-success">Обработать</button></td>
-    </tr>
+  <tr>
+    <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} <br> {{ booking.event.date|date:"d F Y" }}</td>
+    <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
+    <td>{{ booking.quota }}</td>
+    <td>{{ booking.event.organization }}</td>
+    <td>{{ booking.event.responsible }}</td>
+    <td>
+      <a class="btn btn-success" href="{% url 'booking_approve' pk=booking.pk %}" role="button">Обработать</a>
+    </td>
+  </tr>
   {% endfor %}
   </tbody>
 </table>
 {% if is_paginated %}
-  <nav aria-label="...">
-    <ul class="pagination justify-content-end">
-      {% if page_obj.has_previous %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">&laquo;</a>
-      </li>
-      {% else %}
-      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a></li>
-      {% endif %}
-      {% for i in paginator.page_range %}
-        {% if page_obj.number == i %}
-          <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-        {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-        {% endif %}
-      {% endfor %}
-      {% if page_obj.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-      {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
-      {% endif %}
-    </ul>
-  </nav>
+<nav aria-label="...">
+  <ul class="pagination justify-content-end">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">&laquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+    {% if page_obj.number == i %}
+    <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+    {% endif %}
+  </ul>
+</nav>
 {% endif %}
 {% endblock content %}

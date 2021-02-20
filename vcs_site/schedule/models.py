@@ -49,7 +49,7 @@ class Event(models.Model):
         return reverse('event_detail', kwargs={'event_id': self.id})
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['date']
 
 
 class Conference(models.Model):
@@ -101,6 +101,9 @@ class Conference(models.Model):
         default=STATUS_WAIT
     )
 
+    def __str__(self):
+        return f'Конференция "{self.application}" запланирована на {self.date} с {self.time_start} по {self.time_end}'
+
     def get_absolute_url(self):
         return reverse('conference_list')
 
@@ -108,7 +111,7 @@ class Conference(models.Model):
         return reverse('event_detail', kwargs={'event_id': self.event.id})
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['date']
 
 
 class Booking(models.Model):
@@ -144,11 +147,17 @@ class Booking(models.Model):
         default=STATUS_WAIT
     )
 
+    def __str__(self):
+        return f'[Помещение "{self.room}" забронировано на {self.date} с {self.time_start} по {self.time_end}'
+
+    def get_absolute_url(self):
+        return reverse('booking_list')
+
     def get_redirect_url_for_event_list(self):
         return reverse('event_detail', kwargs={'event_id': self.event.id})
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['date']
 
 
 class Organization(models.Model):

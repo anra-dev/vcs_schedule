@@ -141,11 +141,6 @@ class ConferenceApproveView(UpdateView):
     fields = ['link_to_event']
     template_name_suffix = '_approve'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['conference'] = self.object
-        return context
-
     def form_valid(self, form):
         if 'ready' in form.data:
             if not form.cleaned_data['link_to_event']:
@@ -181,10 +176,18 @@ class BookingDeleteView(CustomDeleteView):
     model = Booking
 
 
-class BookingApproveView(CustomUpdateView):
+class BookingApproveView(UpdateView):
     """
     РЕДАКТИРОВАНИЕ БРОНИ ОПЕРАТОРОМ
     """
     model = Booking
-    form_class = BookingAddForm
+    fields = []
+    template_name_suffix = '_approve'
+
+    def form_valid(self, form):
+        if 'ready' in form.data:
+            form.instance.status = 'ready'
+        elif 'rejection' in form.data:
+            form.instance.status = 'rejection'
+        return super().form_valid(form)
 

@@ -3,12 +3,7 @@
 
 
 {% block content %}
-<h1 class="mt-4">Видеоконференция "{{ conference.application }}"
-    {% if conference.status == 'wait' %}<span class="badge bg-warning">{{ conference.get_status_display  }}</span> {% endif %}
-    {% if conference.status == 'ready' %}<span class="badge bg-success">{{ conference.get_status_display  }}</span> {% endif %}
-    {% if conference.status == 'rejection' %}<span class="badge bg-danger">{{ conference.get_status_display  }}</span> {% endif %}
-    {% if conference.status == 'completed' %}<span class="badge bg-secondary">{{ conference.get_status_display  }}</span> {% endif %}
-</h1>
+<h1 class="mt-4">Видеоконференция "{{ conference.application }}"</h1>
 <table class="table">
     <tbody>
     <tr>
@@ -60,7 +55,7 @@
         <div align="right">
             <a class="btn btn-secondary" href="{% url 'conference_list' %}" role="button">Назад</a>
             <input type="submit" name="rejection" class="btn btn-danger" value="Отказать" >
-            <input type="submit" name="ready" class="btn btn-success" value="Готово">
+            <input type="submit" name="ready" class="btn btn-success" value="Подтвердить">
         </div>
     </form>
 </div>

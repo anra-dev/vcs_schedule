@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<h1 class="mt-4">Подтверждение бронирования помещения</h1>
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Мероприятие</th>
+        <td>{{ booking.event.name }}</td>
+    </tr>
+    <tr>
+        <th>Организация</th>
+        <td>{{ booking.event.organization }}</td>
+    </tr>
+    <tr>
+        <th>Время проведения</th>
+        <td>время: {{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }}, дата: {{ booking.event.date|date:"d F Y" }}</td>
+    </tr>
+    <tr>
+        <th>Помещение</th>
+        <td>{{ booking.room }}</td>
+    </tr>
+    <tr>
+        <th>Количество участников</th>
+        <td>{{ booking.quota}}</td>
+    </tr>
+    <tr>
+        <th>Ответственный специалист</th>
+        <td>{{ booking.event.responsible }}<hr>телефон: {{ booking.event.responsible.phone }}, email: {{ booking.event.responsible.email }}</td>
+    </tr>
+    <tr>
+        <th></th>
+        <td align="right">
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="col-md-8">
+    <form action=""  method="POST">
+        {% csrf_token %}
+        <div align="right">
+            <a class="btn btn-secondary" href="{% url 'booking_list' %}" role="button">Назад</a>
+            <input type="submit" name="rejection" class="btn btn-danger" value="Отказать" >
+            <input type="submit" name="ready" class="btn btn-success" value="Подтвердить">
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

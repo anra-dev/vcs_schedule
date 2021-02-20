@@ -19,7 +19,7 @@ urlpatterns = [
     path('conference-delete/<int:pk>', ConferenceDeleteView.as_view(), name='conference_delete'),
 
     path('event/<event_id>/add-booking/', BookingAddView.as_view(), name='add_booking'),
-    path('booking-approve/<int:pk>/', BookingUpdateView.as_view(), name='booking_approve'),
+    path('booking-approve/<int:pk>/', BookingApproveView.as_view(), name='booking_approve'),
     path('booking-update/<int:pk>/', BookingUpdateView.as_view(), name='booking_update'),
     path('booking-delete/<int:pk>/', BookingDeleteView.as_view(), name='booking_delete'),
 ]
