@@ -21,11 +21,11 @@ from .views import (
 )
 
 urlpatterns = [
-    path('events-list/', EventsListView.as_view(), name='events_list'),
-    path('my-events-list/', MyEventsListView.as_view(), name='my_events_list'),
-    path('conferences_list/', ConferencesListView.as_view(), name='conferences_list'),
-    path('bookings-list/', BookingsListView.as_view(), name='bookings_list'),
-    path('events-archive-list/', ArchiveEventsListView.as_view(), name='events_archive_list'),
+    path('event-list/', EventsListView.as_view(), name='event_list'),
+    path('my-event-list/', MyEventsListView.as_view(), name='my_event_list'),
+    path('conference_list/', ConferencesListView.as_view(), name='conference_list'),
+    path('booking-list/', BookingsListView.as_view(), name='booking_list'),
+    path('event-archive/', ArchiveEventsListView.as_view(), name='event_archive'),
 
     path('add-event/', EventAddView.as_view(), name='add_event'),
     path('event/<event_id>', EventDetailView.as_view(), name='event_detail'),

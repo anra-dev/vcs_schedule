@@ -27,8 +27,6 @@ class ObjectsListMixin(ListView):
         return response
 
 
-
-
 class ObjectDependentCreateMixin:
 
     form = None

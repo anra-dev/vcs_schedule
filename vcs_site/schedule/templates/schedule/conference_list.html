@@ -3,12 +3,11 @@
 
 {% block content %}
 
-<h1 class="mt-4">Необработанные заявки на видеоконференции</h1>
-<table class="table">
+<h1 class="mt-4">Заявки на конференции</h1>
+<table class="table text-center table-sm table-hover">
   <thead>
     <tr>
-      <th scope="col">Дата проведения</th>
-      <th scope="col">Время проведения</th>
+      <th scope="col">Дата и время</th>
       <th scope="col">Приложение</th>
       <th scope="col">Количество участников</th>
       <th scope="col">Организация</th>
@@ -18,14 +17,13 @@
   </thead>
   <tbody>
   {% for conference in page_obj %}
-    <tr class="table-light">
-      <td>{{ conference.event.date|date:"d F Y" }}</td>
-      <td>{{ conference.time_start|date:"H i" }} - {{ conference.time_end|date:"H i" }}</td>
+    <tr>
+      <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.event.date|date:"d F Y" }}</td>
       <td>{{ conference.application }}</td>
-      <td>{{ conference.quota }}</td>
+      <td>{{ conference.quota|default_if_none:'' }}</td>
       <td>{{ conference.event.organization }}</td>
       <td>{{ conference.event.responsible }}</td>
-      <td><button class="btn btn-success">Создать</button></td>
+      <td><button class="btn btn-success">Обработать</button></td>
     </tr>
   {% endfor %}
   </tbody>

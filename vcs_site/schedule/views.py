@@ -142,7 +142,6 @@ class BookingAddView(ObjectDependentCreateMixin, View):
     template = 'schedule/booking_add.html'
 
 
-
 class BookingEditView(ObjectEditMixin, View):
     """
     РЕДАКТИРОВАНИЕ БРОНИ

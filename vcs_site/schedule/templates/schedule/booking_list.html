@@ -2,12 +2,11 @@
 
 {% block content %}
 
-<h1 class="mt-4">Бронирование комнат</h1>
-<table class="table">
+<h1 class="mt-4">Заявки на помещения</h1>
+<table class="table text-center table-sm table-hover">
   <thead>
     <tr>
-      <th scope="col">Дата проведения</th>
-      <th scope="col">Время проведения</th>
+      <th scope="col">Дата и время</th>
       <th scope="col">Адрес</th>
       <th scope="col">Количество участников</th>
       <th scope="col">Организация</th>
@@ -17,14 +16,13 @@
   </thead>
   <tbody>
   {% for booking in page_obj %}
-    <tr class="table-light">
-      <td>{{ booking.event.date|date:"d F Y" }}</td>
-      <td>{{ booking.time_start|date:"H i" }} - {{ booking.time_end|date:"H i" }}</td>
+    <tr>
+      <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} <br> {{ booking.event.date|date:"d F Y" }}</td>
       <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
       <td>{{ booking.quota }}</td>
       <td>{{ booking.event.organization }}</td>
       <td>{{ booking.event.responsible }}</td>
-      <td><button class="btn btn-success">Принять в работу</button></td>
+      <td><button class="btn btn-success">Обработать</button></td>
     </tr>
   {% endfor %}
   </tbody>
