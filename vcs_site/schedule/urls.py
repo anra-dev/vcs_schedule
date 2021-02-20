@@ -22,4 +22,6 @@ urlpatterns = [
     path('booking-approve/<int:pk>/', BookingApproveView.as_view(), name='booking_approve'),
     path('booking-update/<int:pk>/', BookingUpdateView.as_view(), name='booking_update'),
     path('booking-delete/<int:pk>/', BookingDeleteView.as_view(), name='booking_delete'),
+
+    path('event/<int:pk>/grade/', GradeCreate.as_view(), name='grade')
 ]

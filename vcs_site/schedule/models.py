@@ -88,6 +88,7 @@ class Conference(models.Model):
     date = models.DateField(verbose_name='Дата проведения')
     time_start = models.TimeField(verbose_name='Время начала')
     time_end = models.TimeField(verbose_name='Время окончания')
+    created_at = models.DateTimeField(auto_now=True)
     type = models.CharField(
         max_length=100,
         verbose_name='Тип видеоконференции',
@@ -140,6 +141,7 @@ class Booking(models.Model):
     date = models.DateField(verbose_name='Дата проведения')
     time_start = models.TimeField(verbose_name='Время начала')
     time_end = models.TimeField(verbose_name='Время окончания')
+    created_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
         max_length=100,
         verbose_name='Статус бронирования',
@@ -164,6 +166,7 @@ class Organization(models.Model):
 
     name = models.CharField(max_length=255, verbose_name='Название организации')
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -176,6 +179,7 @@ class Room(models.Model):
     quota = models.PositiveIntegerField(verbose_name='Вместимость')
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
     applications = models.ManyToManyField('Application', verbose_name='Приложения', related_name='related_room')
+    created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.address} {self.room}'
@@ -187,6 +191,7 @@ class Application(models.Model):
     server_name = models.CharField(max_length=50, verbose_name='Имя сервера')
     quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -198,6 +203,31 @@ class Staffer(models.Model):
     name = models.CharField(max_length=255, verbose_name='ФИО')
     email = models.EmailField(verbose_name='Электронная почта')
     phone = models.CharField(max_length=100, verbose_name='Телефон')
+    created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+
+class Grade(models.Model):
+
+    GRADE_1 = 1
+    GRADE_2 = 2
+    GRADE_3 = 3
+    GRADE_4 = 4
+    GRADE_5 = 5
+
+    GRADE_CHOICES = (
+        (GRADE_1, 'Очень плохо'),
+        (GRADE_2, 'Плохо'),
+        (GRADE_3, 'Удовлетворительно'),
+        (GRADE_4, 'Хорошо'),
+        (GRADE_5, 'Отлично')
+    )
+
+    event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
+    created_by = models.ForeignKey('Staffer', verbose_name='Сотрудник', on_delete=models.CASCADE)
+    grade = models.SmallIntegerField(verbose_name='Оценка', choices=GRADE_CHOICES)
+    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now=True)
+

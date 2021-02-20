@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block content %}
 <h1 class="mt-4">Подтверждение бронирования помещения</h1>
@@ -30,15 +31,9 @@
         <th>Ответственный специалист</th>
         <td>{{ booking.event.responsible }}<hr>телефон: {{ booking.event.responsible.phone }}, email: {{ booking.event.responsible.email }}</td>
     </tr>
-    <tr>
-        <th></th>
-        <td align="right">
-
-        </td>
-    </tr>
     </tbody>
 </table>
-<div class="col-md-8">
+<div>
     <form action=""  method="POST">
         {% csrf_token %}
         <div align="right">

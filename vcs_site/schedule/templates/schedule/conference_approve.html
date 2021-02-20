@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block content %}
 <h1 class="mt-4">Видеоконференция "{{ conference.application }}"</h1>
@@ -46,9 +47,7 @@
     </tr>
     </tbody>
 </table>
-
-<h3 class="mt-4">Ссылка на видеоконференцию</h3>
-<div class="col-md-8">
+<div>
     <form action=""  method="POST">
         {% csrf_token %}
         {{ form|crispy }}

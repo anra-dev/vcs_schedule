@@ -4,6 +4,6 @@
 
 {% block bottom %}
 
-<a href="#" type="button" class="btn btn-success">Оценить</a>
+<a class="btn btn-success" href="{% url 'grade' pk=event.pk %}" role="button">Оценить</a>
 
 {% endblock bottom %}
