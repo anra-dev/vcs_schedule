@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import DetailView, ListView, ArchiveIndexView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, ArchiveIndexView, UpdateView, DeleteView
 
 from .models import Event, Staffer
 
@@ -26,6 +27,29 @@ class CustomListView(ListView):
         return super().get(request, *args, **kwargs)
 
 
+class CustomUpdateView(UpdateView):
+
+    def get_success_url(self):
+        return self.object.get_redirect_url_for_event_list()
+
+    def form_valid(self, form):
+        self.object.status = 'wait'
+        messages.add_message(self.request, messages.INFO, self.object.MESSAGES['edit'])
+        return super().form_valid(form)
+
+
+class CustomDeleteView(DeleteView):
+
+    def get_success_url(self):
+        if type(self.object) == Event:
+            return reverse_lazy('event_list')
+        return self.object.get_redirect_url_for_event_list()
+
+    def delete(self, request, *args, **kwargs):
+        messages.add_message(self.request, messages.INFO, self.get_object().MESSAGES['delete'])
+        return super().delete(request, *args, **kwargs)
+
+
 class ObjectDependentCreateMixin:
 
     form = None
@@ -42,42 +66,5 @@ class ObjectDependentCreateMixin:
             new_obj = bound_form.save(commit=False)
             new_obj.save()
             messages.add_message(request, messages.INFO, new_obj.MESSAGES['create'])
-            return redirect(new_obj.get_redirect_url_for_mixin())
+            return redirect(new_obj.get_redirect_url_for_event_list())
         return render(request, self.template, {'form': bound_form})
-
-
-class ObjectEditMixin:
-
-    model = None
-    form = None
-    template = None
-
-    def get(self, request, *args, **kwargs):
-        obj = self.model.objects.get(id=kwargs.get(str(self.model.__name__.lower()) + '_id'))
-        bound_form = self.form(request.POST or None, instance=obj)
-        return render(request, self.template, {'form': bound_form})
-
-    def post(self, request, *args, **kwargs):
-        obj = self.model.objects.get(id=kwargs.get(str(self.model.__name__.lower()) + '_id'))
-        bound_form = self.form(request.POST or None, instance=obj)
-        if bound_form.is_valid():
-            new_obj = bound_form.save(commit=False)
-            new_obj.status = 'wait'
-            new_obj.save()
-            messages.add_message(request, messages.INFO, new_obj.MESSAGES['edit'])
-            return redirect(new_obj.get_redirect_url_for_mixin())
-        return render(request, self.template, {'form': bound_form})
-
-
-class ObjectDeleteMixin:
-
-    model = None
-
-    def get(self, request, *args, **kwargs):
-        obj = self.model.objects.get(id=kwargs.get(str(self.model.__name__.lower()) + '_id'))
-        try:
-            obj.delete()
-        except:
-            pass
-        messages.add_message(request, messages.INFO, obj.MESSAGES['delete'])
-        return redirect(obj.get_redirect_url_for_mixin())

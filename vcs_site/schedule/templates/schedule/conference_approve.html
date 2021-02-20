@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<h1 class="mt-4">Видеоконференция "{{ conference.application }}"
+    {% if conference.status == 'wait' %}<span class="badge bg-warning">{{ conference.get_status_display  }}</span> {% endif %}
+    {% if conference.status == 'ready' %}<span class="badge bg-success">{{ conference.get_status_display  }}</span> {% endif %}
+    {% if conference.status == 'rejection' %}<span class="badge bg-danger">{{ conference.get_status_display  }}</span> {% endif %}
+    {% if conference.status == 'completed' %}<span class="badge bg-secondary">{{ conference.get_status_display  }}</span> {% endif %}
+</h1>
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Мероприятие</th>
+        <td>{{ conference.event.name }}</td>
+    </tr>
+    <tr>
+        <th>Организация</th>
+        <td>{{ conference.event.organization }}</td>
+    </tr>
+    <tr>
+        <th>Время проведения</th>
+        <td>время: {{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }}, дата: {{ conference.event.date|date:"d F Y" }}</td>
+    </tr>
+    <tr>
+        <th>Приложение</th>
+        <td>{{ conference.application }}({{ conference.get_type_display }})</td>
+    </tr>
+    {% if conference.quota %}
+    <tr>
+        <th>Количество участников</th>
+        <td>{{ conference.quota|default_if_none:'' }}</td>
+    </tr>
+    {% endif %}
+    {% if conference.link_to_event %}
+    <tr>
+        <th>Ссылка</th>
+        <td>{{ conference.link_to_event|default_if_none:'' }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <th>Ответственный специалист</th>
+        <td>{{ conference.event.responsible }}<hr>телефон: {{ conference.event.responsible.phone }}, email: {{ conference.event.responsible.email }}</td>
+    </tr>
+    <tr>
+        <th></th>
+        <td align="right">
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h3 class="mt-4">Ссылка на видеоконференцию</h3>
+<div class="col-md-8">
+    <form action=""  method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div align="right">
+            <a class="btn btn-secondary" href="{% url 'conference_list' %}" role="button">Назад</a>
+            <input type="submit" name="rejection" class="btn btn-danger" value="Отказать" >
+            <input type="submit" name="ready" class="btn btn-success" value="Готово">
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

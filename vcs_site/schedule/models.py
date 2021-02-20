@@ -45,10 +45,8 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'event_id': self.id})
 
-    def get_redirect_url_for_mixin(self):
-        if self.id:
-            return reverse('event_detail', kwargs={'event_id': self.id})
-        return '/'
+    def get_redirect_url_for_event_list(self):
+        return reverse('event_detail', kwargs={'event_id': self.id})
 
     class Meta:
         ordering = ['-date']
@@ -106,7 +104,7 @@ class Conference(models.Model):
     def get_absolute_url(self):
         return reverse('conference_list')
 
-    def get_redirect_url_for_mixin(self):
+    def get_redirect_url_for_event_list(self):
         return reverse('event_detail', kwargs={'event_id': self.event.id})
 
     class Meta:
@@ -146,7 +144,7 @@ class Booking(models.Model):
         default=STATUS_WAIT
     )
 
-    def get_redirect_url_for_mixin(self):
+    def get_redirect_url_for_event_list(self):
         return reverse('event_detail', kwargs={'event_id': self.event.id})
 
     class Meta:

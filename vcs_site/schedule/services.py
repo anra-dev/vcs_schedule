@@ -58,9 +58,9 @@ def update_status_event(instance, **kwargs):
 
     if 'rejection' in status:
         _set_event_status('rejection')
-    if status[1:] == status[:-1] and status[0] == 'wait':  # Все элементы списка равны
+    if 'wait' in status:
         _set_event_status('wait')
-    if status[1:] == status[:-1] and status[0] == 'ready':
+    if status[1:] == status[:-1] and status[0] == 'ready':  # Все элементы списка равны
         _set_event_status('ready')
     if status[1:] == status[:-1] and status[0] == 'completed':
         _set_event_status('completed')

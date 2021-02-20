@@ -10,15 +10,16 @@ urlpatterns = [
 
     path('add-event/', EventAddView.as_view(), name='add_event'),
     path('event/<event_id>', EventDetailView.as_view(), name='event_detail'),
-    path('event/<event_id>/edit-event/', EventEditView.as_view(), name='edit_event'),
-    path('event/<event_id>/del-event', EventDeleteView.as_view(), name='del_event'),
+    path('event-update/<int:pk>/', EventEditView.as_view(), name='event_update'),
+    path('event-delete/<int:pk>/', EventDeleteView.as_view(), name='event_delete'),
 
     path('event/<event_id>/add-conference/', ConferenceAddView.as_view(), name='add_conference'),
-    path('conf/<int:pk>/', ConferenceUpdateView.as_view(), name='conf-update'),
-    path('event/<event_id>/edit-conference/<conference_id>/', ConferenceEditView.as_view(), name='edit_conference'),
-    path('event/<event_id>/del-conference/<conference_id>', ConferenceDeleteView.as_view(), name='del_conference'),
+    path('conference-approve/<int:pk>/', ConferenceApproveView.as_view(), name='conference_approve'),
+    path('conference-update/<int:pk>/', ConferenceUpdateView.as_view(), name='conference_update'),
+    path('conference-delete/<int:pk>', ConferenceDeleteView.as_view(), name='conference_delete'),
 
     path('event/<event_id>/add-booking/', BookingAddView.as_view(), name='add_booking'),
-    path('edit-booking/<booking_id>/', BookingEditView.as_view(), name='edit_booking'),
-    path('del-booking/<booking_id>/', BookingDeleteView.as_view(), name='del_booking'),
+    path('booking-approve/<int:pk>/', BookingUpdateView.as_view(), name='booking_approve'),
+    path('booking-update/<int:pk>/', BookingUpdateView.as_view(), name='booking_update'),
+    path('booking-delete/<int:pk>/', BookingDeleteView.as_view(), name='booking_delete'),
 ]
