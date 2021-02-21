@@ -11,8 +11,8 @@
   {% if event.status == 'completed' %}<span class="badge bg-secondary">{{ event.get_status_display  }}</span> {% endif %}
 </h1>
 <div class="mt-4">
-  <a class="btn btn-primary" href="{% url 'add_conference' event_id=event.id %}" role="button">Добавить видеоконференцию</a>
-  <a class="btn btn-primary" href="{% url 'add_booking' event_id=event.id %}" role="button">Забронировать комнату</a>
+  <a class="btn btn-primary" href="{% url 'conference_create' pk=event.pk %}" role="button">Добавить видеоконференцию</a>
+  <a class="btn btn-primary" href="{% url 'booking_create' pk=event.pk %}" role="button">Забронировать комнату</a>
 </div>
 <p class="text text-right">Мероприятие создано: {{ event.created_at|date:"d F Y" }}</p>
 <table class="table">

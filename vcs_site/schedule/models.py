@@ -43,10 +43,10 @@ class Event(models.Model):
         return f'Мероприятие "{self.name}" запланировано на {self.date}'
 
     def get_absolute_url(self):
-        return reverse('event_detail', kwargs={'event_id': self.id})
+        return reverse('event_detail', kwargs={'pk': self.pk})
 
     def get_redirect_url_for_event_list(self):
-        return reverse('event_detail', kwargs={'event_id': self.id})
+        return self.get_absolute_url()
 
     class Meta:
         ordering = ['date']
@@ -56,7 +56,7 @@ class Conference(models.Model):
 
     MESSAGES = {
         'create': 'Видеоконференция создана!',
-        'edit': 'Видеоконференция изменена!',
+        'update': 'Видеоконференция изменена!',
         'delete': 'Видеоконференция удалена!'
     }
 
@@ -105,14 +105,15 @@ class Conference(models.Model):
     def __str__(self):
         return f'Конференция "{self.application}" запланирована на {self.date} с {self.time_start} по {self.time_end}'
 
-    def get_absolute_url(self):
+    @staticmethod
+    def get_absolute_url():
         return reverse('conference_list')
 
     def get_redirect_url_for_event_list(self):
-        return reverse('event_detail', kwargs={'event_id': self.event.id})
+        return reverse('event_detail', kwargs={'pk': self.event.pk})
 
     class Meta:
-        ordering = ['date']
+        ordering = ['date', 'time_start']
 
 
 class Booking(models.Model):
@@ -152,14 +153,15 @@ class Booking(models.Model):
     def __str__(self):
         return f'[Помещение "{self.room}" забронировано на {self.date} с {self.time_start} по {self.time_end}'
 
-    def get_absolute_url(self):
+    @staticmethod
+    def get_absolute_url():
         return reverse('booking_list')
 
     def get_redirect_url_for_event_list(self):
-        return reverse('event_detail', kwargs={'event_id': self.event.id})
+        return reverse('event_detail', kwargs={'pk': self.event.pk})
 
     class Meta:
-        ordering = ['date']
+        ordering = ['date', 'time_start']
 
 
 class Organization(models.Model):
@@ -199,7 +201,7 @@ class Application(models.Model):
 
 class Staffer(models.Model):
 
-    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)  # Потом переделать на OneToOneField on_delete = models.PROTECT
     name = models.CharField(max_length=255, verbose_name='ФИО')
     email = models.EmailField(verbose_name='Электронная почта')
     phone = models.CharField(max_length=100, verbose_name='Телефон')

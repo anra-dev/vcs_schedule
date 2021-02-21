@@ -1,13 +1,11 @@
-from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, DetailView, CreateView
 
 from .models import Event, Conference, Booking, Organization, Staffer, Grade
-from .forms import EventAddForm, ConferenceAddForm, BookingAddForm
-from .mixins import CustomListView, ObjectDependentCreateMixin, CustomUpdateView, CustomDeleteView
+from .forms import EventCreateForm, ConferenceCreateForm, BookingCreateForm, EventUpdateForm, ConferenceUpdateForm, BookingUpdateForm
+from .base import CustomListView, CustomCreateView, CustomUpdateView, CustomDeleteView
 
 
 class EventsListView(CustomListView):
@@ -53,55 +51,39 @@ class ArchiveEventsListView(CustomListView):
     template_name = 'schedule/event_archive.html'
 
 
-class EventDetailView(View):
+class EventDetailView(DetailView):
     """
     ПРОСМОТР ДЕТАЛЬНОГО ПРЕДСТАВЛЕНИЯ МЕРОПРИЯТИЙ
     """
-    def get(self, request, *args, **kwargs):
-        id = kwargs.get('event_id')
-        event = Event.objects.get(id=id)
-        conferences = Conference.objects.filter(event=event).order_by('time_start')
-        bookings = Booking.objects.filter(event=event).order_by('time_start')
-        context = {
-            'event': event,
-            'conferences': conferences,
-            'bookings': bookings
-        }
-        return render(request, 'schedule/event_detail.html', context)
+    model = Event
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['conferences'] = Conference.objects.filter(event=self.object)
+        context['bookings'] = Booking.objects.filter(event=self.object)
+        return context
 
 
-class EventAddView(View):
+class EventCreateView(CreateView):
     """
     СОЗДАНИЕ МЕРОПРИЯТИЙ
     """
-    def get(self, request, *args, **kwargs):
-        form = EventAddForm(request.POST or None)
-        context = {
-            'form': form
-        }
-        return render(request, 'schedule/event_form.html', context)
+    model = Event
+    form_class = EventCreateForm
 
-    def post(self, request, *args, **kwargs):
-        form = EventAddForm(request.POST or None)
-        if form.is_valid():
-            event = form.save(commit=False)
-            event.responsible = Staffer.objects.get(user=request.user)
-            event.organization = Organization.objects.get(responsible=event.responsible)
-            event.save()
-            messages.add_message(request, messages.INFO, event.MESSAGES['create'])
-            return redirect(event)
-        context = {
-            'form': form
-        }
-        return render(request, 'schedule/event_form.html', context)
+    def form_valid(self, form):
+        form.instance.responsible = Staffer.objects.get(user=self.request.user)
+        form.instance.organization = Organization.objects.get(responsible=form.instance.responsible)
+        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['create'])
+        return super().form_valid(form)
 
 
-class EventEditView(CustomUpdateView):
+class EventUpdateView(CustomUpdateView):
     """
     РЕДАКТИРОВАНИЕ МЕРОПРИЯТИЙ
     """
     model = Event
-    form_class = EventAddForm
+    form_class = EventUpdateForm
 
 
 class EventDeleteView(CustomDeleteView):
@@ -111,12 +93,12 @@ class EventDeleteView(CustomDeleteView):
     model = Event
 
 
-class ConferenceAddView(ObjectDependentCreateMixin, View):
+class ConferenceCreateView(CustomCreateView):
     """
     СОЗДАНИЕ  ВИДЕОКОНФЕРЕНЦИЙ
     """
-    form = ConferenceAddForm
-    template = 'schedule/conference_form.html'
+    model = Conference
+    form_class = ConferenceCreateForm
 
 
 class ConferenceUpdateView(CustomUpdateView):
@@ -124,7 +106,7 @@ class ConferenceUpdateView(CustomUpdateView):
     РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ
     """
     model = Conference
-    form_class = ConferenceAddForm
+    form_class = ConferenceUpdateForm
 
 
 class ConferenceDeleteView(CustomDeleteView):
@@ -154,12 +136,12 @@ class ConferenceApproveView(UpdateView):
         return super().form_valid(form)
 
 
-class BookingAddView(ObjectDependentCreateMixin, View):
+class BookingCreateView(CustomCreateView):
     """
     СОЗДАНИЕ БРОНИ
     """
-    form = BookingAddForm
-    template = 'schedule/booking_form.html'
+    model = Booking
+    form_class = BookingCreateForm
 
 
 class BookingUpdateView(CustomUpdateView):
@@ -167,7 +149,7 @@ class BookingUpdateView(CustomUpdateView):
     РЕДАКТИРОВАНИЕ БРОНИ
     """
     model = Booking
-    form_class = BookingAddForm
+    form_class = BookingUpdateForm
 
 
 class BookingDeleteView(CustomDeleteView):

@@ -10,7 +10,7 @@ my_default_errors = {
 }
 
 
-class EventAddForm(forms.ModelForm):
+class EventCreateForm(forms.ModelForm):
     """
     Форма для создания мероприятия
     """
@@ -36,7 +36,14 @@ class EventAddForm(forms.ModelForm):
         )
 
 
-class ConferenceAddForm(forms.ModelForm):
+class EventUpdateForm(EventCreateForm):
+    """
+    Форма для редактирования мероприятия
+    """
+    pass
+
+
+class ConferenceCreateForm(forms.ModelForm):
     """
     Форма для внутренней видеоконференции
     """
@@ -99,7 +106,14 @@ class ConferenceAddForm(forms.ModelForm):
             js = ('js/base.js',)
 
 
-class BookingAddForm(forms.ModelForm):
+class ConferenceUpdateForm(ConferenceCreateForm):
+    """
+    Форма для редактирования мероприятия
+    """
+    pass
+
+
+class BookingCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -149,3 +163,10 @@ class BookingAddForm(forms.ModelForm):
             'event': forms.HiddenInput(),
             'date': forms.HiddenInput(),
         }
+
+
+class BookingUpdateForm(BookingCreateForm):
+    """
+    Форма для редактирования мероприятия
+    """
+    pass

@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, ArchiveIndexView, UpdateView, DeleteView
+from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 
 from .models import Event, Staffer
 
@@ -34,11 +33,13 @@ class CustomUpdateView(UpdateView):
 
     def form_valid(self, form):
         self.object.status = 'wait'
-        messages.add_message(self.request, messages.INFO, self.object.MESSAGES['edit'])
+        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
 
 class CustomDeleteView(DeleteView):
+
+    template_name = 'schedule/object_confirm_delete.html'
 
     def get_success_url(self):
         if type(self.object) == Event:
@@ -50,21 +51,18 @@ class CustomDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class ObjectDependentCreateMixin:
+class CustomCreateView(CreateView):
 
-    form = None
-    template = None
+    def get_success_url(self):
+        return self.object.get_redirect_url_for_event_list()
 
-    def get(self, request, *args, **kwargs):
-        event = Event.objects.get(id=kwargs.get('event_id'))
-        bound_form = self.form(request.POST or None, initial={'event': event, 'date': event.date})
-        return render(request, self.template, {'form': bound_form})
+    def get_initial(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        event = Event.objects.get(pk=pk)
+        self.initial = {'event': event, 'date': event.date}
+        return super().get_initial()
 
-    def post(self, request, *args, **kwargs):
-        bound_form = self.form(request.POST or None)
-        if bound_form.is_valid():
-            new_obj = bound_form.save(commit=False)
-            new_obj.save()
-            messages.add_message(request, messages.INFO, new_obj.MESSAGES['create'])
-            return redirect(new_obj.get_redirect_url_for_event_list())
-        return render(request, self.template, {'form': bound_form})
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['create'])
+        return super().form_valid(form)
+
