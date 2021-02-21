@@ -104,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -136,4 +135,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Телеграм
 
-API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
+BOT_API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
+BOT_URL = "https://api.telegram.org/bot"
