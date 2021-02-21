@@ -1,5 +1,17 @@
 from django.db import models
+from schedule.models import Staffer
 
 
 class Message(models.Model):
-    pass
+
+    recipient = models.ManyToManyField(Staffer, verbose_name='Получатель', blank=True)
+    message = models.TextField(verbose_name='Сообщение', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.created_at
+
+    class Meta:
+        ordering = ['created_at']
+        verbose_name = 'Сообщение'
+        verbose_name_plural = 'Сообщения'
