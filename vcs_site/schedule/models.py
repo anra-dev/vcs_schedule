@@ -225,6 +225,9 @@ class Staffer(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)  # Потом переделать на OneToOneField on_delete = models.PROTECT
     name = models.CharField(max_length=255, verbose_name='ФИО')
     email = models.EmailField(verbose_name='Электронная почта')
+    subscribe_mail = models.BooleanField(verbose_name='Подписка на почтовую рассылку', default=False)
+    telegram = models.PositiveIntegerField(verbose_name='Телеграм чат-id')
+    subscribe_telegram = models.BooleanField(verbose_name='Подписка на рассылку в телеграм', default=False)
     phone = models.CharField(max_length=100, verbose_name='Телефон')
     created_at = models.DateTimeField(auto_now=True)
 
