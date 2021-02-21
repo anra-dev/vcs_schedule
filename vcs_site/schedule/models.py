@@ -222,7 +222,7 @@ class Application(models.Model):
 
 class Staffer(models.Model):
 
-    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)  # Потом переделать на OneToOneField on_delete = models.PROTECT
+    user = models.OneToOneField(User, verbose_name='Пользователь', on_delete=models.PROTECT)
     name = models.CharField(max_length=255, verbose_name='ФИО')
     email = models.EmailField(verbose_name='Электронная почта')
     subscribe_mail = models.BooleanField(verbose_name='Подписка на почтовую рассылку', default=False)
