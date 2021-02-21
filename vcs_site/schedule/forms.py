@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 
-from .models import Event, Conference, Booking
+from .models import Event, Conference, Booking, Application
 from .services import check_ability_to_create_conf, check_room_is_free
 
 
@@ -55,6 +55,7 @@ class ConferenceCreateForm(forms.ModelForm):
 
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
+    application = forms.ModelChoiceField(queryset=Application.objects.all())
 
     def clean(self):
         """Валидация формы"""

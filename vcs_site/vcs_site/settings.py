@@ -135,5 +135,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Телеграм
 
-BOT_API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
+BOT_API_TOKEN = "1356425409:AAF0kVOWFSnd5LOclwwc6NfbVpcqP0C389o"
 BOT_URL = "https://api.telegram.org/bot"

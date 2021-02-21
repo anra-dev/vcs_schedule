@@ -15,11 +15,10 @@ def send_telegram_message(message, chat_id):
          "chat_id": chat_id,
          "text": message
           })
-    print('Отправил сообщение:', request.json)
+    print('Отправил сообщение на :', full_url)
     print('Статус:', request.status_code)
     if request.status_code != 200:
         raise Exception("post_text error")
-
 
 
 def send_telegram(text: str):
@@ -27,14 +26,12 @@ def send_telegram(text: str):
     url = "https://api.telegram.org/bot"
     channel_id = "325848334"
     url += token
-    action = {'send': "/sendMessage"}
+    action = {'1': "/sendMessage"}
     method = url + action['1']
-
     r = requests.post(method, data={
          "chat_id": channel_id,
          "text": text
           })
-    print(r.json)
     if r.status_code != 200:
         raise Exception("post_text error")
 

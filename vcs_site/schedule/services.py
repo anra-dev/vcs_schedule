@@ -25,7 +25,7 @@ def check_ability_to_create_conf(conf_id, application, date, time_start, time_en
         qty_lic = Conference.objects.filter(date=date, application=application, type='local', time_start__lte=point,
                                             time_end__gt=point).exclude(pk=conf_id).aggregate(Sum('quota'))
         qty_lic_in_pont.append(qty_lic['quota__sum'])
-    lic = Application.objects.get(name=application).quota
+    lic = application.quota
     if qty_lic_in_pont:
         quote += max(qty_lic_in_pont)
     return lic >= quote

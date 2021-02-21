@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 
+from dispatch.calling import send_out
 from .models import Event, Staffer
 
 
@@ -33,6 +34,7 @@ class CustomUpdateView(UpdateView):
 
     def form_valid(self, form):
         self.object.status = 'wait'
+        send_out()
         messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
