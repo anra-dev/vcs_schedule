@@ -1,10 +1,11 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.contrib import messages
 from django.views.generic import UpdateView, DetailView, CreateView
 
 from .models import Event, Conference, Booking, Organization, Staffer, Grade
-from .forms import EventCreateForm, ConferenceCreateForm, BookingCreateForm, EventUpdateForm, ConferenceUpdateForm, BookingUpdateForm
+from .forms import (EventCreateForm, ConferenceCreateForm, BookingCreateForm, EventUpdateForm,
+                    ConferenceUpdateForm, BookingUpdateForm)
 from .base import CustomListView, CustomCreateView, CustomUpdateView, CustomDeleteView
 
 
@@ -133,6 +134,7 @@ class ConferenceApproveView(UpdateView):
                 form.instance.status = 'ready'
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
+        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
 
@@ -172,6 +174,7 @@ class BookingApproveView(UpdateView):
             form.instance.status = 'ready'
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
+        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
 
@@ -187,5 +190,6 @@ class GradeCreate(LoginRequiredMixin, CreateView):
         if Grade.objects.filter(event=form.instance.event, created_by=form.instance.created_by):
             form.add_error('', 'Оценить мероприятие можно только один раз')
             return self.form_invalid(form)
+        messages.add_message(self.request, messages.INFO, 'Спасибо за оценку!')
         return super().form_valid(form)
 

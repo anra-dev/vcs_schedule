@@ -50,6 +50,8 @@ class Event(models.Model):
 
     class Meta:
         ordering = ['date']
+        verbose_name = 'Мероприятие'
+        verbose_name_plural = 'Мероприятия'
 
 
 class Conference(models.Model):
@@ -114,6 +116,8 @@ class Conference(models.Model):
 
     class Meta:
         ordering = ['date', 'time_start']
+        verbose_name = 'Конференция'
+        verbose_name_plural = 'Конференции'
 
 
 class Booking(models.Model):
@@ -162,6 +166,8 @@ class Booking(models.Model):
 
     class Meta:
         ordering = ['date', 'time_start']
+        verbose_name = 'Бронирование'
+        verbose_name_plural = 'Бронирования'
 
 
 class Organization(models.Model):
@@ -172,6 +178,11 @@ class Organization(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Организация'
+        verbose_name_plural = 'Организации'
 
 
 class Room(models.Model):
@@ -186,6 +197,11 @@ class Room(models.Model):
     def __str__(self):
         return f'{self.address} {self.room}'
 
+    class Meta:
+        ordering = ['address']
+        verbose_name = 'Помещение'
+        verbose_name_plural = 'Помещения'
+
 
 class Application(models.Model):
 
@@ -196,7 +212,12 @@ class Application(models.Model):
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name } - {self.server_name}'
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Приложение'
+        verbose_name_plural = 'Приложения'
 
 
 class Staffer(models.Model):
@@ -209,6 +230,11 @@ class Staffer(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
 
 
 class Grade(models.Model):
@@ -232,4 +258,12 @@ class Grade(models.Model):
     grade = models.SmallIntegerField(verbose_name='Оценка', choices=GRADE_CHOICES)
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Оценку {self.grade} балов поставил(а) {self.created_by}'
+
+    class Meta:
+        ordering = ['created_at']
+        verbose_name = 'Оценка'
+        verbose_name_plural = 'Оценки'
 

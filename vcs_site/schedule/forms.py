@@ -4,6 +4,7 @@ import datetime
 from .models import Event, Conference, Booking
 from .services import check_ability_to_create_conf, check_room_is_free
 
+
 my_default_errors = {
     'required': 'Это поле обязательное',
     'invalid': 'Некореектное значение'
@@ -14,7 +15,6 @@ class EventCreateForm(forms.ModelForm):
     """
     Форма для создания мероприятия
     """
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['date'].label = 'Дата проведения'
@@ -40,12 +40,11 @@ class EventUpdateForm(EventCreateForm):
     """
     Форма для редактирования мероприятия
     """
-    pass
 
 
 class ConferenceCreateForm(forms.ModelForm):
     """
-    Форма для внутренней видеоконференции
+    Форма создания конференции
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -103,18 +102,19 @@ class ConferenceCreateForm(forms.ModelForm):
         }
 
         class Media:
-            js = ('js/base.js',)
+            js = ('js/base.js',)  # Проверят на проде
 
 
 class ConferenceUpdateForm(ConferenceCreateForm):
     """
     Форма для редактирования мероприятия
     """
-    pass
 
 
 class BookingCreateForm(forms.ModelForm):
-
+    """
+    Форма создания бронирования помещения
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['event'].widget.attrs['readonly'] = True
@@ -167,6 +167,6 @@ class BookingCreateForm(forms.ModelForm):
 
 class BookingUpdateForm(BookingCreateForm):
     """
-    Форма для редактирования мероприятия
+    Форма для редактирования бронирования помещения
     """
     pass
