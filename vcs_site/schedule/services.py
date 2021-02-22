@@ -58,12 +58,12 @@ def update_status_event(instance, **kwargs):
         event.save()
     if 'wait' in status:
         _set_event_status('wait')
-        #send_out_message(event)  # удалить
+        send_out_message(event)  # удалить
     if 'rejection' in status:
         _set_event_status('rejection')
     if status[1:] == status[:-1] and status[0] == 'ready':  # Все элементы списка равны
         _set_event_status('ready')
-        send_out_message(event)  # раскомментировать
+        #  send_out_message(event)  # раскомментировать
     if status[1:] == status[:-1] and status[0] == 'completed':
         _set_event_status('completed')
 

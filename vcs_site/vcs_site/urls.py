@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url=reverse_lazy('login')), name='home'),
     path('schedule/', include('schedule.urls')),
+    path('help/', include('help.urls')),
     path('accounts/', include('accounts.urls')),
 ]
 if settings.DEBUG:

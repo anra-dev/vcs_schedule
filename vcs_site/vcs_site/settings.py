@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from .key import EMAIL_HOST_PASSWORD, BOT_API_TOKEN
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'schedule',
     'accounts',
     'dispatch',
+    'help',
     'crispy_forms',
 ]
 
@@ -135,5 +137,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Телеграм
 
-BOT_API_TOKEN = "1356425409:AAF0kVOWFSnd5LOclwwc6NfbVpcqP0C389o"
+BOT_API_TOKEN = BOT_API_TOKEN
 BOT_URL = "https://api.telegram.org/bot"
+
+# Телеграм
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'superlists.login.test@gmail.com'
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

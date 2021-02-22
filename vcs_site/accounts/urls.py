@@ -6,4 +6,6 @@ from .views import LoginView
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
+    path('settings/', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
+    path('history/', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
 ]
