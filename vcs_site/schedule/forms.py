@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 
-from .models import Event, Conference, Booking, Application
+from .models import Event, Conference, Booking
 from .services import check_ability_to_create_conf, check_room_is_free
 
 
@@ -102,7 +102,7 @@ class ConferenceCreateForm(forms.ModelForm):
         }
 
         class Media:
-            js = ('js/base.js',)  # Проверят на проде
+            js = ('js/base.js',)  # Проверять на проде
 
 
 class ConferenceUpdateForm(ConferenceCreateForm):
@@ -140,16 +140,14 @@ class BookingCreateForm(forms.ModelForm):
         without_conference = self.cleaned_data['without_conference']
         conference = self.cleaned_data['conference']
 
+        # Проверяем есть ли связанная конференция
         if without_conference:
             time_start = self.cleaned_data['time_start']
             time_end = self.cleaned_data['time_end']
+            self.cleaned_data['conference'] = None
         else:
-            print()
-            print()
-            print(conference.time_start)
-            time_start = self.cleaned_data['time_start'] = conference.time_start  # Не работает
+            time_start = self.cleaned_data['time_start'] = conference.time_start
             time_end = self.cleaned_data['time_end'] = conference.time_end
-
 
         # Начало должно быть раньше конца
         if time_start >= time_end:

@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 
-from dispatch.calling import send_out
 from .models import Event, Staffer
 
 
