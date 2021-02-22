@@ -131,15 +131,6 @@ class BookingCreateForm(forms.ModelForm):
                                                            required=False)
         self.fields['conference'].label = 'Конференция'
 
-    # def save(self, commit=False):
-    #     conference = self.cleaned_data['conference']
-    #     inst = super().save(commit=False)
-    #     if conference:
-    #         inst.time_start = conference.time_start
-    #         inst.time_end = conference.time_end
-    #     inst.save()
-    #     return inst
-
     def clean(self):
         """Валидация формы"""
         quota = self.cleaned_data['quota']
