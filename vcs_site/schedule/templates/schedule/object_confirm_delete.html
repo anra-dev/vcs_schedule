@@ -6,6 +6,7 @@
 <form method="post">{% csrf_token %}
     <p>Вы действительно хотите удалить объект "{{ object }}"?</p>
     <input type="submit" value="Да, удалить!">
+    <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
 </form>
 
 {% endblock content %}
