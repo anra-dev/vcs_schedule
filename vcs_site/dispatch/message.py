@@ -16,7 +16,7 @@ def get_message(event=None):
     message += f'----------------------------------\n'
     i = 1
     for conference in conferences:
-        message += f'Ссесия №{i}\n'
+        message += f'Сессия №{i}\n'
         message += f'время проведения с {conference.time_start} по  {conference.time_end}\n'
         message += f'Приложение:  {conference.application}\n'
         message += f'Ссылка: {conference.link_to_event}\n'
@@ -27,7 +27,7 @@ def get_message(event=None):
         message += f'----------------------------------\n'
         i += 1
     for booking in bookings:
-        message += f'Ссесия №{i}\n'
+        message += f'Сессия №{i}\n'
         message += f'время проведения с {booking.time_start} по  {booking.time_end}\n'
         message += f'Помещение {booking.room}\n'
         message += f'Ответственный сотрудник: {booking.room.responsible} \n'
@@ -42,7 +42,6 @@ def get_message(event=None):
         message += f'----------------------------------\n'
         i += 1
     return message
-
 
 
 def get_recipients(event=None):
