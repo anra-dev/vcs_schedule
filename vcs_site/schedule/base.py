@@ -34,7 +34,6 @@ class CustomUpdateView(UpdateView):
 
     def form_valid(self, form):
         self.object.status = 'wait'
-        send_out()
         messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
@@ -67,4 +66,5 @@ class CustomCreateView(CreateView):
     def form_valid(self, form):
         messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['create'])
         return super().form_valid(form)
+
 

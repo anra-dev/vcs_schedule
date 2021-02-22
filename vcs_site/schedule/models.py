@@ -10,7 +10,7 @@ class Event(models.Model):
 
     MESSAGES = {
         'create': 'Мероприятие создано!',
-        'edit': 'Мероприятие изменено!',
+        'update': 'Мероприятие изменено!',
         'delete': 'Мероприятие удалено!'
     }
 
@@ -124,7 +124,7 @@ class Booking(models.Model):
 
     MESSAGES = {
         'create': 'Бронирование создано!',
-        'edit': 'Бронирование изменено!',
+        'update': 'Бронирование изменено!',
         'delete': 'Бронирование удалено!'
     }
 
@@ -141,6 +141,9 @@ class Booking(models.Model):
     )
 
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
+    conference = models.ForeignKey('Conference', verbose_name='Конференция', null=True, blank=True,
+                                   on_delete=models.CASCADE)
+    without_conference = models.BooleanField(verbose_name='Без конференции', default=False)
     room = models.ForeignKey('Room', verbose_name='Место проведения', null=True, blank=True, on_delete=models.CASCADE)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     date = models.DateField(verbose_name='Дата проведения')

@@ -1,5 +1,4 @@
 $('#id_type').change(function () {
- console.log( "Запуск скрипта" );
       var optionSelected = $("option:selected", this);
       var valueSelected = $(this).val();
 
@@ -17,13 +16,9 @@ $('#id_type').change(function () {
             $('#id_link_to_event').prop('readonly', false)
             $('#id_link_to_event').val('')
             $('#id_link_to_event').css('background', 'white')
-      } else {
-        $('#id_rooms').parent().show();
-        $('#id_series').parent().show();
       }
     });
 $(document).ready(function () {
- console.log( "Запуск скрипта" );
       var valueSelected = $('#id_type').val();
 
       if (valueSelected === 'local') {
@@ -36,8 +31,5 @@ $(document).ready(function () {
             $('#id_quota').css('background', 'lightgray')
             $('#id_link_to_event').prop('readonly', false)
             $('#id_link_to_event').css('background', 'white')
-      } else {
-        $('#id_rooms').parent().show();
-        $('#id_series').parent().show();
       }
     });

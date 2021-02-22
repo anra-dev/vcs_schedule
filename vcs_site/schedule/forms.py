@@ -46,16 +46,15 @@ class ConferenceCreateForm(forms.ModelForm):
     """
     Форма создания конференции
     """
+    time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
+    time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['event'].widget.attrs['readonly'] = True
         self.fields['date'].widget.attrs['readonly'] = True
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-
-    time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
-    time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
-    application = forms.ModelChoiceField(queryset=Application.objects.all())
 
     def clean(self):
         """Валидация формы"""
@@ -116,24 +115,50 @@ class BookingCreateForm(forms.ModelForm):
     """
     Форма создания бронирования помещения
     """
+    time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=False)
+    time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=False)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['event'].widget.attrs['readonly'] = True
         self.fields['date'].widget.attrs['readonly'] = True
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
+        self.fields['conference'].label = 'Конференция'
+        self.fields['conference'].widget.attrs['required'] = False
+        self.event = self.initial['event']
+        self.fields['conference'] = forms.ModelChoiceField(queryset=Conference.objects.filter(event=self.event),
+                                                           required=False)
+        self.fields['conference'].label = 'Конференция'
 
-    time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
-    time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
+    # def save(self, commit=False):
+    #     conference = self.cleaned_data['conference']
+    #     inst = super().save(commit=False)
+    #     if conference:
+    #         inst.time_start = conference.time_start
+    #         inst.time_end = conference.time_end
+    #     inst.save()
+    #     return inst
 
     def clean(self):
         """Валидация формы"""
-        time_start = self.cleaned_data['time_start']
-        time_end = self.cleaned_data['time_end']
         quota = self.cleaned_data['quota']
         room = self.cleaned_data['room']
         date = self.cleaned_data['date']
         booking_id = self.instance.id
+        without_conference = self.cleaned_data['without_conference']
+        conference = self.cleaned_data['conference']
+
+        if without_conference:
+            time_start = self.cleaned_data['time_start']
+            time_end = self.cleaned_data['time_end']
+        else:
+            print()
+            print()
+            print(conference.time_start)
+            time_start = self.cleaned_data['time_start'] = conference.time_start  # Не работает
+            time_end = self.cleaned_data['time_end'] = conference.time_end
+
 
         # Начало должно быть раньше конца
         if time_start >= time_end:
@@ -155,6 +180,8 @@ class BookingCreateForm(forms.ModelForm):
         fields = (
             'event',
             'date',
+            'conference',
+            'without_conference',
             'room',
             'quota',
             'time_start',

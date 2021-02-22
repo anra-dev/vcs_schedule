@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block bottom_nav %}{% endblock bottom_nav %}
 
@@ -18,3 +19,7 @@
     </div>
 
 {% endblock content %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'main/js/booking.js' %}"></script>
+{% endblock script %}
