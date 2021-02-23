@@ -1,3 +1,4 @@
+import datetime
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -50,6 +51,19 @@ class ArchiveEventsListView(CustomListView):
     model = Event
     filter_status = ('completed',)
     template_name = 'schedule/event_archive.html'
+
+    def get_queryset(self):
+        bookings = Booking.objects.all()
+        conferences = Conference.objects.all()
+        for booking in bookings:
+            if booking.date < datetime.date.today():
+                booking.status = Booking.STATUS_COMPLETED
+                booking.save()
+        for conference in conferences:
+            if booking.date < datetime.date.today():
+                conference.status = Conference.STATUS_COMPLETED
+                conference.save()
+        return super().get_queryset()
 
 
 class EventDetailView(DetailView):
