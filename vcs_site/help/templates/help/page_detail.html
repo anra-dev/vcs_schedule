@@ -1,0 +1,14 @@
+{% extends "help/help_page.html" %}
+
+{% block content %}
+<h1 class="mt-4">{{ object.title }}</h1>
+
+<div>
+    {% autoescape off %}
+    {{ object.body_text }}
+    {% endautoescape %}
+</div>
+
+<p>Страница обновлена: {{ object.update_date|date:"D d F Y" }}</p>
+
+{% endblock content %}

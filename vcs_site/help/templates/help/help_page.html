@@ -1,25 +1,21 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block bottom_nav %}{% endblock bottom_nav %}
+{% block bottom_nav %}
+<a href="{% url 'event_list' %}" class="btn btn-primary " role="button">Вернутся на сайт</a>
+{% endblock bottom_nav %}
 
 {% block title %} Заголовок {% endblock title %}
 
 {% block sidebar_link %}
-	{% for page in page_list %}
-	<li>
-		<a href="{{ page.get_absolute_url }}">{{ page.title }}</a>
-	</li>
-	{% endfor %}
+{% for page in page_list %}
+<a href="{{ page.get_absolute_url }}" class="list-group-item list-group-item-action bg-light">{{ page.title }}</a>
+{% endfor %}
 {% endblock sidebar_link %}
 
 {% block content %}
-
-{% autoescape off %}
-{{ content }}
-{% endautoescape %}
-
-<p>
-	Страница обновлена: {{ last_updated|date:"D d F Y" }}
-</p>
-
+<div class="text-center">
+	<h1 class="mt-4">РЕГЛАМЕТЫ И ИНСТРУКЦИИ</h1>
+</div>
+<img src="{% static 'vcs.jpg' %}" class="img-fluid " alt="...">
 {% endblock content %}

@@ -24,16 +24,19 @@
   {% block sidebar %}
   <!-- Sidebar -->
   <div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="sidebar-heading">ГБУ ВО "ЦИТ ВО"</div>
-    {% block sidebar_link %}
+    <div class="sidebar-heading">
+      <img src="{% static 'image.png' %}" width="24" class="img-fluid " alt="...">
+      ГБУ ВО "ЦИТ ВО"
+    </div>
     <div class="list-group list-group-flush">
+      {% block sidebar_link %}
       <a href="{% url 'event_list' %}" class="list-group-item list-group-item-action bg-light">Все мероприятия</a>
       <a href="{% url 'my_event_list' %}" class="list-group-item list-group-item-action bg-light">Мои мероприятия</a>
       <a href="{% url 'conference_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на конференции</a>
       <a href="{% url 'booking_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на помещения</a>
       <a href="{% url 'event_archive' %}" class="list-group-item list-group-item-action bg-light">Мой архив</a>
+      {% endblock sidebar_link %}
     </div>
-    {% endblock sidebar_link %}
   </div>
   <!-- /#sidebar-wrapper -->
   {% endblock sidebar %}
@@ -55,7 +58,7 @@
             <a href="{% url 'help_index_page' %}" class="btn btn-secondary " role="button">Помощь</a>
           </li>
           <li class="nav-item ml-2">
-            <a href="{% url 'event_create' %}" class="btn btn-secondary " role="button">Настройки</a>
+            <a href="{% url 'settings' %}" class="btn btn-secondary " role="button">Настройки</a>
           </li>
           <li class="nav-item ml-2">
             {% if not request.user.is_authenticated %}
@@ -69,7 +72,7 @@
       </div>
     </nav>
     <div class="container-fluid row">
-      <div class="col-md-8">
+      <div class="col-md-8 ml-1">
         {% block content %}
 
         {% endblock content %}

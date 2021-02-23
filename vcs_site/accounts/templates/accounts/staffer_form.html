@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<h1 class="mt-4">Настройки аккаунта</h1>
+    <div class="col-md-8">
+        <form action=""  method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div align="right">
+                <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
+                <input type="submit" class="btn btn-success" value="Сохранить">
+            </div>
+        </form>
+    </div>
+{% endblock content %}
