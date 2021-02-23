@@ -127,9 +127,12 @@ class BookingCreateForm(forms.ModelForm):
         self.fields['conference'].label = 'Конференция'
         self.fields['conference'].widget.attrs['required'] = False
         self.event = self.initial['event']
-        self.fields['conference'] = forms.ModelChoiceField(queryset=Conference.objects.filter(event=self.event),
+        conference = Conference.objects.filter(event=self.event)
+        self.fields['conference'] = forms.ModelChoiceField(queryset=conference,
                                                            required=False)
         self.fields['conference'].label = 'Конференция'
+        if not conference:
+            self.fields['without_conference'].initial = True
 
     def clean(self):
         """Валидация формы"""
