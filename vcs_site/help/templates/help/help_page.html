@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block bottom_nav %}
-<a href="{% url 'event_list' %}" class="btn btn-primary " role="button">Вернутся на сайт</a>
+<!--<a href="{% url 'event_list' %}" class="btn btn-primary " role="button">Вернутся на сайт</a>-->
+<a class="nav-link" href="{% url 'event_list' %}">Вернутся к  заявкам <span class="sr-only">(current)</span></a>
 {% endblock bottom_nav %}
 
 {% block title %} Заголовок {% endblock title %}
