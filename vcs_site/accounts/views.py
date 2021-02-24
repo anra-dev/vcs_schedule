@@ -26,9 +26,9 @@ class SettingsView(UpdateView):
     def form_valid(self, form):  # Переписать так что бы показывало обе ошибки одновременно если они есть
         if form.cleaned_data['subscribe_mail'] and not form.cleaned_data['email']:
             form.add_error('email', 'Заполните поле или отмените подписку')
-            return super().form_invalid(form)
         if form.cleaned_data['subscribe_telegram'] and not form.cleaned_data['telegram']:
             form.add_error('telegram', 'Заполните поле или отмените подписку')
+        if form.errors:
             return super().form_invalid(form)
         return super().form_valid(form)
 

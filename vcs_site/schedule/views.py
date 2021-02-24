@@ -57,12 +57,14 @@ class ArchiveEventsListView(CustomListView):
         conferences = Conference.objects.all()
         for booking in bookings:
             if booking.date < datetime.date.today():
-                booking.status = Booking.STATUS_COMPLETED
-                booking.save()
+                if booking.status != Booking.STATUS_COMPLETED:
+                    booking.status = Booking.STATUS_COMPLETED
+                    booking.save()
         for conference in conferences:
             if booking.date < datetime.date.today():
-                conference.status = Conference.STATUS_COMPLETED
-                conference.save()
+                if conference.status != Conference.STATUS_COMPLETED:
+                    conference.status = Conference.STATUS_COMPLETED
+                    conference.save()
         return super().get_queryset()
 
 
