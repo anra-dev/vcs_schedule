@@ -17,13 +17,10 @@ class CustomListView(ListView):
         if self.filter_status:
             kwargs['status__in'] = self.filter_status
         if self.filter_staffer:
-            kwargs['responsible'] = self.staffer
+            staffer = Staffer.objects.get(user=self.request.user)
+            kwargs['responsible'] = staffer
         queryset = queryset.filter(**kwargs)
         return queryset
-
-    def get(self, request, *args, **kwargs):
-        self.staffer = Staffer.objects.get(user=request.user)
-        return super().get(request, *args, **kwargs)
 
 
 class CustomCreateView(CreateView):

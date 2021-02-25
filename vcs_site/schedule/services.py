@@ -6,30 +6,29 @@ from dispatch.calling import send_out_message
 from .models import Conference, Booking
 
 
-def check_ability_to_create_conf(conf_id, application, date, time_start, time_end, quote):
+def check_free_quota(conf_id, application, date, time_start, time_end):
     """
-    Проверяет возможность проведения конференции в заданный интервал времени и возвращает True
-    если количество занятых лицензий на протежении всего промежутка времени
-    между time_start и time_end в сумме с запрашиваемой квотой не превышает базовое
-    количество лицензий  приложения application. При редактировании используется conf_id.
+    Вычисляет количество свободных лицензий в заданный интервал времени. НЕЙМИНГ АХТУНГ!!!!!
     """
-    # Создаем QuerySet - это мероприятия которые начинаются во время планируемого мероприятия. Исключаем текущее.
-    query_set = Conference.objects.filter(date=date, application=application, type='local',
+    quota = application.quota
+    # Это мероприятия которые начинаются во время планируемого мероприятия. Исключаем планируемое.
+    conf_list = Conference.objects.filter(date=date, application=application, type='local',
                                           time_start__gte=time_start, time_start__lt=time_end).exclude(pk=conf_id)
     # Квота изменяется в момент начала мероприятий. Выбираем точки
-    points = []
-    for obj in query_set:
-        points.append(obj.time_start)
+    points = [conf.time_start for conf in conf_list]
+    points.append(time_start)
     # Считаем квоту в точках
-    qty_lic_in_pont = []
+    spent_quota_list = []
     for point in set(points):
-        qty_lic = Conference.objects.filter(date=date, application=application, type='local', time_start__lte=point,
-                                            time_end__gt=point).exclude(pk=conf_id).aggregate(Sum('quota'))
-        qty_lic_in_pont.append(qty_lic['quota__sum'])
-    lic = application.quota
-    if qty_lic_in_pont:
-        quote += max(qty_lic_in_pont)
-    return lic >= quote
+        spent_quota = Conference.objects.filter(date=date, application=application, type='local', time_start__lte=point,
+                                                time_end__gt=point).exclude(pk=conf_id).aggregate(Sum('quota'))
+        spent_quota_list.append(spent_quota['quota__sum'])
+    spent_quota = max(spent_quota_list)
+    if not spent_quota:
+        return quota
+    if spent_quota >= quota:
+        return 0
+    return quota - spent_quota
 
 
 def check_room_is_free(booking_id, room, date, time_start, time_end):

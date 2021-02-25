@@ -23,7 +23,10 @@
     {% block sidebar %}
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">ГБУ ВО "ЦИТ ВО" </div>
+        <div class="sidebar-heading">
+            <img src="{% static 'image.png' %}" width="24" class="img-fluid mr -1" alt="...">
+            ГБУ ВО "ЦИТ ВО"
+        </div>
         <div class="list-group list-group-flush">
             {% block sidebar_link %}
             <a href="{% url 'event_list' %}" class="list-group-item list-group-item-action bg-light">Все мероприятия</a>
@@ -35,7 +38,7 @@
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
-    {% endblock sidebar %}
+
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
@@ -45,7 +48,7 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+{% endblock sidebar %}
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
@@ -79,7 +82,7 @@
         </nav>
 
         <div class="container-fluid">
-            <div>
+            <div class="mt-1">
                 <!-- Message -->
                 {% if messages %}
                 {% for message in messages %}

@@ -2,7 +2,7 @@ from django import forms
 import datetime
 
 from .models import Event, Conference, Booking
-from .services import check_ability_to_create_conf, check_room_is_free
+from .services import check_free_quota, check_room_is_free
 
 
 my_default_errors = {
@@ -74,10 +74,17 @@ class ConferenceCreateForm(forms.ModelForm):
         if type == 'local':
             if not quota:
                 self.add_error('quota', my_default_errors['required'])
-            elif not check_ability_to_create_conf(conf_id=conf_id, application=application, date=date,
-                                                  time_start=time_start, time_end=time_end, quote=quota):
-                self.add_error('quota', f'Превышено количество лицензий! Максимальное число пользователей: '
-                                        f'{application.quota}')
+            elif quota > application.quota:
+                self.add_error('quota', f'Превышено количество участников для данного приложения! '
+                                        f'Максимальное число пользователей: {application.quota}')
+            else:
+                free_quota = check_free_quota(conf_id=conf_id, application=application, date=date,
+                                              time_start=time_start, time_end=time_end)
+                if free_quota == 0:
+                    self.add_error('quota', f'Все лицензии заняты! Выберите другое время')
+                elif quota > free_quota:
+                    self.add_error('quota', f'Количество участников превышает количество свободных лицензий!'
+                                            f' На это время свободно всего {free_quota} лицензий')
         if type == 'external':
             if not link_to_event:
                 self.add_error('link_to_event', my_default_errors['required'])
