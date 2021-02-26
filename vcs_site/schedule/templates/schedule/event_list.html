@@ -20,7 +20,7 @@
                {% if event.status == 'ready' %} table-success {% endif %}
                {% if event.status == 'rejection' %} table-danger {% endif %}
                {% if event.status == 'completed' %} table-secondary {% endif %}">
-      <td>{{ event.date|date:"d F Y" }}</td>
+      <td>{{ event.date_start|date:"d F Y" }}{% if event.date_start != event.date_end %}-{{ event.date_end|date:"d F Y" }}{% endif %}</td>
       <td>{{ event.name }}</td>
       <td>
           {% if event.status == 'wait' %}<h4><span class="badge bg-warning">{{ event.get_status_display  }}</span></h4> {% endif %}

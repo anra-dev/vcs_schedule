@@ -22,10 +22,11 @@ def check_free_quota(conf_id, application, date, time_start, time_end):
     for point in set(points):
         spent_quota = Conference.objects.filter(date=date, application=application, type='local', time_start__lte=point,
                                                 time_end__gt=point).exclude(pk=conf_id).aggregate(Sum('quota'))
-        spent_quota_list.append(spent_quota['quota__sum'])
-    spent_quota = max(spent_quota_list)
-    if not spent_quota:
+        if spent_quota['quota__sum']:
+            spent_quota_list.append(spent_quota['quota__sum'])
+    if len(spent_quota_list) == 0:
         return quota
+    spent_quota = max(spent_quota_list)
     if spent_quota >= quota:
         return 0
     return quota - spent_quota
@@ -51,7 +52,7 @@ def update_status_event(instance, **kwargs):
     conferences_status = [conf.status for conf in Conference.objects.filter(event=event)]  # возможно лучше union()
     bookings_status = [booking.status for booking in Booking.objects.filter(event=event)]
     status = conferences_status + bookings_status
-
+    print('проверка')
     def _set_event_status(set_status: str):
         event.status = set_status
         event.save()
@@ -70,3 +71,16 @@ def update_status_event(instance, **kwargs):
 def set_status_archive(model, time):
     """Функция которая устанавливает статус Архивный для прошедших Конференций и Броней"""
     pass
+
+
+@receiver(post_save, sender=Conference)
+@receiver(post_save, sender=Booking)
+def update_date_event(instance, **kwargs):
+    """Функция обновляет статус мероприятия"""
+    event = instance.event
+    conferences_date = [conf.date for conf in Conference.objects.filter(event=event)]  # возможно лучше union()
+    bookings_date = [booking.date for booking in Booking.objects.filter(event=event)]
+    dates = conferences_date + bookings_date
+    event.date_start = min(dates)
+    event.date_end = max(dates)
+    event.save()

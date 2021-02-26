@@ -19,7 +19,7 @@
   <tbody>
     <tr>
       <th class="col-md-4">Дата проведения</th>
-      <td>{{ event.date|date:"d F Y" }}</td>
+      <td>{{ event.date_start|date:"d F Y" }}{% if event.date_start != event.date_end %}-{{ event.date_end|date:"d F Y" }}{% endif %}</td>
     </tr>
     <tr>
       <th>Организатор</th>
@@ -88,7 +88,7 @@
 
 {% if bookings %}
 {% for booking in bookings %}
-<h3 class="mt-4">Комната на {{ booking.room.capacity }} мест(а)
+<h3 class="mt-4">Комната на {{ booking.room.quota }} мест(а)
   {% if booking.status == 'wait' %}<span class="badge bg-warning">{{ booking.get_status_display  }}</span> {% endif %}
   {% if booking.status == 'ready' %}<span class="badge bg-success">{{ booking.get_status_display  }}</span> {% endif %}
   {% if booking.status == 'rejection' %}<span class="badge bg-danger">{{ booking.get_status_display  }}</span> {% endif %}

@@ -31,7 +31,7 @@ class CustomCreateView(CreateView):
     def get_initial(self):
         pk = self.kwargs.get(self.pk_url_kwarg)
         event = Event.objects.get(pk=pk)
-        self.initial = {'event': event, 'date': event.date}
+        self.initial = {'event': event}
         return super().get_initial()
 
     def form_valid(self, form):

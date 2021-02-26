@@ -30,7 +30,8 @@ class Event(models.Model):
     description = models.TextField(verbose_name='Описание')
     organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.CASCADE)
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
-    date = models.DateField(verbose_name='Дата проведения')
+    date_start = models.DateField(verbose_name='Дата начала мероприятия', null=True, blank=True)
+    date_end = models.DateField(verbose_name='Дата окончания мероприятия', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
         max_length=100,
@@ -49,7 +50,7 @@ class Event(models.Model):
         return self.get_absolute_url()
 
     class Meta:
-        ordering = ['date']
+        ordering = ['date_start']
         verbose_name = 'Мероприятие'
         verbose_name_plural = 'Мероприятия'
 

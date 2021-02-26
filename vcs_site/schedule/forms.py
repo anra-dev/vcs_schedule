@@ -17,22 +17,12 @@ class EventCreateForm(forms.ModelForm):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['date'].label = 'Дата проведения'
-
-    date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
-
-    def clean_date(self):
-        date = self.cleaned_data['date']
-        if date < datetime.date.today():
-            self.add_error('date', 'Некорректная дата')
-        return date
 
     class Meta:
         model = Event
         fields = (
             'name',
             'description',
-            'date',
         )
 
 
@@ -46,13 +36,14 @@ class ConferenceCreateForm(forms.ModelForm):
     """
     Форма создания конференции
     """
+    date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['event'].widget.attrs['readonly'] = True
-        self.fields['date'].widget.attrs['readonly'] = True
+        self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
 
@@ -94,18 +85,17 @@ class ConferenceCreateForm(forms.ModelForm):
         model = Conference
         fields = (
             'event',
-            'date',
             'application',
             'type',
             'quota',
             'link_to_event',
             'application',
+            'date',
             'time_start',
             'time_end',
         )
         widgets = {
             'event': forms.HiddenInput(),
-            'date': forms.HiddenInput(),
         }
 
         class Media:
@@ -122,21 +112,21 @@ class BookingCreateForm(forms.ModelForm):
     """
     Форма создания бронирования помещения
     """
+    date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=False)
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=False)
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['event'].widget.attrs['readonly'] = True
-        self.fields['date'].widget.attrs['readonly'] = True
+        self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
         self.fields['conference'].label = 'Конференция'
         self.fields['conference'].widget.attrs['required'] = False
         self.event = self.initial['event']
         conference = Conference.objects.filter(event=self.event)
-        self.fields['conference'] = forms.ModelChoiceField(queryset=conference,
-                                                           required=False)
+        self.fields['conference'] = forms.ModelChoiceField(queryset=conference, required=False)
         self.fields['conference'].label = 'Конференция'
         if not conference:
             self.fields['without_conference'].initial = True
@@ -145,17 +135,18 @@ class BookingCreateForm(forms.ModelForm):
         """Валидация формы"""
         quota = self.cleaned_data['quota']
         room = self.cleaned_data['room']
-        date = self.cleaned_data['date']
         booking_id = self.instance.id
         without_conference = self.cleaned_data['without_conference']
         conference = self.cleaned_data['conference']
 
         # Проверяем есть ли связанная конференция
         if without_conference:
+            date = self.cleaned_data['date']
             time_start = self.cleaned_data['time_start']
             time_end = self.cleaned_data['time_end']
             self.cleaned_data['conference'] = None
         else:
+            date = self.cleaned_data['date'] = conference.date
             time_start = self.cleaned_data['time_start'] = conference.time_start
             time_end = self.cleaned_data['time_end'] = conference.time_end
 
@@ -178,17 +169,16 @@ class BookingCreateForm(forms.ModelForm):
         model = Booking
         fields = (
             'event',
-            'date',
             'conference',
             'without_conference',
             'room',
             'quota',
+            'date',
             'time_start',
             'time_end',
         )
         widgets = {
             'event': forms.HiddenInput(),
-            'date': forms.HiddenInput(),
         }
 
 
