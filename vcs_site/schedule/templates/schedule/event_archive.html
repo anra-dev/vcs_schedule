@@ -4,6 +4,7 @@
 
 {% block bottom %}
 
+<a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a>
 <a class="btn btn-success" href="{% url 'grade' pk=event.pk %}" role="button">Оценить</a>
 
 {% endblock bottom %}

@@ -1,8 +1,12 @@
+from datetime import date
+
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 
-from .models import Event, Staffer
+from .models import Event, Staffer, Conference, Booking
+
+today = date.today()
 
 
 class CustomListView(ListView):
@@ -13,6 +17,7 @@ class CustomListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        self.set_status_completed(queryset)
         kwargs = {}
         if self.filter_status:
             kwargs['status__in'] = self.filter_status
@@ -21,6 +26,20 @@ class CustomListView(ListView):
             kwargs['responsible'] = staffer
         queryset = queryset.filter(**kwargs)
         return queryset
+
+    def set_status_completed(self, queryset):
+        if self.model == Event:
+            completed_list = queryset.filter(date_end__lt=today, status__in=['wait', 'ready', 'rejection'])
+            if completed_list:
+                conference = Conference.objects.filter(event__in=completed_list)
+                booking = Booking.objects.filter(event__in=completed_list)
+                conference.update(status='completed')
+                booking.update(status='completed')
+                completed_list.update(status='completed')
+        if self.model in [Conference, Booking]:
+            completed_list = queryset.filter(date__lt=today, status__in=['wait', 'ready', 'rejection'])
+            if completed_list:
+                completed_list.update(status='completed')
 
 
 class CustomCreateView(CreateView):

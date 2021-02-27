@@ -86,10 +86,9 @@ def update_date_event(instance, **kwargs):
     event.save()
 
 
-# @receiver(post_init, sender=Conference)
-# def update_status_conference(instance, **kwargs):
-#     """Функция обновляет статус мероприятия"""
-#     print('call')
-#     instance.status = instance.STATUS_WAIT
-#     instance.save()
+def set_status_completed(queryset):
+    """Функция обновляет статус мероприятия"""
+    print('call')
+    instance.status = instance.STATUS_WAIT
+    instance.save()
 
