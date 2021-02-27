@@ -161,7 +161,7 @@ class Booking(models.Model):
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
 
     def __str__(self):
-        return f'[Помещение "{self.room}" забронировано на {self.date} с {self.time_start} по {self.time_end}'
+        return f'Помещение "{self.room}" забронировано на {self.date} с {self.time_start} по {self.time_end}'
 
     @staticmethod
     def get_absolute_url():

@@ -86,9 +86,3 @@ def update_date_event(instance, **kwargs):
     event.save()
 
 
-def set_status_completed(queryset):
-    """Функция обновляет статус мероприятия"""
-    print('call')
-    instance.status = instance.STATUS_WAIT
-    instance.save()
-
