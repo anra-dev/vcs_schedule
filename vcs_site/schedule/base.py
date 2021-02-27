@@ -4,9 +4,21 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 
+from help.models import Page
 from .models import Event, Staffer, Conference, Booking
 
 today = date.today()
+
+
+class HelpMixin:
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['help'] = Page.objects.get(slug=self.model.__name__.lower())
+        except:
+            pass
+        return context
 
 
 class CustomListView(ListView):
@@ -42,7 +54,7 @@ class CustomListView(ListView):
                 completed_list.update(status='completed')
 
 
-class CustomCreateView(CreateView):
+class CustomCreateView(HelpMixin, CreateView):
 
     def get_success_url(self):
         return self.object.get_redirect_url_for_event_list()
@@ -81,3 +93,4 @@ class CustomDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.add_message(self.request, messages.INFO, self.get_object().MESSAGES['delete'])
         return super().delete(request, *args, **kwargs)
+

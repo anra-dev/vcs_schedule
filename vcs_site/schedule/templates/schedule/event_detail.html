@@ -2,159 +2,151 @@
 
 {% block bottom_nav %}{% endblock bottom_nav %}
 
-{% block content %}
-<div class="row">
-  <div class="col-6">
-    <h1 class="mt-4" >Мероприятие "{{ event.name }}"
-      {% if event.status == 'wait' %}<span class="badge bg-warning">{{ event.get_status_display  }}</span>
-      {% elif event.status == 'ready' %}<span class="badge bg-success">{{ event.get_status_display  }}</span>
-      {% elif event.status == 'rejection' %}<span class="badge bg-danger">{{ event.get_status_display  }}</span>
-      {% elif event.status == 'completed' %}<span class="badge bg-secondary">{{ event.get_status_display  }}</span>
-      {% endif %}
-    </h1>
-    <div class="mt-4">
-      <a class="btn btn-primary" href="{% url 'conference_create' pk=event.pk %}" role="button">Добавить видеоконференцию</a>
-      <a class="btn btn-primary" href="{% url 'booking_create' pk=event.pk %}" role="button">Забронировать комнату</a>
-    </div>
-    <p class="text text-right">Мероприятие обновлено: {{ event.created_at|date:"d F Y" }}</p>
-    <table class="table">
-      <tbody>
-      <tr>
-        <th class="col-3">Дата проведения</th>
-        <td>
-          {% if event.date_start == event.date_end %}{{ event.date_start|date:"d.m.Y" }}
-          {% else %}{{ event.date_start|date:"d.m" }}-{{ event.date_end|date:"d.m.Y" }}
-          {% endif %}
-        </td>
-      </tr>
-      <tr>
-        <th>Организатор</th>
-        <td>{{ event.organization }}</td>
-      </tr>
-      <tr>
-        <th>Описание</th>
-        <td>{{ event.description }}</td>
-      </tr>
-      <tr>
-        <th>Сотрудник ответственный за мероприятие</th>
-        <td>
-          {{ event.responsible }}<hr>
-          телефон: {{ event.responsible.phone }},
-          email: <a href="mailto:{{ event.responsible.email }}?subject={{ event }}">{{ event.responsible.email }}</a>
-        </td>
-      </tr>
-      <tr>
-        <th></th>
-        <td align="right">
-          <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
-          <a class="btn btn-success" href="{% url 'event_update' pk=event.pk %}" role="button">Изменить</a>
-          <a class="btn btn-danger" href="{% url 'event_delete' pk=event.pk %}" role="button">Удалить</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+{% block data %}
 
-    {% if conferences %}
-    {% for conference in conferences %}
-    <h3 class="mt-4">Видеоконференция "{{ conference.application }}"
-      {% if conference.status == 'wait' %}<span class="badge bg-warning">{{ conference.get_status_display  }}</span>
-      {% elif conference.status == 'ready' %}<span class="badge bg-success">{{ conference.get_status_display  }}</span>
-      {% elif conference.status == 'rejection' %}<span class="badge bg-danger">{{ conference.get_status_display  }}</span>
-      {% elif conference.status == 'completed' %}<span class="badge bg-secondary">{{ conference.get_status_display  }}</span>
-      {% endif %}
-    </h3>
-    <table class="table">
-      <tbody>
-      <tr>
-        <th class="col-3">Дата и время</th>
-        <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
-      </tr>
-      <tr>
-        <th>Приложение</th>
-        <td>{{ conference.application }}({{ conference.get_type_display }})</td>
-      </tr>
-      <tr>
-        <th>Количество участников</th>
-        <td>{{ conference.quota|default_if_none:'' }}</td>
-      </tr>
-      <tr>
-        <th>Ссылка</th>
-        <td>{{ conference.link_to_event|default_if_none:'' }}</td>
-      </tr>
-      <tr>
-        <th>Технический специалист</th>
-        <td>
-          {{ conference.application.responsible }}<hr>
-          телефон: {{ conference.application.responsible.phone }},
-          email: <a href="mailto:{{ conference.application.responsible.email }}?subject={{ conference }}">{{ conference.application.responsible.email }}</a>
-        </td>
-      </tr>
-      <tr>
-        <th></th>
-        <td align="right">
-          <a class="btn btn-success" href="{% url 'conference_update' pk=conference.pk %}" role="button">Изменить</a>
-          <a class="btn btn-danger" href="{% url 'conference_delete' pk=conference.pk %}" role="button">Удалить</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    {% endfor %}
-    {% endif %}
-
-    {% if bookings %}
-    {% for booking in bookings %}
-    <h3 class="mt-4">Комната на {{ booking.room.quota }} мест(а)
-      {% if booking.status == 'wait' %}<span class="badge bg-warning">{{ booking.get_status_display  }}</span>
-      {% elif booking.status == 'ready' %}<span class="badge bg-success">{{ booking.get_status_display  }}</span>
-      {% elif booking.status == 'rejection' %}<span class="badge bg-danger">{{ booking.get_status_display  }}</span>
-      {% elif booking.status == 'completed' %}<span class="badge bg-secondary">{{ booking.get_status_display  }}</span>
-      {% endif %}
-    </h3>
-    <table class="table">
-      <tbody>
-      <tr>
-        <th class="col-3">Дата и время</th>
-        <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} {{ booking.date|date:"d.m.Y" }}</td>
-      </tr>
-      <tr>
-        <th>Адрес</th>
-        <td>{{ booking.room }}</td>
-      </tr>
-      <tr>
-        <th>Количество участников</th>
-        <td>{{ booking.quota }}</td>
-      </tr>
-      {% if booking.conference.link_to_event %}
-      <tr>
-        <th>Ссылка на конференцию</th>
-        <td>{{ booking.conference.link_to_event }}</td>
-      </tr>
-      {% endif %}
-      <tr>
-        <th>Ассистент</th>
-        <td>
-          {{ booking.room.responsible }}<hr>
-          телефон: {{ booking.room.responsible.phone }},
-          email: <a href="mailto:{{ booking.room.responsible.email }}?subject={{ booking }}">{{ booking.room.responsible.email }}</a>
-        </td>
-      </tr>
-      <tr>
-        <th></th>
-        <td align="right">
-          <a class="btn btn-success" href="{% url 'booking_update' pk=booking.pk %}" role="button">Изменить</a>
-          <a class="btn btn-danger" href="{% url 'booking_delete' pk=booking.pk %}" role="button">Удалить</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    {% endfor %}
-    {% endif %}
-  </div>
-  <div>
-
-  </div>
-
+<h1 class="mt-4" >Мероприятие "{{ event.name }}"
+  {% if event.status == 'wait' %}<span class="badge bg-warning">{{ event.get_status_display  }}</span>
+  {% elif event.status == 'ready' %}<span class="badge bg-success">{{ event.get_status_display  }}</span>
+  {% elif event.status == 'rejection' %}<span class="badge bg-danger">{{ event.get_status_display  }}</span>
+  {% elif event.status == 'completed' %}<span class="badge bg-secondary">{{ event.get_status_display  }}</span>
+  {% endif %}
+</h1>
+<div class="mt-4">
+  <a class="btn btn-primary" href="{% url 'conference_create' pk=event.pk %}" role="button">Добавить видеоконференцию</a>
+  <a class="btn btn-primary" href="{% url 'booking_create' pk=event.pk %}" role="button">Забронировать комнату</a>
 </div>
+<p class="text text-right">Мероприятие обновлено: {{ event.created_at|date:"d F Y" }}</p>
+<table class="table">
+  <tbody>
+  <tr>
+    <th class="col-3">Дата проведения</th>
+    <td>
+      {% if event.date_start == event.date_end %}{{ event.date_start|date:"d.m.Y" }}
+      {% else %}{{ event.date_start|date:"d.m" }}-{{ event.date_end|date:"d.m.Y" }}
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <th>Организатор</th>
+    <td>{{ event.organization }}</td>
+  </tr>
+  <tr>
+    <th>Описание</th>
+    <td>{{ event.description }}</td>
+  </tr>
+  <tr>
+    <th>Сотрудник ответственный за мероприятие</th>
+    <td>
+      {{ event.responsible }}<hr>
+      телефон: {{ event.responsible.phone }},
+      email: <a href="mailto:{{ event.responsible.email }}?subject={{ event }}">{{ event.responsible.email }}</a>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <td align="right">
+      <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
+      <a class="btn btn-success" href="{% url 'event_update' pk=event.pk %}" role="button">Изменить</a>
+      <a class="btn btn-danger" href="{% url 'event_delete' pk=event.pk %}" role="button">Удалить</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
 
+{% if conferences %}
+{% for conference in conferences %}
+<h3 class="mt-4">Видеоконференция "{{ conference.application }}"
+  {% if conference.status == 'wait' %}<span class="badge bg-warning">{{ conference.get_status_display  }}</span>
+  {% elif conference.status == 'ready' %}<span class="badge bg-success">{{ conference.get_status_display  }}</span>
+  {% elif conference.status == 'rejection' %}<span class="badge bg-danger">{{ conference.get_status_display  }}</span>
+  {% elif conference.status == 'completed' %}<span class="badge bg-secondary">{{ conference.get_status_display  }}</span>
+  {% endif %}
+</h3>
+<table class="table">
+  <tbody>
+  <tr>
+    <th class="col-3">Дата и время</th>
+    <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
+  </tr>
+  <tr>
+    <th>Приложение</th>
+    <td>{{ conference.application }}({{ conference.get_type_display }})</td>
+  </tr>
+  <tr>
+    <th>Количество участников</th>
+    <td>{{ conference.quota|default_if_none:'' }}</td>
+  </tr>
+  <tr>
+    <th>Ссылка</th>
+    <td>{{ conference.link_to_event|default_if_none:'' }}</td>
+  </tr>
+  <tr>
+    <th>Технический специалист</th>
+    <td>
+      {{ conference.application.responsible }}<hr>
+      телефон: {{ conference.application.responsible.phone }},
+      email: <a href="mailto:{{ conference.application.responsible.email }}?subject={{ conference }}">{{ conference.application.responsible.email }}</a>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <td align="right">
+      <a class="btn btn-success" href="{% url 'conference_update' pk=conference.pk %}" role="button">Изменить</a>
+      <a class="btn btn-danger" href="{% url 'conference_delete' pk=conference.pk %}" role="button">Удалить</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+{% endfor %}
+{% endif %}
 
-{% endblock content %}
+{% if bookings %}
+{% for booking in bookings %}
+<h3 class="mt-4">Комната на {{ booking.room.quota }} мест(а)
+  {% if booking.status == 'wait' %}<span class="badge bg-warning">{{ booking.get_status_display  }}</span>
+  {% elif booking.status == 'ready' %}<span class="badge bg-success">{{ booking.get_status_display  }}</span>
+  {% elif booking.status == 'rejection' %}<span class="badge bg-danger">{{ booking.get_status_display  }}</span>
+  {% elif booking.status == 'completed' %}<span class="badge bg-secondary">{{ booking.get_status_display  }}</span>
+  {% endif %}
+</h3>
+<table class="table">
+  <tbody>
+  <tr>
+    <th class="col-3">Дата и время</th>
+    <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} {{ booking.date|date:"d.m.Y" }}</td>
+  </tr>
+  <tr>
+    <th>Адрес</th>
+    <td>{{ booking.room }}</td>
+  </tr>
+  <tr>
+    <th>Количество участников</th>
+    <td>{{ booking.quota }}</td>
+  </tr>
+  {% if booking.conference.link_to_event %}
+  <tr>
+    <th>Ссылка на конференцию</th>
+    <td>{{ booking.conference.link_to_event }}</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <th>Ассистент</th>
+    <td>
+      {{ booking.room.responsible }}<hr>
+      телефон: {{ booking.room.responsible.phone }},
+      email: <a href="mailto:{{ booking.room.responsible.email }}?subject={{ booking }}">{{ booking.room.responsible.email }}</a>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <td align="right">
+      <a class="btn btn-success" href="{% url 'booking_update' pk=booking.pk %}" role="button">Изменить</a>
+      <a class="btn btn-danger" href="{% url 'booking_delete' pk=booking.pk %}" role="button">Удалить</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+{% endfor %}
+{% endif %}
+
+{% endblock data %}

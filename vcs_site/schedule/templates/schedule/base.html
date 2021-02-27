@@ -5,3 +5,20 @@
 <a class="btn btn-secondary ml-2" href="{% url 'event_create' %}">Создать мероприятие <span class="sr-only">(current)</span></a>
 {% endblock bottom_nav %}
 
+{% block content %}
+<div class="row">
+  <div class="col-8">
+      {% block data %}
+      {% endblock data %}
+  </div>
+  <div class="col p-3">
+    <h3>{{ help.title }}</h3>
+    <div class="h-50 d-inline-block overflow-auto">
+      {% autoescape off %}
+      {{ help.body_text }}
+      {% endautoescape %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

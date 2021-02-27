@@ -4,22 +4,22 @@
 
 {% block bottom_nav %}{% endblock bottom_nav %}
 
-{% block content %}
+{% block data %}
 
 <h1 class="mt-4">Бронирование комнаты</h1>
-    <div class="col-md-8">
-        <form action=""  method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <div align="right">
-                <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
-                <input type="submit" class="btn btn-success" value="Сохранить">
-            </div>
-        </form>
-    </div>
+<div>
+    <form action=""  method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div align="right">
+            <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
+            <input type="submit" class="btn btn-success" value="Сохранить">
+        </div>
+    </form>
+</div>
 
-{% endblock content %}
+{% endblock data %}
 
 {% block script %}
-  <script type="text/javascript" src="{% static 'main/js/booking.js' %}"></script>
+<script type="text/javascript" src="{% static 'main/js/booking.js' %}"></script>
 {% endblock script %}
