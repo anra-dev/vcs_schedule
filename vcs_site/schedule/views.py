@@ -2,7 +2,7 @@ import datetime
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DetailView, CreateView
+from django.views.generic import UpdateView, DetailView, CreateView, ArchiveIndexView
 
 from .models import Event, Conference, Booking, Organization, Staffer, Grade
 from .forms import (EventCreateForm, ConferenceCreateForm, BookingCreateForm, EventUpdateForm,
@@ -44,28 +44,44 @@ class BookingsListView(CustomListView):
     filter_status = ('wait',)
 
 
-class ArchiveEventsListView(CustomListView):
+class ArchiveEventsListView(ArchiveIndexView):
     """
     ПРОСМОТР СПИСКА ПРОШЕДШИХ МЕРОПРИЯТИЙ
     """
     model = Event
-    filter_status = ('completed',)
-    template_name = 'schedule/event_archive.html'
+    date_field = 'date_end'
+    paginate_by = 7
+    #
+    # def get_queryset(self):
+    #     qs = super().get_queryset()
+    #     for item in qs:
+    #         item.status = self.model.STATUS_WAIT
+    #         item.save()
+    #
+    #     return qs
+    #
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     cd = super().get_context_data()
+    #     print('cd: ', cd)
+    #     return cd
 
-    def get_queryset(self):
-        bookings = Booking.objects.all()
-        conferences = Conference.objects.all()
-        for booking in bookings:
-            if booking.date < datetime.date.today():
-                if booking.status != Booking.STATUS_COMPLETED:
-                    booking.status = Booking.STATUS_COMPLETED
-                    booking.save()
-        for conference in conferences:
-            if booking.date < datetime.date.today():
-                if conference.status != Conference.STATUS_COMPLETED:
-                    conference.status = Conference.STATUS_COMPLETED
-                    conference.save()
-        return super().get_queryset()
+    #filter_status = ('completed',)
+    #template_name = 'schedule/event_archive.html'
+
+    # def get_queryset(self):
+    #     bookings = Booking.objects.all()
+    #     conferences = Conference.objects.all()
+    #     for booking in bookings:
+    #         if booking.date < datetime.date.today():
+    #             if booking.status != Booking.STATUS_COMPLETED:
+    #                 booking.status = Booking.STATUS_COMPLETED
+    #                 booking.save()
+    #     for conference in conferences:
+    #         if booking.date < datetime.date.today():
+    #             if conference.status != Conference.STATUS_COMPLETED:
+    #                 conference.status = Conference.STATUS_COMPLETED
+    #                 conference.save()
+    #     return super().get_queryset()
 
 
 class EventDetailView(DetailView):

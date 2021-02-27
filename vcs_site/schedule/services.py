@@ -1,5 +1,5 @@
 from django.db.models import Sum, Q
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_init
 from django.dispatch import receiver
 
 from dispatch.calling import send_out_message
@@ -52,7 +52,7 @@ def update_status_event(instance, **kwargs):
     conferences_status = [conf.status for conf in Conference.objects.filter(event=event)]  # возможно лучше union()
     bookings_status = [booking.status for booking in Booking.objects.filter(event=event)]
     status = conferences_status + bookings_status
-    print('проверка')
+
     def _set_event_status(set_status: str):
         event.status = set_status
         event.save()
@@ -76,7 +76,7 @@ def set_status_archive(model, time):
 @receiver(post_save, sender=Conference)
 @receiver(post_save, sender=Booking)
 def update_date_event(instance, **kwargs):
-    """Функция обновляет статус мероприятия"""
+    """Функция определяет и обновляет дату начала и конца мероприятия"""
     event = instance.event
     conferences_date = [conf.date for conf in Conference.objects.filter(event=event)]  # возможно лучше union()
     bookings_date = [booking.date for booking in Booking.objects.filter(event=event)]
@@ -84,3 +84,12 @@ def update_date_event(instance, **kwargs):
     event.date_start = min(dates)
     event.date_end = max(dates)
     event.save()
+
+
+# @receiver(post_init, sender=Conference)
+# def update_status_conference(instance, **kwargs):
+#     """Функция обновляет статус мероприятия"""
+#     print('call')
+#     instance.status = instance.STATUS_WAIT
+#     instance.save()
+

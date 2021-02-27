@@ -12,7 +12,7 @@ def get_message(event=None):
     message += f'Ответственный сотрудник: {event.responsible} \n'
     message += f'Телефон: {event.responsible.phone}, '
     message += f'электронная почта: {event.responsible.email} \n'
-    message += f'Дата проведения: {event.date} \n'
+    message += f'Дата проведения: {event.date_start}-{event.date_end} \n'
     message += f'----------------------------------\n'
     i = 1
     for conference in conferences:

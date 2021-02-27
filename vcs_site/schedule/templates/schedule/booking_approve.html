@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <th>Время проведения</th>
-        <td>время: {{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }}, дата: {{ booking.event.date|date:"d F Y" }}</td>
+        <td>время: {{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }}, дата: {{ booking.date|date:"d F Y" }}</td>
     </tr>
     <tr>
         <th>Помещение</th>
@@ -27,6 +27,12 @@
         <th>Количество участников</th>
         <td>{{ booking.quota}}</td>
     </tr>
+    {% if booking.conference.link_to_event %}
+    <tr>
+        <th>Ссылка на конференцию</th>
+        <td>{{ booking.conference.link_to_event }}</td>
+    </tr>
+    {% endif %}
     <tr>
         <th>Ответственный специалист</th>
         <td>{{ booking.event.responsible }}<hr>телефон: {{ booking.event.responsible.phone }}, email: {{ booking.event.responsible.email }}</td>

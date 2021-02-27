@@ -41,7 +41,7 @@ class Event(models.Model):
     )
 
     def __str__(self):
-        return f'Мероприятие "{self.name}" запланировано на {self.date}'
+        return f'Мероприятие "{self.name}" дата: {self.date_start}-{self.date_end}'
 
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'pk': self.pk})

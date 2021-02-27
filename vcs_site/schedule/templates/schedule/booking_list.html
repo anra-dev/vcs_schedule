@@ -17,7 +17,7 @@
   <tbody>
   {% for booking in page_obj %}
   <tr>
-    <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} <br> {{ booking.event.date|date:"d F Y" }}</td>
+    <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} <br> {{ booking.date|date:"d F Y" }}</td>
     <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
     <td>{{ booking.quota }}</td>
     <td>{{ booking.event.organization }}</td>
