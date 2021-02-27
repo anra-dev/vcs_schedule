@@ -104,6 +104,7 @@ class Conference(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_WAIT
     )
+    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
 
     def __str__(self):
         return f'Конференция "{self.application}" запланирована на {self.date} с {self.time_start} по {self.time_end}'
@@ -157,6 +158,7 @@ class Booking(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_WAIT
     )
+    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
 
     def __str__(self):
         return f'[Помещение "{self.room}" забронировано на {self.date} с {self.time_start} по {self.time_end}'
