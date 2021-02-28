@@ -114,6 +114,11 @@
   {% elif booking.status == 'completed' %}<span class="badge bg-secondary">{{ booking.get_status_display  }}</span>
   {% endif %}
 </h3>
+{% if booking.comment %}
+<div class="alert alert-danger" role="alert">
+  Причина отказа: {{ booking.comment }}
+</div>
+{% endif %}
 <table class="table">
   <tbody>
   <tr>
@@ -129,7 +134,7 @@
     <td>{{ booking.quota }}</td>
   </tr>
   {% if booking.conference.link_to_event %}
-  <tr>
+  <tr class="table-info">
     <th>Ссылка на конференцию</th>
     <td>{{ booking.conference.link_to_event }}</td>
   </tr>

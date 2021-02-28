@@ -167,12 +167,13 @@ class BookingApproveView(UpdateView):
     РЕДАКТИРОВАНИЕ БРОНИ ОПЕРАТОРОМ
     """
     model = Booking
-    fields = []
+    fields = ['comment']
     template_name_suffix = '_approve'
 
     def form_valid(self, form):
         if 'ready' in form.data:
             form.instance.status = 'ready'
+            form.instance.comment = None
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
         messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
