@@ -21,8 +21,8 @@
         <td>{{ conference.event.organization }}</td>
     </tr>
     <tr>
-        <th>Время проведения</th>
-        <td>время: {{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }}, дата: {{ conference.date|date:"d F Y" }}</td>
+        <th>Дата и время</th>
+        <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
     </tr>
     <tr>
         <th>Приложение</th>

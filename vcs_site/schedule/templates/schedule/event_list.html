@@ -5,65 +5,70 @@
 <h1 class="mt-4">{% block title %}Предстоящие мероприятия{% endblock title %}</h1>
 <table class="table text-center table-hover">
   <thead>
-    <tr>
-      <th scope="col">Время проведения</th>
-      <th scope="col">Наименование</th>
-      <th scope="col">Статус</th>
-      <th scope="col">Организатор</th>
-      <th scope="col">Ответственное лицо</th>
-      <th scope="col">Действие</th>
-    </tr>
+  <tr>
+    <th scope="col">Дата и время</th>
+    <th scope="col">Наименование</th>
+    <th scope="col">Статус</th>
+    <th scope="col">Организатор</th>
+    <th scope="col">Ответственное лицо</th>
+    <th scope="col">Действие</th>
+  </tr>
   </thead>
   <tbody>
   {% for event in page_obj %}
-    <tr class="{% if event.status == 'wait' %} table-warning {% endif %}
-               {% if event.status == 'ready' %} table-success {% endif %}
-               {% if event.status == 'rejection' %} table-danger {% endif %}
-               {% if event.status == 'completed' %} table-secondary {% endif %}">
-      <td>{{ event.date_start|date:"d F Y" }}{% if event.date_start != event.date_end %}-{{ event.date_end|date:"d F Y" }}{% endif %}</td>
-      <td>{{ event.name }}</td>
-      <td>
-          {% if event.status == 'wait' %}<h4><span class="badge bg-warning">{{ event.get_status_display  }}</span></h4> {% endif %}
-          {% if event.status == 'ready' %}<h4><span class="badge bg-success">{{ event.get_status_display  }}</span></h4> {% endif %}
-          {% if event.status == 'rejection' %}<h4><span class="badge bg-danger">{{ event.get_status_display  }}</span></h4> {% endif %}
-          {% if event.status == 'completed' %}<h4><span class="badge bg-secondary">{{ event.get_status_display  }}</span></h4> {% endif %}
-      </td>
-      <td>{{ event.organization }}</td>
-      <td>{{ event.responsible }}</td>
-      <!-- Button trigger modal -->
-      <td>
-        {% block bottom %}
-        <a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a>
-        {% endblock bottom %}
-      </td>
-    </tr>
+  <tr class="{% if event.status == 'wait' %} table-warning
+               {% elif event.status == 'ready' %} table-success
+               {% elif event.status == 'rejection' %} table-danger
+               {% elif event.status == 'completed' %} table-secondary {% endif %}">
+    <td>
+      {% if event.date_start == event.date_end %}{{ event.date_start|date:"d.m.Y" }}
+      {% else %}{{ event.date_start|date:"d.m" }}-{{ event.date_end|date:"d.m.Y" }}
+      {% endif %}
+    </td>
+    <td>{{ event.name }}</td>
+    <td>
+      {% if event.status == 'wait' %}<h4><span class="badge bg-warning">{{ event.get_status_display  }}</span></h4>
+      {% elif event.status == 'ready' %}<h4><span class="badge bg-success">{{ event.get_status_display  }}</span></h4>
+      {% elif event.status == 'rejection' %}<h4><span class="badge bg-danger">{{ event.get_status_display  }}</span></h4>
+      {% elif event.status == 'completed' %}<h4><span class="badge bg-secondary">{{ event.get_status_display  }}</span></h4>
+      {% endif %}
+    </td>
+    <td>{{ event.organization }}</td>
+    <td>{{ event.responsible }}</td>
+    <!-- Button trigger modal -->
+    <td>
+      {% block bottom %}
+      <a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a>
+      {% endblock bottom %}
+    </td>
+  </tr>
   {% endfor %}
   </tbody>
 </table>
 {% if is_paginated %}
-  <nav aria-label="...">
-    <ul class="pagination justify-content-end">
-      {% if page_obj.has_previous %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">&laquo;</a>
-      </li>
-      {% else %}
-      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a></li>
-      {% endif %}
-      {% for i in paginator.page_range %}
-        {% if page_obj.number == i %}
-          <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-        {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-        {% endif %}
-      {% endfor %}
-      {% if page_obj.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-      {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
-      {% endif %}
-    </ul>
-  </nav>
+<nav aria-label="...">
+  <ul class="pagination justify-content-end">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">&laquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+    {% if page_obj.number == i %}
+    <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+    {% endif %}
+  </ul>
+</nav>
 {% endif %}
 
 {% endblock content %}

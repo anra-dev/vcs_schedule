@@ -21,8 +21,8 @@
         <td>{{ booking.event.organization }}</td>
     </tr>
     <tr>
-        <th>Время проведения</th>
-        <td>время: {{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }}, дата: {{ booking.date|date:"d F Y" }}</td>
+        <th>Дата и время</th>
+        <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} {{ booking.date|date:"d.m.Y" }}</td>
     </tr>
     <tr>
         <th>Помещение</th>

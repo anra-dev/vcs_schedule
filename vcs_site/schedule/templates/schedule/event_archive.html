@@ -3,7 +3,14 @@
 {% block title %}Мой архив{% endblock title %}
 
 {% block bottom %}
-<a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a>
-<a class="btn btn-success" href="{% url 'grade' pk=event.pk %}" role="button">Оценить</a>
+
+<div class="d-flex flex-row bd-highlight">
+    <div class="bd-highlight">
+        <a class="btn btn-success" href="{% url 'grade' pk=event.pk %}" role="button">Оценить</a>
+    </div>
+    <div class="bd-highlight ml-2">
+        <a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a>
+    </div>
+</div>
 
 {% endblock bottom %}

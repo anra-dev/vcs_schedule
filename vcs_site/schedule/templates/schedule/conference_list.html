@@ -18,7 +18,7 @@
   <tbody>
   {% for conference in page_obj %}
   <tr>
-    <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d F Y" }}</td>
+    <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
     <td>{{ conference.application }}</td>
     <td>{{ conference.quota|default_if_none:'' }}</td>
     <td>{{ conference.event.organization }}</td>
