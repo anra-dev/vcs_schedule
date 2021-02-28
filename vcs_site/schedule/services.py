@@ -61,10 +61,10 @@ def update_status_event(instance, **kwargs):
         # send_out_message(event)  # удалить
     if 'rejection' in status:
         _set_event_status('rejection')
-    if status[1:] == status[:-1] and status[0] == 'ready':  # Все элементы списка равны
+    if set(status) == {'ready', 'completed'}:
         _set_event_status('ready')
         send_out_message(event)  # раскомментировать
-    if status[1:] == status[:-1] and status[0] == 'completed':
+    if status[1:] == status[:-1] and status[0] == 'completed':  # Все элементы списка равны
         _set_event_status('completed')
 
 
