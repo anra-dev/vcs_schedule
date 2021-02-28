@@ -122,7 +122,7 @@ class ConferenceApproveView(UpdateView):
     РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ ОПЕРАТОРОМ
     """
     model = Conference
-    fields = ['link_to_event']
+    fields = ['link_to_event', 'comment']
     template_name_suffix = '_approve'
 
     def form_valid(self, form):
@@ -132,6 +132,7 @@ class ConferenceApproveView(UpdateView):
                 return self.form_invalid(form)
             else:
                 form.instance.status = 'ready'
+                form.instance.comment = None
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
         messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])

@@ -62,6 +62,11 @@
   {% elif conference.status == 'completed' %}<span class="badge bg-secondary">{{ conference.get_status_display  }}</span>
   {% endif %}
 </h3>
+{% if conference.comment %}
+<div class="alert alert-danger" role="alert">
+  Причина отказа: {{ conference.comment }}
+</div>
+{% endif %}
 <table class="table">
   <tbody>
   <tr>

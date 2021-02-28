@@ -70,7 +70,7 @@ class CustomCreateView(HelpMixin, CreateView):
         return super().form_valid(form)
 
 
-class CustomUpdateView(UpdateView):
+class CustomUpdateView(HelpMixin, UpdateView):
 
     def get_success_url(self):
         return self.object.get_redirect_url_for_event_list()
