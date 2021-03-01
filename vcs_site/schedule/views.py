@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DetailView, CreateView, ArchiveIndexView
+from django.views.generic import UpdateView, DetailView, CreateView
 
 from .models import Event, Conference, Booking, Organization, Staffer, Grade
 from .forms import (EventCreateForm, ConferenceCreateForm, BookingCreateForm, EventUpdateForm,
@@ -43,13 +43,13 @@ class BookingsListView(CustomListView):
     filter_status = ('wait',)
 
 
-class ArchiveEventsListView(ArchiveIndexView):
+class ArchiveEventsListView(CustomListView):
     """
     ПРОСМОТР СПИСКА ПРОШЕДШИХ МЕРОПРИЯТИЙ
     """
     model = Event
-    date_field = 'date_end'
-    paginate_by = 7
+    filter_status = ('completed',)
+    template_name = 'schedule/event_archive.html'
 
 
 class EventDetailView(HelpMixin, DetailView):
