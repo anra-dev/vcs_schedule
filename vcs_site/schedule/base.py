@@ -41,13 +41,13 @@ class CustomListView(ListView):
 
     def set_status_completed(self, queryset):
         if self.model == Event:
-            completed_list = queryset.filter(date_end__lt=today, status__in=['wait', 'ready', 'rejection'])
+            completed_list = queryset.filter(date_start__lt=today, status__in=['wait', 'ready', 'rejection'])
             if completed_list:
-                conference = Conference.objects.filter(event__in=completed_list)
-                booking = Booking.objects.filter(event__in=completed_list)
+                conference = Conference.objects.filter(event__in=completed_list, date__lt=today)
+                booking = Booking.objects.filter(event__in=completed_list, date__lt=today)
                 conference.update(status='completed')
                 booking.update(status='completed')
-                completed_list.update(status='completed')
+                completed_list.filter(date_end__lt=today).update(status='completed')
         if self.model in [Conference, Booking]:
             completed_list = queryset.filter(date__lt=today, status__in=['wait', 'ready', 'rejection'])
             if completed_list:
