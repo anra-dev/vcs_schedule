@@ -52,7 +52,7 @@ class ArchiveEventsListView(CustomListView):
     template_name = 'schedule/event_archive.html'
 
 
-class EventDetailView(HelpMixin, DetailView):
+class EventDetailView(LoginRequiredMixin, HelpMixin, DetailView):
     """
     ПРОСМОТР ДЕТАЛЬНОГО ПРЕДСТАВЛЕНИЯ МЕРОПРИЯТИЙ
     """
@@ -65,7 +65,7 @@ class EventDetailView(HelpMixin, DetailView):
         return context
 
 
-class EventCreateView(HelpMixin, CreateView):
+class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
     """
     СОЗДАНИЕ МЕРОПРИЯТИЙ
     """
@@ -117,7 +117,7 @@ class ConferenceDeleteView(CustomDeleteView):
     model = Conference
 
 
-class ConferenceApproveView(UpdateView):
+class ConferenceApproveView(LoginRequiredMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ ОПЕРАТОРОМ
     """
@@ -162,7 +162,7 @@ class BookingDeleteView(CustomDeleteView):
     model = Booking
 
 
-class BookingApproveView(UpdateView):
+class BookingApproveView(LoginRequiredMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ БРОНИ ОПЕРАТОРОМ
     """

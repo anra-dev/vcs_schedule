@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
@@ -21,7 +22,7 @@ class HelpMixin:
         return context
 
 
-class CustomListView(ListView):
+class CustomListView(LoginRequiredMixin, ListView):
     paginate_by = 7
     filter_status = False
     filter_staffer = False
@@ -54,7 +55,7 @@ class CustomListView(ListView):
                 completed_list.update(status='completed')
 
 
-class CustomCreateView(HelpMixin, CreateView):
+class CustomCreateView(LoginRequiredMixin, HelpMixin, CreateView):
 
     def get_success_url(self):
         return self.object.get_redirect_url_for_event_list()
@@ -70,7 +71,7 @@ class CustomCreateView(HelpMixin, CreateView):
         return super().form_valid(form)
 
 
-class CustomUpdateView(HelpMixin, UpdateView):
+class CustomUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
 
     def get_success_url(self):
         return self.object.get_redirect_url_for_event_list()
@@ -81,7 +82,7 @@ class CustomUpdateView(HelpMixin, UpdateView):
         return super().form_valid(form)
 
 
-class CustomDeleteView(DeleteView):
+class CustomDeleteView(LoginRequiredMixin, DeleteView):
 
     template_name = 'schedule/object_confirm_delete.html'
 
