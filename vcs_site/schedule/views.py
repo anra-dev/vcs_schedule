@@ -49,6 +49,7 @@ class ArchiveEventsListView(CustomListView):
     """
     model = Event
     filter_status = ('completed',)
+    filter_staffer = True
     template_name = 'schedule/event_archive.html'
 
 

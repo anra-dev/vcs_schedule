@@ -47,6 +47,12 @@ class ConferenceCreateForm(forms.ModelForm):
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
 
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        if date < datetime.date.today():
+            self.add_error('date', 'Некорректная дата')
+        return date
+
     def clean(self):
         """Валидация формы"""
         time_start = self.cleaned_data['time_start']
@@ -130,6 +136,12 @@ class BookingCreateForm(forms.ModelForm):
         self.fields['conference'].label = 'Конференция'
         if not conference:
             self.fields['without_conference'].initial = True
+
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        if date < datetime.date.today():
+            self.add_error('date', 'Некорректная дата')
+        return date
 
     def clean(self):
         """Валидация формы"""
