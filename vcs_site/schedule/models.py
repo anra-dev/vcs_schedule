@@ -49,6 +49,9 @@ class Event(models.Model):
     def get_redirect_url_for_event_list(self):
         return self.get_absolute_url()
 
+    def get_avg_grade(self):
+        return Grade.objects.filter(event=self).aggregate(models.Avg('grade'))['grade__avg']
+
     class Meta:
         ordering = ['date_start']
         verbose_name = 'Мероприятие'

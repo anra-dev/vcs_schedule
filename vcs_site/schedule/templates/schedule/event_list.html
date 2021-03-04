@@ -11,6 +11,7 @@
     <th scope="col">Статус</th>
     <th scope="col">Организатор</th>
     <th scope="col">Ответственное лицо</th>
+    {% block title_grade %}{% endblock title_grade %}
     <th scope="col">Действие</th>
   </tr>
   </thead>
@@ -35,12 +36,8 @@
     </td>
     <td>{{ event.organization }}</td>
     <td>{{ event.responsible }}</td>
-    <!-- Button trigger modal -->
-    <td>
-      {% block bottom %}
-      <a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a>
-      {% endblock bottom %}
-    </td>
+    {% block grade %}{% endblock grade %}
+    <td><a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a></td>
   </tr>
   {% endfor %}
   </tbody>

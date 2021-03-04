@@ -2,15 +2,18 @@
 
 {% block title %}Мой архив{% endblock title %}
 
-{% block bottom %}
+{% block title_grade %}
+<th scope="col">
+    Оценка
+</th>
+{% endblock title_grade %}
 
-<div class="d-flex flex-row bd-highlight">
-    <div class="bd-highlight">
-        <a class="btn btn-success" href="{% url 'grade' pk=event.pk %}" role="button">Оценить</a>
-    </div>
-    <div class="bd-highlight ml-2">
-        <a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a>
-    </div>
-</div>
-
-{% endblock bottom %}
+{% block grade %}
+<td>
+    {% if event.get_avg_grade %}
+    {{ event.get_avg_grade }}
+    {% else %}
+    <a class="btn btn-success" href="{% url 'grade' pk=event.pk %}" role="button">Оценить</a>
+    {% endif %}
+</td>
+{% endblock grade %}
