@@ -2,11 +2,23 @@ from django.db import models
 from django.urls import reverse
 
 
+class Section(models.Model):
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Раздел'
+        verbose_name_plural = 'Разделы'
+
+
 class Page(models.Model):
-    title = models.CharField(max_length=60)
+    title = models.CharField(verbose_name='Заголовок', max_length=60)
     slug = models.SlugField(unique=True)
-    update_date = models.DateTimeField('Last Updated')
-    body_text = models.TextField('Page content', blank=True)
+    section = models.ForeignKey('Section', verbose_name='Раздел', on_delete=models.CASCADE)
+    update_date = models.DateTimeField(verbose_name='Дата изменения')
+    body_text = models.TextField(verbose_name='Содержание страницы', blank=True)
 
     def __str__(self):
         return self.title

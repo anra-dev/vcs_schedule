@@ -29,16 +29,15 @@ class CustomListView(LoginRequiredMixin, ListView):
     staffer = None
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        self.set_status_completed(queryset)
-        kwargs = {}
+        filter_dict = {}
         if self.filter_status:
-            kwargs['status__in'] = self.filter_status
+            filter_dict['status__in'] = self.filter_status
         if self.filter_staffer:
             staffer = Staffer.objects.get(user=self.request.user)
-            kwargs['responsible'] = staffer
-        queryset = queryset.filter(**kwargs)
-        return queryset
+            filter_dict['responsible'] = staffer
+        queryset = super().get_queryset()
+        self.set_status_completed(queryset)
+        return queryset.filter(**filter_dict)
 
     def set_status_completed(self, queryset):
         if self.model == Event:
