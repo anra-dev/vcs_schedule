@@ -137,11 +137,11 @@ class BookingCreateForm(forms.ModelForm):
         if not conference:
             self.fields['without_conference'].initial = True
 
-    def clean_date(self):
-        date = self.cleaned_data['date']
-        if date < datetime.date.today():
-            self.add_error('date', 'Некорректная дата')
-        return date
+    # def clean_date(self):
+    #     date = self.cleaned_data['date']
+    #     if date < datetime.date.today():
+    #         self.add_error('date', 'Некорректная дата')
+    #     return date
 
     def clean(self):
         """Валидация формы"""

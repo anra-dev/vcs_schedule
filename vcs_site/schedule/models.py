@@ -52,6 +52,12 @@ class Event(models.Model):
     def get_avg_grade(self):
         return Grade.objects.filter(event=self).aggregate(models.Avg('grade'))['grade__avg']
 
+    def get_grade(self):
+        try:
+            return Grade.objects.get(event=self).grade
+        except:
+            return 0
+
     class Meta:
         ordering = ['date_start']
         verbose_name = 'Мероприятие'
