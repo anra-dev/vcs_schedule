@@ -1,7 +1,7 @@
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 
-from .models import Page
+from .models import Page, Section
 
 
 class HelpIndexView(TemplateView):
@@ -10,7 +10,7 @@ class HelpIndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page_list'] = Page.objects.all()
+        context['section_list'] = Section.objects.all()
         return context
 
 
@@ -20,7 +20,7 @@ class HelpPageView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['page_list'] = Page.objects.all()
+        context['section_list'] = Section.objects.all()
         return context
 
 

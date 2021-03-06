@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block link %}
+<link href=" {% static 'help/css/main.css' %}" rel="stylesheet">
+{% endblock link %}
+
 {% block bottom_nav %}
 <!--<a href="{% url 'event_list' %}" class="btn btn-primary " role="button">Вернутся на сайт</a>-->
 <a class="nav-link" href="{% url 'event_list' %}">Вернутся к  заявкам <span class="sr-only">(current)</span></a>
@@ -9,9 +13,35 @@
 {% block title %} Заголовок {% endblock title %}
 
 {% block sidebar_link %}
-{% for page in page_list %}
-<a href="{{ page.get_absolute_url }}" class="list-group-item list-group-item-action bg-light">{{ page.title }}</a>
-{% endfor %}
+
+<div id="accordion">
+  {% for section in section_list %}
+  <div class="list-group list-group-flush">
+    <div class="link list-group-item list-group-item-action bg-light bg-gradient"><b>{{ section.name }}</b></div>
+    <div class="submenu" style="display: none;">
+      {% for page in section.get_page_list %}
+      <a href="{{ page.get_absolute_url }}" class="list-group-item list-group-item-action bg-light">{{ page.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!--<ul id="accordion" class="accordion">-->
+<!--  {% for section in section_list %}-->
+<!--  <li>-->
+<!--    <div class="link"><i class="fa fa-database"></i>{{ section.name }}<i class="fa fa-chevron-down"></i></div>-->
+<!--    <ul class="submenu">-->
+<!--      {% for page in section.get_page_list %}-->
+<!--      <a href="{{ page.get_absolute_url }}">{{ page.title }}</a>-->
+<!--      {% endfor %}-->
+<!--    </ul>-->
+<!--  </li>-->
+<!--  {% endfor %}-->
+<!--</ul>-->
+
+
+
 {% endblock sidebar_link %}
 
 {% block content %}
@@ -20,3 +50,46 @@
 </div>
 <img src="{% static 'vcs.jpg' %}" class="img-fluid " alt="...">
 {% endblock content %}
+
+{% block script %}
+<script type="text/javascript" src="{% static 'help/js/main.js' %}"></script>
+{% endblock script %}
+
+
+<h1>Smooth Accordion Dropdown Menu Demo</h1>
+<!-- Contenedor -->
+<ul id="accordion33" class="accordion">
+  <li>
+    <div class="link"><i class="fa fa-database"></i>Web Design<i class="fa fa-chevron-down"></i></div>
+    <ul class="submenu">
+      <li><a href="#">Photoshop</a></li>
+      <li><a href="#">HTML</a></li>
+      <li><a href="#">CSS</a></li>
+    </ul>
+  </li>
+  <li>
+    <div class="link"><i class="fa fa-code"></i>Coding<i class="fa fa-chevron-down"></i></div>
+    <ul class="submenu">
+      <li><a href="#">Javascript</a></li>
+      <li><a href="#">jQuery</a></li>
+      <li><a href="#">Ruby</a></li>
+    </ul>
+  </li>
+  <li>
+    <div class="link"><i class="fa fa-mobile"></i>Devices<i class="fa fa-chevron-down"></i></div>
+    <ul class="submenu">
+      <li><a href="#">Tablet</a></li>
+      <li><a href="#">Mobile</a></li>
+      <li><a href="#">Desktop</a></li>
+    </ul>
+  </li>
+  <li>
+    <div class="link"><i class="fa fa-globe"></i>Global<i class="fa fa-chevron-down"></i></div>
+    <ul class="submenu">
+      <li><a href="#">Google</a></li>
+      <li><a href="#">Bing</a></li>
+      <li><a href="#">Yahoo</a></li>
+    </ul>
+  </li>
+</ul>
+

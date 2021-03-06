@@ -8,6 +8,9 @@ class Section(models.Model):
     def __str__(self):
         return self.name
 
+    def get_page_list(self):
+        return Page.objects.filter(section=self)
+
     class Meta:
         verbose_name = 'Раздел'
         verbose_name_plural = 'Разделы'
