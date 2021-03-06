@@ -6,13 +6,13 @@ from dispatch.calling import send_out_message
 from .models import Conference, Booking
 
 
-def check_free_quota(conf_id, application, date, time_start, time_end):
+def check_free_quota(conf_id, server, date, time_start, time_end):
     """
     Вычисляет количество свободных лицензий в заданный интервал времени. НЕЙМИНГ АХТУНГ!!!!!
     """
-    quota = application.quota
+    quota = server.quota
     # Это мероприятия которые начинаются во время планируемого мероприятия. Исключаем планируемое.
-    conf_list = Conference.objects.filter(date=date, application=application, type='local',
+    conf_list = Conference.objects.filter(date=date, server=server, type='local',
                                           time_start__gte=time_start, time_start__lt=time_end).exclude(pk=conf_id)
     # Квота изменяется в момент начала мероприятий. Выбираем точки
     points = [conf.time_start for conf in conf_list]
@@ -20,7 +20,7 @@ def check_free_quota(conf_id, application, date, time_start, time_end):
     # Считаем квоту в точках
     spent_quota_list = []
     for point in set(points):
-        spent_quota = Conference.objects.filter(date=date, application=application, type='local', time_start__lte=point,
+        spent_quota = Conference.objects.filter(date=date, server=server, type='local', time_start__lte=point,
                                                 time_end__gt=point).exclude(pk=conf_id).aggregate(Sum('quota'))
         if spent_quota['quota__sum']:
             spent_quota_list.append(spent_quota['quota__sum'])

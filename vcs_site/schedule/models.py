@@ -84,29 +84,14 @@ class Conference(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
-    EVENT_TYPE_EXTERNAL = 'external'
-    EVENT_TYPE_LOCAL = 'local'
-
-    EVENT_TYPE_CHOICES = (
-        (EVENT_TYPE_EXTERNAL, 'Внешний'),
-        (EVENT_TYPE_LOCAL, 'Внутренний')
-    )
-
     event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
-    application = models.ForeignKey('Application', verbose_name='Приложение', on_delete=models.CASCADE)
-
+    server = models.ForeignKey('Server', verbose_name='Сервер', on_delete=models.CASCADE, null=True, blank=True)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
-    link_to_event = models.CharField(max_length=255, verbose_name='Ссылка', null=True, blank=True)
+    link = models.CharField(max_length=255, verbose_name='Ссылка', null=True, blank=True)
     date = models.DateField(verbose_name='Дата проведения')
     time_start = models.TimeField(verbose_name='Время начала')
     time_end = models.TimeField(verbose_name='Время окончания')
     created_at = models.DateTimeField(auto_now=True)
-    type = models.CharField(
-        max_length=100,
-        verbose_name='Тип видеоконференции',
-        choices=EVENT_TYPE_CHOICES,
-        default=EVENT_TYPE_LOCAL
-    )
     status = models.CharField(
         max_length=100,
         verbose_name='Статус видеоконференции',
@@ -116,7 +101,7 @@ class Conference(models.Model):
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
 
     def __str__(self):
-        return f'Конференция "{self.application}" запланирована на {self.date} с {self.time_start} по {self.time_end}'
+        return f'Конференция на "{self.server}" запланирована на {self.date} с {self.time_start} по {self.time_end}'
 
     @staticmethod
     def get_absolute_url():
@@ -218,16 +203,45 @@ class Room(models.Model):
         verbose_name_plural = 'Помещения'
 
 
-class Application(models.Model):
+class Server(models.Model):
 
-    name = models.CharField(max_length=255, verbose_name='Название приложения')
-    server_name = models.CharField(max_length=50, verbose_name='Имя сервера')
+    SERVER_TYPE_EXTERNAL = 'external'
+    SERVER_TYPE_LOCAL = 'local'
+
+    SERVER_TYPE_CHOICES = (
+        (SERVER_TYPE_EXTERNAL, 'Внешний'),
+        (SERVER_TYPE_LOCAL, 'Внутренний')
+    )
+
+    name = models.CharField(max_length=255, verbose_name='Название сервера')
+    application = models.ForeignKey('Application', verbose_name='Приложение', on_delete=models.CASCADE)
+    server_address = models.CharField(max_length=50, verbose_name='Адрес сервера')
     quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
+    server_type = models.CharField(
+        max_length=100,
+        verbose_name='Тип сервера',
+        choices=SERVER_TYPE_CHOICES,
+        default=SERVER_TYPE_LOCAL
+    )
 
     def __str__(self):
-        return f'{self.name } - {self.server_name}'
+        return f'{self.name } - {self.application}'
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Сервер'
+        verbose_name_plural = 'Сервера'
+
+
+class Application(models.Model):
+
+    name = models.CharField(max_length=255, verbose_name='Название приложения')
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ['name']

@@ -58,31 +58,30 @@ class ConferenceCreateForm(forms.ModelForm):
         time_start = self.cleaned_data['time_start']
         time_end = self.cleaned_data['time_end']
         quota = self.cleaned_data['quota']
-        application = self.cleaned_data['application']
+        server = self.cleaned_data['server']
         link_to_event = self.cleaned_data['link_to_event']
         date = self.cleaned_data['date']
-        type = self.cleaned_data['type']
         conf_id = self.instance.id  # почему не падает при создании конфы если равно None?
         # Начало должно быть раньше конца
         if time_start >= time_end:
             self.add_error('time_start', 'Время начала не может совпадать или быть позже окончания')
             self.add_error('time_end', 'Время окончания не может совпадать или быть раньше начала')
         # Проверка на наличие свободных лицензий и обязателых полей
-        if type == 'local':
+        if server.server_type == 'local':
             if not quota:
                 self.add_error('quota', my_default_errors['required'])
-            elif quota > application.quota:
+            elif quota > server.quota:
                 self.add_error('quota', f'Превышено количество участников для данного приложения! '
-                                        f'Максимальное число пользователей: {application.quota}')
+                                        f'Максимальное число пользователей: {server.quota}')
             else:
-                free_quota = check_free_quota(conf_id=conf_id, application=application, date=date,
+                free_quota = check_free_quota(conf_id=conf_id, server=server, date=date,
                                               time_start=time_start, time_end=time_end)
                 if free_quota == 0:
                     self.add_error('quota', f'Все лицензии заняты! Выберите другое время')
                 elif quota > free_quota:
                     self.add_error('quota', f'Количество участников превышает количество свободных лицензий!'
                                             f' На это время свободно всего {free_quota} лицензий')
-        if type == 'external':
+        if server.server_type == 'external':
             if not link_to_event:
                 self.add_error('link_to_event', my_default_errors['required'])
         return self.cleaned_data
@@ -91,11 +90,9 @@ class ConferenceCreateForm(forms.ModelForm):
         model = Conference
         fields = (
             'event',
-            'application',
-            'type',
+            'server',
             'quota',
-            'link_to_event',
-            'application',
+            'link',
             'date',
             'time_start',
             'time_end',
