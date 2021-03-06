@@ -12,7 +12,7 @@
   {% for section in section_list %}
   <div class="list-group list-group-flush">
     <div class="link list-group-item list-group-item-action bg-light bg-gradient"><b>{{ section.name }}</b></div>
-    <div class="submenu" style="display: none;">
+    <div class="submenu" style="display: {% if section != page.section %}none{% endif %};">
       {% for page in section.get_page_list %}
       <a href="{{ page.get_absolute_url }}" class="list-group-item list-group-item-action bg-light">{{ page.name }}</a>
       {% endfor %}
