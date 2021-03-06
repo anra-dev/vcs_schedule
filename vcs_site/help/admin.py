@@ -4,9 +4,9 @@ from .models import Page, Section
 
 
 class PageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'update_date')
-    ordering = ('title',)
-    search_fields = ('title',)
+    list_display = ('name', 'title', 'update_date')
+    ordering = ('name',)
+    search_fields = ('title', 'body_text')
 
 
 admin.site.register(Page, PageAdmin)
