@@ -1,35 +1,28 @@
 $('#id_server').change(function () {
-      var optionSelected = $("option:selected", this);
-      var valueSelected = $(this).val();
-        console.log(valueSelected);
-      if (valueSelected !== '1') {
-            $('#id_quota').prop('readonly', false)
-            $('#id_quota').val('')
-            $('#id_quota').css('background', 'white')
-            $('#id_link').prop('readonly', true)
-            $('#id_link').val('')
-            $('#id_link').css('background', 'lightgray')
+      //var optionSelected = this.options[this.selectedIndex].text;
+      var optionSelected = this.getAttribute("data-server-type")
+      if (~optionSelected.indexOf("local")) {
+            $('#div_id_quota').show();
+            $('#div_id_link').hide();
+      } else if (~optionSelected.indexOf("external")){
+            $('#div_id_quota').hide();
+            $('#div_id_link').show();
       } else {
-            $('#id_quota').prop('readonly', true)
-            $('#id_quota').val('')
-            $('#id_quota').css('background', 'lightgray')
-            $('#id_link').prop('readonly', false)
-            $('#id_link').val('')
-            $('#id_link').css('background', 'white')
+            $('#div_id_quota').hide();
+            $('#div_id_link').hide();
       }
     });
 $(document).ready(function () {
-      var valueSelected = $('#id_server').val();
-
-      if (valueSelected !== '1') {
-            $('#id_quota').prop('readonly', false)
-            $('#id_quota').css('background', 'white')
-            $('#id_link').prop('readonly', true)
-            $('#id_link').css('background', 'lightgray')
+      //var optionSelected = $("#id_server option:selected").text();
+      var valueSelected = $("#id_server option:selected").getAttribute("data-server-type")
+      if (~optionSelected.indexOf("local")) {
+            $('#div_id_quota').show();
+            $('#div_id_link').hide();
+      } else if (~optionSelected.indexOf("external")){
+            $('#div_id_quota').hide();
+            $('#div_id_link').show();
       } else {
-            $('#id_quota').prop('readonly', true)
-            $('#id_quota').css('background', 'lightgray')
-            $('#id_link').prop('readonly', false)
-            $('#id_link').css('background', 'white')
+            $('#div_id_quota').hide();
+            $('#div_id_link').hide();
       }
     });

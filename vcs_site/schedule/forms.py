@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 
-from .models import Event, Conference, Booking
+from .models import Event, Conference, Booking, Server
 from .services import check_free_quota, check_room_is_free
 
 
@@ -9,6 +9,15 @@ my_default_errors = {
     'required': 'Это поле обязательное',
     'invalid': 'Некореектное значение'
 }
+
+
+class CustomSelectWidget(forms.Select):
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+        option = super().create_option(name, value, label, selected, index)
+        if value:
+            server = self.choices.queryset.get(pk=str(value))  # get server instance
+            option['attrs']['data-server_type'] = server.server_type  # set option attribute
+        return option
 
 
 class EventCreateForm(forms.ModelForm):
@@ -39,10 +48,12 @@ class ConferenceCreateForm(forms.ModelForm):
     date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
+    server = forms.ModelChoiceField(queryset=Server.objects.all(), widget=CustomSelectWidget)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['event'].widget.attrs['readonly'] = True
+        self.fields['server'].label = 'Сервер'
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
