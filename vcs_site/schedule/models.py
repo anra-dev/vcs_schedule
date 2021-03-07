@@ -209,14 +209,15 @@ class Server(models.Model):
     SERVER_TYPE_LOCAL = 'local'
 
     SERVER_TYPE_CHOICES = (
-        (SERVER_TYPE_EXTERNAL, 'Внешний'),
-        (SERVER_TYPE_LOCAL, 'Внутренний')
+        (SERVER_TYPE_EXTERNAL, 'Внешний сервер'),
+        (SERVER_TYPE_LOCAL, 'Внутренний сервер')
     )
 
     name = models.CharField(max_length=255, verbose_name='Название сервера')
-    application = models.ForeignKey('Application', verbose_name='Приложение', on_delete=models.CASCADE)
-    server_address = models.CharField(max_length=50, verbose_name='Адрес сервера')
-    quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
+    application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True,
+                                    on_delete=models.CASCADE)
+    server_address = models.CharField(max_length=50, verbose_name='Адрес сервера', null=True, blank=True)
+    quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий', null=True, blank=True)
     responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     server_type = models.CharField(
@@ -227,7 +228,9 @@ class Server(models.Model):
     )
 
     def __str__(self):
-        return f'{self.name } - {self.application}'
+        if self.application:
+            return f'{self.name } - {self.application}'
+        return self.name
 
     class Meta:
         ordering = ['name']

@@ -18,11 +18,11 @@ def get_message(event=None):
     for conference in conferences:
         message += f'Сессия №{i}\n'
         message += f'время проведения с {conference.time_start} по  {conference.time_end}\n'
-        message += f'Приложение:  {conference.application}\n'
-        message += f'Ссылка: {conference.link_to_event}\n'
-        message += f'Ответственный сотрудник: {conference.application.responsible} \n'
-        message += f'Телефон: {conference.application.responsible.phone}, '
-        message += f'электронная почта: {conference.application.responsible.email} \n'
+        message += f'Сервер:  {conference.server}\n'
+        message += f'Ссылка: {conference.link}\n'
+        message += f'Ответственный сотрудник: {conference.server.responsible} \n'
+        message += f'Телефон: {conference.server.responsible.phone}, '
+        message += f'электронная почта: {conference.server.responsible.email} \n'
         message += f'----без бронирования помещения----\n'
         message += f'----------------------------------\n'
         i += 1
@@ -34,11 +34,11 @@ def get_message(event=None):
         message += f'Телефон: {booking.room.responsible.phone}, '
         message += f'электронная почта: {booking.room.responsible.email} \n'
         if not booking.without_conference:
-            message += f'Подключение конференции:  {booking.conference.application}\n'
-            message += f'Ссылка: {booking.conference.link_to_event}\n'
-            message += f'Ответственный сотрудник: {booking.conference.application.responsible} \n'
-            message += f'Телефон: {booking.conference.application.responsible.phone}, '
-            message += f'электронная почта: {booking.conference.application.responsible.email} \n'
+            message += f'Подключение конференции:  {booking.conference.server}\n'
+            message += f'Ссылка: {booking.conference.link}\n'
+            message += f'Ответственный сотрудник: {booking.conference.server.responsible} \n'
+            message += f'Телефон: {booking.conference.server.responsible.phone}, '
+            message += f'электронная почта: {booking.conference.server.responsible.email} \n'
         message += f'----------------------------------\n'
         i += 1
     return message

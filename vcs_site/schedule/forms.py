@@ -59,7 +59,7 @@ class ConferenceCreateForm(forms.ModelForm):
         time_end = self.cleaned_data['time_end']
         quota = self.cleaned_data['quota']
         server = self.cleaned_data['server']
-        link_to_event = self.cleaned_data['link_to_event']
+        link = self.cleaned_data['link']
         date = self.cleaned_data['date']
         conf_id = self.instance.id  # почему не падает при создании конфы если равно None?
         # Начало должно быть раньше конца
@@ -82,8 +82,8 @@ class ConferenceCreateForm(forms.ModelForm):
                     self.add_error('quota', f'Количество участников превышает количество свободных лицензий!'
                                             f' На это время свободно всего {free_quota} лицензий')
         if server.server_type == 'external':
-            if not link_to_event:
-                self.add_error('link_to_event', my_default_errors['required'])
+            if not link:
+                self.add_error('link', my_default_errors['required'])
         return self.cleaned_data
 
     class Meta:

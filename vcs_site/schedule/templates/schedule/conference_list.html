@@ -8,7 +8,7 @@
   <thead>
   <tr>
     <th scope="col">Дата и время</th>
-    <th scope="col">Приложение</th>
+    <th scope="col">Сервер</th>
     <th scope="col">Количество участников</th>
     <th scope="col">Организация</th>
     <th scope="col">Ответственный</th>
@@ -19,7 +19,7 @@
   {% for conference in page_obj %}
   <tr>
     <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
-    <td>{{ conference.application }}</td>
+    <td>{{ conference.server }}</td>
     <td>{{ conference.quota|default_if_none:'' }}</td>
     <td>{{ conference.event.organization }}</td>
     <td>{{ conference.event.responsible }}</td>

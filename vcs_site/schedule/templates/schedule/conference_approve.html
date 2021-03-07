@@ -4,7 +4,7 @@
 {% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block content %}
-<h1 class="mt-4">Видеоконференция "{{ conference.application }}"</h1>
+<h1 class="mt-4">Видеоконференция "{{ conference.server }}"</h1>
 {% if conference.comment %}
 <div class="alert alert-danger" role="alert">
   Причина отказа: {{ conference.comment }}
@@ -25,8 +25,8 @@
         <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
     </tr>
     <tr>
-        <th>Приложение</th>
-        <td>{{ conference.application }}({{ conference.get_type_display }})</td>
+        <th>Сервер</th>
+        <td>{{ conference.server }}({{ conference.server.get_server_type_display }})</td>
     </tr>
     {% if conference.quota %}
     <tr>
@@ -34,10 +34,10 @@
         <td>{{ conference.quota|default_if_none:'' }}</td>
     </tr>
     {% endif %}
-    {% if conference.link_to_event %}
+    {% if conference.link %}
     <tr>
         <th>Ссылка</th>
-        <td>{{ conference.link_to_event|default_if_none:'' }}</td>
+        <td>{{ conference.link|default_if_none:'' }}</td>
     </tr>
     {% endif %}
     <tr>
@@ -51,7 +51,7 @@
         {% csrf_token %}
         {{ form.nom_du_champ }}
         <div class="fieldWrapper">
-            {{ form.link_to_event|as_crispy_field }}
+            {{ form.link|as_crispy_field }}
         </div>
         <div align="right">
             <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>

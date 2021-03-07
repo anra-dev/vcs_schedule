@@ -123,13 +123,13 @@ class ConferenceApproveView(LoginRequiredMixin, UpdateView):
     РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ ОПЕРАТОРОМ
     """
     model = Conference
-    fields = ['link_to_event', 'comment']
+    fields = ['link', 'comment']
     template_name_suffix = '_approve'
 
     def form_valid(self, form):
         if 'ready' in form.data:
-            if not form.cleaned_data['link_to_event']:
-                form.add_error('link_to_event', 'Невозможно завершить без ссылки')
+            if not form.cleaned_data['link']:
+                form.add_error('link', 'Невозможно завершить без ссылки')
                 return self.form_invalid(form)
             else:
                 form.instance.status = 'ready'

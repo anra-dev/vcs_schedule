@@ -12,15 +12,15 @@ def check_free_quota(conf_id, server, date, time_start, time_end):
     """
     quota = server.quota
     # Это мероприятия которые начинаются во время планируемого мероприятия. Исключаем планируемое.
-    conf_list = Conference.objects.filter(date=date, server=server, type='local',
-                                          time_start__gte=time_start, time_start__lt=time_end).exclude(pk=conf_id)
+    conf_list = Conference.objects.filter(date=date, server=server, server__server_type='внутрений', time_start__gte=time_start,
+                                          time_start__lt=time_end).exclude(pk=conf_id)
     # Квота изменяется в момент начала мероприятий. Выбираем точки
     points = [conf.time_start for conf in conf_list]
     points.append(time_start)
     # Считаем квоту в точках
     spent_quota_list = []
     for point in set(points):
-        spent_quota = Conference.objects.filter(date=date, server=server, type='local', time_start__lte=point,
+        spent_quota = Conference.objects.filter(date=date, server=server, time_start__lte=point,
                                                 time_end__gt=point).exclude(pk=conf_id).aggregate(Sum('quota'))
         if spent_quota['quota__sum']:
             spent_quota_list.append(spent_quota['quota__sum'])

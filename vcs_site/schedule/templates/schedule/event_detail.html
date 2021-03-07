@@ -74,8 +74,8 @@
     <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
   </tr>
   <tr>
-    <th>Приложение</th>
-    <td>{{ conference.application }}({{ conference.get_type_display }})</td>
+    <th>Сервер</th>
+    <td>{{ conference.server }}({{ conference.server.get_server_type_display }})</td>
   </tr>
   <tr>
     <th>Количество участников</th>
@@ -83,14 +83,14 @@
   </tr>
   <tr>
     <th>Ссылка</th>
-    <td>{{ conference.link_to_event|default_if_none:'' }}</td>
+    <td>{{ conference.link|default_if_none:'' }}</td>
   </tr>
   <tr>
     <th>Технический специалист</th>
     <td>
-      {{ conference.application.responsible }}<hr>
-      телефон: {{ conference.application.responsible.phone }},
-      email: <a href="mailto:{{ conference.application.responsible.email }}?subject={{ conference }}">{{ conference.application.responsible.email }}</a>
+      {{ conference.server.responsible }}<hr>
+      телефон: {{ conference.server.responsible.phone }},
+      email: <a href="mailto:{{ conference.server.responsible.email }}?subject={{ conference }}">{{ conference.server.responsible.email }}</a>
     </td>
   </tr>
   <tr>
@@ -133,10 +133,10 @@
     <th>Количество участников</th>
     <td>{{ booking.quota }}</td>
   </tr>
-  {% if booking.conference.link_to_event %}
+  {% if booking.conference.link %}
   <tr class="table-info">
     <th>Ссылка на конференцию</th>
-    <td>{{ booking.conference.link_to_event }}</td>
+    <td>{{ booking.conference.link }}</td>
   </tr>
   {% endif %}
   <tr>

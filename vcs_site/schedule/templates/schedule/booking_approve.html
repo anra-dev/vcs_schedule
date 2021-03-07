@@ -32,10 +32,10 @@
         <th>Количество участников</th>
         <td>{{ booking.quota}}</td>
     </tr>
-    {% if booking.conference.link_to_event %}
-    <tr>
+    {% if booking.conference.link %}
+    <tr class="table-info">
         <th>Ссылка на конференцию</th>
-        <td>{{ booking.conference.link_to_event }}</td>
+        <td>{{ booking.conference.link }}</td>
     </tr>
     {% endif %}
     <tr>

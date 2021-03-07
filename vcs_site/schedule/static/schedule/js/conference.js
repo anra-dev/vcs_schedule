@@ -1,35 +1,35 @@
-$('#id_type').change(function () {
+$('#id_server').change(function () {
       var optionSelected = $("option:selected", this);
       var valueSelected = $(this).val();
-
-      if (valueSelected === 'local') {
+        console.log(valueSelected);
+      if (valueSelected !== '1') {
             $('#id_quota').prop('readonly', false)
             $('#id_quota').val('')
             $('#id_quota').css('background', 'white')
-            $('#id_link_to_event').prop('readonly', true)
-            $('#id_link_to_event').val('')
-            $('#id_link_to_event').css('background', 'lightgray')
-      } else if (valueSelected === 'external') {
+            $('#id_link').prop('readonly', true)
+            $('#id_link').val('')
+            $('#id_link').css('background', 'lightgray')
+      } else {
             $('#id_quota').prop('readonly', true)
             $('#id_quota').val('')
             $('#id_quota').css('background', 'lightgray')
-            $('#id_link_to_event').prop('readonly', false)
-            $('#id_link_to_event').val('')
-            $('#id_link_to_event').css('background', 'white')
+            $('#id_link').prop('readonly', false)
+            $('#id_link').val('')
+            $('#id_link').css('background', 'white')
       }
     });
 $(document).ready(function () {
-      var valueSelected = $('#id_type').val();
+      var valueSelected = $('#id_server').val();
 
-      if (valueSelected === 'local') {
+      if (valueSelected !== '1') {
             $('#id_quota').prop('readonly', false)
             $('#id_quota').css('background', 'white')
-            $('#id_link_to_event').prop('readonly', true)
-            $('#id_link_to_event').css('background', 'lightgray')
-      } else if (valueSelected === 'external') {
+            $('#id_link').prop('readonly', true)
+            $('#id_link').css('background', 'lightgray')
+      } else {
             $('#id_quota').prop('readonly', true)
             $('#id_quota').css('background', 'lightgray')
-            $('#id_link_to_event').prop('readonly', false)
-            $('#id_link_to_event').css('background', 'white')
+            $('#id_link').prop('readonly', false)
+            $('#id_link').css('background', 'white')
       }
     });
