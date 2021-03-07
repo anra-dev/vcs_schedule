@@ -16,7 +16,7 @@ class CustomSelectWidget(forms.Select):
         option = super().create_option(name, value, label, selected, index)
         if value:
             server = self.choices.queryset.get(pk=str(value))  # get server instance
-            option['attrs']['data-server_type'] = server.server_type  # set option attribute
+            option['attrs']['data-server-type'] = server.server_type  # set option attribute
         return option
 
 
