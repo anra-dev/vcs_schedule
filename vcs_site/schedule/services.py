@@ -11,23 +11,25 @@ def check_free_quota(conf_id, server, date, time_start, time_end):
     Вычисляет количество свободных лицензий в заданный интервал времени. НЕЙМИНГ АХТУНГ!!!!!
     """
     quota = server.quota
-    # Это мероприятия которые начинаются во время планируемого мероприятия. Исключаем планируемое.
-    conf_list = Conference.objects.filter(date=date, server=server, server__server_type='внутрений', time_start__gte=time_start,
+    # Это мероприятия которые начинаются во время планируемого мероприятия. Исключаем планируемое если оно есть.
+    conf_list = Conference.objects.filter(date=date, server=server, time_start__gte=time_start,
                                           time_start__lt=time_end).exclude(pk=conf_id)
     # Квота изменяется в момент начала мероприятий. Выбираем точки
-    points = [conf.time_start for conf in conf_list]
-    points.append(time_start)
+    time_start_list = [conf.time_start for conf in conf_list]
+    time_start_list.append(time_start)
     # Считаем квоту в точках
     spent_quota_list = []
-    for point in set(points):
-        spent_quota = Conference.objects.filter(date=date, server=server, time_start__lte=point,
-                                                time_end__gt=point).exclude(pk=conf_id).aggregate(Sum('quota'))
+    for time_start in set(time_start_list):
+        spent_quota = Conference.objects.filter(date=date, server=server, time_start__lte=time_start,
+                                                time_end__gt=time_start).exclude(pk=conf_id).aggregate(Sum('quota'))
         if spent_quota['quota__sum']:
             spent_quota_list.append(spent_quota['quota__sum'])
     if len(spent_quota_list) == 0:
+        # Все квоты свободны
         return quota
     spent_quota = max(spent_quota_list)
     if spent_quota >= quota:
+        # Все квоты заняты
         return 0
     return quota - spent_quota
 
