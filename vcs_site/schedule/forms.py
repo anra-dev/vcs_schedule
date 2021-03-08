@@ -189,8 +189,8 @@ class BookingCreateForm(forms.ModelForm):
         model = Booking
         fields = (
             'event',
-            'conference',
             'without_conference',
+            'conference',
             'room',
             'quota',
             'date',

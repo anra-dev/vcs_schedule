@@ -229,7 +229,7 @@ class Server(models.Model):
 
     def __str__(self):
         if self.application:
-            return f'{self.server_type} - {self.name } - {self.application}'
+            return f'{self.name } - {self.application}'
         return self.name
 
     class Meta:

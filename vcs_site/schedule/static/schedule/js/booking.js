@@ -1,52 +1,27 @@
 $('#id_without_conference').on('click', function () {
     if ( $(this).is(':checked') ) {
-            $('#id_date').prop('readonly', false)
-            $('#id_date').css('background', 'white')
-            $('#id_time_start').prop('readonly', false)
-            $('#id_time_start').css('background', 'white')
-            $('#id_time_end').prop('readonly', false)
-            $('#id_time_end').css('background', 'white')
-            $('#id_conference').prop('readonly', true)
-            $('#id_conference').prop('disabled', true)
-            $('#id_conference').css('background', 'lightgray')
-            $('#id_conference').val('')
+            $('#div_id_date').show();
+            $('#div_id_time_start').show();
+            $('#div_id_time_end').show();
+            $('#div_id_conference').hide();
     } else {
-            $('#id_date').prop('readonly', true)
-            $('#id_date').css('background', 'lightgray')
-            $('#id_date').val('')
-            $('#id_time_start').prop('readonly', true)
-            $('#id_time_start').css('background', 'lightgray')
-            $('#id_time_start').val('')
-            $('#id_time_end').prop('readonly', true)
-            $('#id_time_end').css('background', 'lightgray')
-            $('#id_time_end').val('')
-            $('#id_conference').prop('readonly', false)
-            $('#id_conference').prop('disabled', false)
-            $('#id_conference').css('background', 'white')
-
+            $('#div_id_date').hide();
+            $('#div_id_time_start').hide();
+            $('#div_id_time_end').hide();
+            $('#div_id_conference').show();
     }
 });
 $(document).ready( function () {
     if ( $('#id_without_conference').is(':checked') ) {
-            $('#id_date').prop('readonly', false)
-            $('#id_date').css('background', 'white')
-            $('#id_time_start').prop('readonly', false)
-            $('#id_time_start').css('background', 'white')
-            $('#id_time_end').prop('readonly', false)
-            $('#id_time_end').css('background', 'white')
-            $('#id_conference').prop('readonly', true)
-            $('#id_conference').prop('disabled', true)
-            $('#id_conference').css('background', 'lightgray')
+            $('#div_id_date').show();
+            $('#div_id_time_start').show();
+            $('#div_id_time_end').show();
+            $('#div_id_conference').hide();
     } else {
-            $('#id_date').prop('readonly', true)
-            $('#id_date').css('background', 'lightgray')
-            $('#id_time_start').prop('readonly', true)
-            $('#id_time_start').css('background', 'lightgray')
-            $('#id_time_end').prop('readonly', true)
-            $('#id_time_end').css('background', 'lightgray')
-            $('#id_conference').prop('readonly', false)
-            $('#id_conference').prop('disabled', false)
-            $('#id_conference').css('background', 'white')
+            $('#div_id_date').hide();
+            $('#div_id_time_start').hide();
+            $('#div_id_time_end').hide();
+            $('#div_id_conference').show();
 
     }
 });
