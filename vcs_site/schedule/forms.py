@@ -51,11 +51,16 @@ class ConferenceCreateForm(forms.ModelForm):
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
 
     def __init__(self, *args, **kwargs):
+        event_id = kwargs.pop('event_id')
         super().__init__(*args, **kwargs)
-        self.fields['event'].widget.attrs['readonly'] = True
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
+        self.event = Event.objects.get(pk=event_id)
+
+    def clean_event(self):
+        # защита от подмены на стороне клиента. Пока ищу более правильный способ.
+        return self.event
 
     def clean_date(self):
         date = self.cleaned_data['date']
@@ -161,16 +166,14 @@ class BookingCreateForm(forms.ModelForm):
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=False)
 
     def __init__(self, *args, **kwargs):
+        event_id = kwargs.pop('event_id')
         super().__init__(*args, **kwargs)
-        self.fields['event'].widget.attrs['readonly'] = True
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-
-        self.event = self.initial['event']
+        self.event = Event.objects.get(pk=event_id)
         conference = Conference.objects.filter(event=self.event)
-        self.fields['conference'] = forms.ModelChoiceField(queryset=conference, required=False)
-        self.fields['conference'].label = 'Конференция'
+        self.fields['conference'].queryset = conference
 
         if not conference:
             self.fields['without_conference'].initial = True
