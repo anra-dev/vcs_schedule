@@ -166,8 +166,7 @@ class BookingCreateForm(forms.ModelForm):
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-        self.fields['conference'].label = 'Конференция'
-        self.fields['conference'].widget.attrs['required'] = False
+
         self.event = self.initial['event']
         conference = Conference.objects.filter(event=self.event)
         self.fields['conference'] = forms.ModelChoiceField(queryset=conference, required=False)
@@ -183,6 +182,10 @@ class BookingCreateForm(forms.ModelForm):
             if date < datetime.date.today():
                 self.add_error('date', 'Некорректная дата')
         return date
+
+    def clean_event(self):
+        # защита от подмены на стороне клиента. Пока ищу более правильный способ.
+        return self.event
 
     def clean(self):
         """Валидация формы"""
