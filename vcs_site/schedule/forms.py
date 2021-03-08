@@ -104,6 +104,8 @@ class ConferenceCreateForm(forms.ModelForm):
             'server',
             'quota',
             'link',
+            'description',
+            'file',
             'date',
             'time_start',
             'time_end',

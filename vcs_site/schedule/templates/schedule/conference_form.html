@@ -8,7 +8,7 @@
 
 <h1 class="mt-4">Заявка на организацию видеоконференции</h1>
 <div>
-    <form action=""  method="POST">
+    <form action=""  method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
         <div align="right">
