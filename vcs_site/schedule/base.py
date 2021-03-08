@@ -64,18 +64,17 @@ class CustomCreateView(LoginRequiredMixin, HelpMixin, CreateView):
     def get_success_url(self):
         return self.object.get_redirect_url_for_event_list()
 
-    # def get_initial(self):
-    #     pk = self.kwargs.get(self.pk_url_kwarg)
-    #     event = Event.objects.get(pk=pk)
-    #     self.initial = {'event': event}
-    #     return super().get_initial()
-
     def form_valid(self, form):
         messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['create'])
         return super().form_valid(form)
 
 
 class CustomUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'event_id': self.object.event.pk})
+        return kwargs
 
     def get_success_url(self):
         return self.object.get_redirect_url_for_event_list()

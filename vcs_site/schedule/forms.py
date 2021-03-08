@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 
-from .models import Event, Conference, Booking, Server
+from .models import Event, Conference, Booking
 from .services import check_free_quota, check_room_is_free
 
 
@@ -249,4 +249,3 @@ class BookingUpdateForm(BookingCreateForm):
     """
     Форма для редактирования бронирования помещения
     """
-    pass
