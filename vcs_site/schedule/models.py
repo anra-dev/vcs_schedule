@@ -46,9 +46,6 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'pk': self.pk})
 
-    def get_redirect_url_for_event_list(self):
-        return self.get_absolute_url()
-
     def get_avg_grade(self):
         return Grade.objects.filter(event=self).aggregate(models.Avg('grade'))['grade__avg']
 

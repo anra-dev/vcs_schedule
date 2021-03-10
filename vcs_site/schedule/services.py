@@ -1,9 +1,13 @@
+from datetime import date
+
 from django.db.models import Sum, Q
 from django.db.models.signals import post_save, post_init
 from django.dispatch import receiver
 
 from dispatch.calling import send_out_message
-from .models import Conference, Booking
+from .models import Event, Conference, Booking
+
+today = date.today()
 
 
 def check_free_quota(conf_id, server, date, time_start, time_end):
@@ -70,9 +74,20 @@ def update_status_event(instance, **kwargs):
         _set_event_status('completed')
 
 
-def set_status_archive(model, time):
-    """Функция которая устанавливает статус Архивный для прошедших Конференций и Броней"""
-    pass
+def set_status_completed(queryset):
+    """Функция которая устанавливает статус Архивный для прошедших моделей"""
+    if queryset.model == Event:
+        completed_list = queryset.filter(date_start__lt=today, status__in=['wait', 'ready', 'rejection'])
+        if completed_list:
+            conference = Conference.objects.filter(event__in=completed_list, date__lt=today)
+            booking = Booking.objects.filter(event__in=completed_list, date__lt=today)
+            conference.update(status='completed')
+            booking.update(status='completed')
+            completed_list.filter(date_end__lt=today).update(status='completed')
+    if queryset.model in [Conference, Booking]:
+        completed_list = queryset.filter(date__lt=today, status__in=['wait', 'ready', 'rejection'])
+        if completed_list:
+            completed_list.update(status='completed')
 
 
 @receiver(post_save, sender=Conference)
