@@ -34,10 +34,10 @@ class BookingCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return kwargs
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, self.object.MESSAGES['create'])
         return self.object.get_redirect_url_for_event_list()
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['create'])
         return super().form_valid(form)
 
 
@@ -54,11 +54,11 @@ class BookingUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
         return kwargs
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, self.object.MESSAGES['update'])
         return self.object.get_redirect_url_for_event_list()
 
     def form_valid(self, form):
         self.object.status = 'wait'
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
 
@@ -67,12 +67,13 @@ class BookingDeleteView(LoginRequiredMixin, DeleteView):
     УДАЛЕНИЕ БРОНИ
     """
     model = Booking
+    template_name = 'schedule/object_confirm_delete.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.ERROR, self.object.MESSAGES['delete'])
         return self.object.get_redirect_url_for_event_list()
 
     def delete(self, request, *args, **kwargs):
-        messages.add_message(self.request, messages.INFO, self.get_object().MESSAGES['delete'])
         return super().delete(request, *args, **kwargs)
 
 
@@ -84,11 +85,14 @@ class BookingApproveView(LoginRequiredMixin, UpdateView):
     fields = ['comment']
     template_name_suffix = '_approve'
 
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, self.object.MESSAGES['approve'])
+        return self.object.get_list_url()
+
     def form_valid(self, form):
         if 'ready' in form.data:
             form.instance.status = 'ready'
             form.instance.comment = None
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)

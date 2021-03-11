@@ -66,6 +66,7 @@ class Conference(models.Model):
     MESSAGES = {
         'create': 'Видеоконференция создана!',
         'update': 'Видеоконференция изменена!',
+        'approve': 'Видеоконференция обработана!',
         'delete': 'Видеоконференция удалена!'
     }
 
@@ -103,7 +104,7 @@ class Conference(models.Model):
         return f'Конференция на "{self.server}" запланирована на {self.date} с {self.time_start} по {self.time_end}'
 
     @staticmethod
-    def get_absolute_url():
+    def get_list_url():
         return reverse('conference_list')
 
     def get_redirect_url_for_event_list(self):
@@ -120,6 +121,7 @@ class Booking(models.Model):
     MESSAGES = {
         'create': 'Бронирование создано!',
         'update': 'Бронирование изменено!',
+        'approve': 'Бронирование обработано!',
         'delete': 'Бронирование удалено!'
     }
 
@@ -157,7 +159,7 @@ class Booking(models.Model):
         return f'Помещение "{self.room}" забронировано на {self.date} с {self.time_start} по {self.time_end}'
 
     @staticmethod
-    def get_absolute_url():
+    def get_list_url():
         return reverse('booking_list')
 
     def get_redirect_url_for_event_list(self):

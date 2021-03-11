@@ -1,7 +1,7 @@
 from datetime import date
 
 from django.db.models import Sum, Q
-from django.db.models.signals import post_save, post_init
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from dispatch.calling import send_out_message
@@ -64,12 +64,12 @@ def update_status_event(instance, **kwargs):
         event.save()
     if 'wait' in status:
         _set_event_status('wait')
-        # send_out_message(event)  # удалить
+        # send_out_message(event)  # для тестов - удалить на проде
     if 'rejection' in status:
         _set_event_status('rejection')
     if set(status) <= {'ready', 'completed'}:
         _set_event_status('ready')
-        send_out_message(event)  # раскомментировать
+        send_out_message(event)  # раскомментировать на проде
     if status[1:] == status[:-1] and status[0] == 'completed':  # Все элементы списка равны
         _set_event_status('completed')
 
@@ -92,14 +92,16 @@ def set_status_completed(queryset):
 
 @receiver(post_save, sender=Conference)
 @receiver(post_save, sender=Booking)
+@receiver(post_delete, sender=Conference)
+@receiver(post_delete, sender=Booking)
 def update_date_event(instance, **kwargs):
     """Функция определяет и обновляет дату начала и конца мероприятия"""
     event = instance.event
     conferences_date = [conf.date for conf in Conference.objects.filter(event=event)]  # возможно лучше union()
     bookings_date = [booking.date for booking in Booking.objects.filter(event=event)]
     dates = conferences_date + bookings_date
-    event.date_start = min(dates)
-    event.date_end = max(dates)
+    event.date_start = min(dates) if dates else None
+    event.date_end = max(dates) if dates else None
     event.save()
 
 

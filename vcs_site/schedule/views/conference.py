@@ -1,8 +1,9 @@
+from django.shortcuts import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from ..models import Conference
+from ..models import Conference, Booking
 from ..forms import ConferenceCreateForm, ConferenceUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin
@@ -34,10 +35,10 @@ class ConferenceCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return kwargs
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, self.object.MESSAGES['create'])
         return self.object.get_redirect_url_for_event_list()
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['create'])
         return super().form_valid(form)
 
 
@@ -48,17 +49,28 @@ class ConferenceUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
     model = Conference
     form_class = ConferenceUpdateForm
 
+    def get(self, request, *args, **kwargs):
+        conference = Conference.objects.get(pk=kwargs.get('pk'))
+        booking = Booking.objects.filter(conference=conference)
+        if booking:
+            messages.add_message(
+                self.request, messages.ERROR,
+                f'Нельзя изменить конференцию с существующим бронированием. Сначала удалите бронирование помещения!'
+            )
+            return HttpResponseRedirect(conference.get_redirect_url_for_event_list())
+        return super().get(request, *args, **kwargs)
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update({'event_id': self.object.event.pk})
         return kwargs
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, self.object.MESSAGES['update'])
         return self.object.get_redirect_url_for_event_list()
 
     def form_valid(self, form):
         self.object.status = 'wait'
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
 
@@ -70,10 +82,10 @@ class ConferenceDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'schedule/object_confirm_delete.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.ERROR, self.object.MESSAGES['delete'])
         return self.object.get_redirect_url_for_event_list()
 
     def delete(self, request, *args, **kwargs):
-        messages.add_message(self.request, messages.INFO, self.get_object().MESSAGES['delete'])
         return super().delete(request, *args, **kwargs)
 
 
@@ -85,6 +97,10 @@ class ConferenceApproveView(LoginRequiredMixin, UpdateView):
     fields = ['link', 'comment']
     template_name_suffix = '_approve'
 
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, self.object.MESSAGES['approve'])
+        return self.object.get_list_url()
+
     def form_valid(self, form):
         if 'ready' in form.data:
             if not form.cleaned_data['link']:
@@ -95,5 +111,4 @@ class ConferenceApproveView(LoginRequiredMixin, UpdateView):
                 form.instance.comment = None
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)

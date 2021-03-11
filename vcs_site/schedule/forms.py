@@ -204,6 +204,8 @@ class BookingCreateForm(forms.ModelForm):
             date = cleaned_data['date']
             time_start = cleaned_data['time_start']
             time_end = cleaned_data['time_end']
+            if date is None or time_start is None or time_end is None:
+                raise forms.ValidationError('Укажите дату и время')
             cleaned_data['conference'] = None
         else:
             if conference:
@@ -220,8 +222,7 @@ class BookingCreateForm(forms.ModelForm):
 
         # Время не должно быть занято кем то ранее
         if check_room_is_free(booking_id, room, date, time_start, time_end):
-            self.add_error('time_start', 'Время занято другим мероприятием')
-            self.add_error('time_end', 'Время занято другим мероприятием')
+            raise forms.ValidationError('На это время помещение занято другим мероприятием')
 
         # Количество участников не должно превышать вместимость комнаты
         if quota > room.quota:

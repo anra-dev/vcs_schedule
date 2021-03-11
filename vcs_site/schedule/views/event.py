@@ -77,10 +77,13 @@ class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
     model = Event
     form_class = EventCreateForm
 
+    def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, self.object.MESSAGES['create'])
+        return super().get_success_url()
+
     def form_valid(self, form):
         form.instance.responsible = Staffer.objects.get(user=self.request.user)
         form.instance.organization = Organization.objects.get(responsible=form.instance.responsible)
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['create'])
         return super().form_valid(form)
 
 
@@ -92,11 +95,11 @@ class EventUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
     form_class = EventUpdateForm
 
     def get_success_url(self):
-        return self.object.get_absolute_url()
+        messages.add_message(self.request, messages.INFO, self.object.MESSAGES['update'])
+        return super().get_success_url()
 
     def form_valid(self, form):
         self.object.status = 'wait'
-        messages.add_message(self.request, messages.INFO, form.instance.MESSAGES['update'])
         return super().form_valid(form)
 
 
@@ -108,10 +111,10 @@ class EventDeleteView(LoginRequiredMixin, HelpMixin, DeleteView):
     template_name = 'schedule/object_confirm_delete.html'
 
     def get_success_url(self):
+        messages.add_message(self.request, messages.ERROR, self.object.MESSAGES['delete'])
         return reverse_lazy('event_list')
 
     def delete(self, request, *args, **kwargs):
-        messages.add_message(self.request, messages.INFO, self.get_object().MESSAGES['delete'])
         return super().delete(request, *args, **kwargs)
 
 
@@ -120,6 +123,10 @@ class GradeCreate(LoginRequiredMixin, CreateView):
     fields = ['grade', 'comment']
     success_url = reverse_lazy('event_archive')
 
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Спасибо за оценку!')
+        return reverse_lazy('event_archive')
+
     def form_valid(self, form):
         pk = self.kwargs.get(self.pk_url_kwarg)
         form.instance.event = Event.objects.get(pk=pk)
@@ -127,6 +134,5 @@ class GradeCreate(LoginRequiredMixin, CreateView):
         if Grade.objects.filter(event=form.instance.event, created_by=form.instance.created_by):
             form.add_error('', 'Оценить мероприятие можно только один раз')
             return self.form_invalid(form)
-        messages.add_message(self.request, messages.INFO, 'Спасибо за оценку!')
         return super().form_valid(form)
 
