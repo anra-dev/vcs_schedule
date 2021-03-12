@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 
-from .models import Event, Conference, Booking
+from .models import Event, Conference, Booking, get_object_or_None
 from .services import check_free_quota, check_room_is_free
 
 
@@ -56,7 +56,7 @@ class ConferenceCreateForm(forms.ModelForm):
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-        self.event = Event.objects.get(pk=event_id)
+        self.event = get_object_or_None(Event, pk=event_id)  # Возможно нужно обработать None
 
     def clean_event(self):
         # защита от подмены на стороне клиента. Пока ищу более правильный способ.
@@ -171,7 +171,7 @@ class BookingCreateForm(forms.ModelForm):
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-        self.event = Event.objects.get(pk=event_id)
+        self.event = get_object_or_None(Event, pk=event_id)  # Возможно нужно обработать None
         conference = Conference.objects.filter(event=self.event)
         self.fields['conference'].queryset = conference
 

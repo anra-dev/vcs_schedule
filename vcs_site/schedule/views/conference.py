@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from ..models import Conference, Booking
+from ..models import Conference, Booking, get_object_or_None
 from ..forms import ConferenceCreateForm, ConferenceUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsOperatorMixin
@@ -50,7 +50,7 @@ class ConferenceUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
     form_class = ConferenceUpdateForm
 
     def get(self, request, *args, **kwargs):
-        conference = Conference.objects.get(pk=kwargs.get('pk'))
+        conference = get_object_or_None(Conference, pk=kwargs.get('pk'))
         booking = Booking.objects.filter(conference=conference)
         if booking:
             messages.add_message(

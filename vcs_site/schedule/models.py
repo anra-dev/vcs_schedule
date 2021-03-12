@@ -51,10 +51,7 @@ class Event(models.Model):
         return Grade.objects.filter(event=self).aggregate(models.Avg('grade'))['grade__avg']
 
     def get_grade(self):
-        try:
-            return Grade.objects.get(event=self).grade
-        except:
-            return 0
+        return get_object_or_None(Grade, event=self).grade
 
     class Meta:
         ordering = ['date_start']

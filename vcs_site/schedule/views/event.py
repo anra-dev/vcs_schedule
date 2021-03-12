@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from ..models import Event, Conference, Booking, Organization, Staffer, Grade
+from ..models import Event, Conference, Booking, Organization, Staffer, Grade, get_object_or_None
 from ..forms import EventCreateForm, EventUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin
@@ -35,7 +35,7 @@ class MyEventsListView(LoginRequiredMixin, ListView):
         set_status_completed(queryset)
         return queryset.filter(
             status__in=('wait', 'ready', 'rejection'),
-            responsible=Staffer.objects.get(user=self.request.user)
+            responsible=get_object_or_None(Staffer, user=self.request.user)
         )
 
 
@@ -53,7 +53,7 @@ class ArchiveEventsListView(LoginRequiredMixin, ListView):
         set_status_completed(queryset)
         return queryset.filter(
             status__in=('completed',),
-            responsible=Staffer.objects.get(user=self.request.user)
+            responsible=get_object_or_None(Staffer, user=self.request.user)
         )
 
 
@@ -129,8 +129,8 @@ class GradeCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        form.instance.event = Event.objects.get(pk=pk)
-        form.instance.created_by = Staffer.objects.get(user=self.request.user)
+        form.instance.event = get_object_or_None(Event, pk=pk)  # Возможно надо обработать None
+        form.instance.created_by = get_object_or_None(Staffer, user=self.request.user)  # Возможно надо обработать None
         if Grade.objects.filter(event=form.instance.event, created_by=form.instance.created_by):
             form.add_error('', 'Оценить мероприятие можно только один раз')
             return self.form_invalid(form)
