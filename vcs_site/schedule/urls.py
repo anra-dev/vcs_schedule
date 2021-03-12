@@ -6,7 +6,7 @@ from .views.booking import *
 urlpatterns = [
     path('event-list/', EventsListView.as_view(), name='event_list'),
     path('my-event-list/', MyEventsListView.as_view(), name='my_event_list'),
-    path('conference_list/', ConferencesListView.as_view(), name='conference_list'),
+    path('conference-list/', ConferencesListView.as_view(), name='conference_list'),
     path('booking-list/', BookingsListView.as_view(), name='booking_list'),
     path('event-archive/', ArchiveEventsListView.as_view(), name='event_archive'),
 

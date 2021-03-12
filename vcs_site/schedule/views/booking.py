@@ -5,10 +5,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from ..models import Booking
 from ..forms import BookingCreateForm, BookingUpdateForm
 from ..services import set_status_completed
-from .mixins import HelpMixin
+from .mixins import HelpMixin, UserIsAssistantMixin
 
 
-class BookingsListView(LoginRequiredMixin, ListView):
+class BookingsListView(UserIsAssistantMixin, ListView):
     """
     ПРОСМОТР СПИСКА БРОНИ
     """

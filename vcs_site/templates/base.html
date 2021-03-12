@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+{% load auth_extras %}
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -32,8 +32,12 @@
             {% block sidebar_link %}
             <a href="{% url 'event_list' %}" class="list-group-item list-group-item-action bg-light">Все мероприятия</a>
             <a href="{% url 'my_event_list' %}" class="list-group-item list-group-item-action bg-light">Мои мероприятия</a>
+            {% if request.user|has_group:"Оператор" %}
             <a href="{% url 'conference_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на конференции</a>
+            {% endif %}
+            {% if request.user|has_group:"Ассистент" %}
             <a href="{% url 'booking_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на помещения</a>
+            {% endif %}
             <a href="{% url 'event_archive' %}" class="list-group-item list-group-item-action bg-light">Мой архив</a>
             {% endblock sidebar_link %}
         </div>

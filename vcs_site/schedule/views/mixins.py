@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from help.models import Page
 
 
@@ -10,3 +11,15 @@ class HelpMixin:
         except Exception:
             pass
         return context
+
+
+class UserIsOperatorMixin(UserPassesTestMixin):
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Оператор').exists()
+
+
+class UserIsAssistantMixin(UserPassesTestMixin):
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Ассистент').exists()

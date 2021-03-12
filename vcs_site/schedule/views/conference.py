@@ -6,10 +6,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from ..models import Conference, Booking
 from ..forms import ConferenceCreateForm, ConferenceUpdateForm
 from ..services import set_status_completed
-from .mixins import HelpMixin
+from .mixins import HelpMixin, UserIsOperatorMixin
 
 
-class ConferencesListView(LoginRequiredMixin, ListView):
+class ConferencesListView(UserIsOperatorMixin, ListView):
     """
     ПРОСМОТР СПИСКА КОНФЕРЕНЦИЙ
     """
