@@ -52,6 +52,8 @@ def check_room_is_free(booking_id, room, date, time_start, time_end):
 
 @receiver(post_save, sender=Conference)
 @receiver(post_save, sender=Booking)
+@receiver(post_delete, sender=Conference)
+@receiver(post_delete, sender=Booking)
 def update_status_event(instance, **kwargs):
     """Функция обновляет статус мероприятия"""
     event = instance.event

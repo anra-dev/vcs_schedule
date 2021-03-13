@@ -73,9 +73,6 @@ class BookingDeleteView(LoginRequiredMixin, DeleteView):
         messages.add_message(self.request, messages.ERROR, self.object.MESSAGES['delete'])
         return self.object.get_redirect_url_for_event_list()
 
-    def delete(self, request, *args, **kwargs):
-        return super().delete(request, *args, **kwargs)
-
 
 class BookingApproveView(LoginRequiredMixin, UpdateView):
     """
