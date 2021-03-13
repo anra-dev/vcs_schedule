@@ -32,7 +32,7 @@ def get_message(event=None):
         message += f'Помещение {booking.room}\n'
         message += f'Ответственный сотрудник: {booking.responsible} \n'
         message += f'Телефон: {booking.responsible.phone}, '
-        message += f'электронная почта: {booking.room.responsible.email} \n'
+        message += f'электронная почта: {booking.responsible.email} \n'
         if not booking.without_conference:
             message += f'Подключение конференции:  {booking.conference.server}\n'
             message += f'Ссылка: {booking.conference.link}\n'

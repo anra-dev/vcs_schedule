@@ -178,10 +178,6 @@ class BookingCreateForm(forms.ModelForm):
                 self.add_error('date', 'Некорректная дата')
         return date
 
-    def clean_event(self):
-        # защита от подмены на стороне клиента. Пока ищу более правильный способ.
-        return self.event
-
     def clean(self):
         """Валидация формы"""
         cleaned_data = super().clean()
@@ -224,7 +220,6 @@ class BookingCreateForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = (
-            'event',
             'without_conference',
             'conference',
             'room',
@@ -233,9 +228,6 @@ class BookingCreateForm(forms.ModelForm):
             'time_start',
             'time_end',
         )
-        widgets = {
-            'event': forms.HiddenInput(),
-        }
 
 
 class BookingUpdateForm(BookingCreateForm):

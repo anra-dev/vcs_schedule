@@ -169,7 +169,8 @@ class Booking(models.Model):
     conference = models.ForeignKey('Conference', verbose_name='Конференция', null=True, blank=True,
                                    on_delete=models.CASCADE)
     without_conference = models.BooleanField(verbose_name='Без конференции', default=False)
-    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE,
+                                    null=True, blank=True)
     room = models.ForeignKey('Room', verbose_name='Место проведения', on_delete=models.CASCADE)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     date = models.DateField(verbose_name='Дата проведения')

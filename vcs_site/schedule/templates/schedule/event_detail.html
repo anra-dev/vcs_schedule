@@ -135,9 +135,13 @@
   <tr>
     <th>Ассистент</th>
     <td>
-      {{ booking.room.responsible }}<hr>
-      телефон: {{ booking.room.responsible.phone }},
-      email: <a href="mailto:{{ booking.room.responsible.email }}?subject={{ booking }}">{{ booking.room.responsible.email }}</a>
+      {% if booking.responsible %}
+      {{ booking.responsible }}<hr>
+      телефон: {{ booking.responsible.phone }},
+      email: <a href="mailto:{{ booking.responsible.email }}?subject={{ booking }}">{{ booking.responsible.email }}</a>
+      {% else %}
+      Специалист еще не назначен
+      {% endif %}
     </td>
   </tr>
   <tr>
