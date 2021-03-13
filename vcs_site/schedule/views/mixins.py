@@ -22,3 +22,10 @@ class UserIsAssistantMixin(UserPassesTestMixin):
 
     def test_func(self):
         return self.request.user.is_assistant
+
+
+class UserIsOwnerMixin(UserPassesTestMixin):
+
+    def test_func(self):
+        return get_object_or_none(self.model, pk=self.kwargs.get('pk')).owner == self.request.user
+

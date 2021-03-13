@@ -6,7 +6,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from ..models import Event, Conference, Booking, Server, get_object_or_none
 from ..forms import ConferenceCreateForm, ConferenceUpdateForm
 from ..services import set_status_completed
-from .mixins import HelpMixin, UserIsOperatorMixin
+from .mixins import HelpMixin, UserIsOperatorMixin, UserIsOwnerMixin
 
 
 class ConferencesListView(UserIsOperatorMixin, ListView):
@@ -40,7 +40,7 @@ class ConferenceCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return super().form_valid(form)
 
 
-class ConferenceUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
+class ConferenceUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ
     """
@@ -67,7 +67,7 @@ class ConferenceUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ConferenceDeleteView(LoginRequiredMixin, DeleteView):
+class ConferenceDeleteView(UserIsOwnerMixin, DeleteView):
     """
     УДАЛЕНИЕ КОНФЕРЕНЦИЙ
     """
@@ -79,7 +79,7 @@ class ConferenceDeleteView(LoginRequiredMixin, DeleteView):
         return self.object.get_redirect_url_for_event_list()
 
 
-class ConferenceApproveView(LoginRequiredMixin, UpdateView):
+class ConferenceApproveView(UserIsOperatorMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ ОПЕРАТОРОМ
     """

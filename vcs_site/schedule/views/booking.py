@@ -6,7 +6,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from ..models import Event, Conference, Booking, Room, get_object_or_none
 from ..forms import BookingCreateForm, BookingUpdateForm
 from ..services import set_status_completed
-from .mixins import HelpMixin, UserIsAssistantMixin
+from .mixins import HelpMixin, UserIsAssistantMixin, UserIsOwnerMixin
 
 
 class BookingsListView(UserIsAssistantMixin, ListView):
@@ -47,7 +47,7 @@ class BookingCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return super().form_valid(form)
 
 
-class BookingUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
+class BookingUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ БРОНИ
     """
@@ -68,7 +68,7 @@ class BookingUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
         return super().form_valid(form)
 
 
-class BookingDeleteView(LoginRequiredMixin, DeleteView):
+class BookingDeleteView(UserIsOwnerMixin, DeleteView):
     """
     УДАЛЕНИЕ БРОНИ
     """
@@ -80,7 +80,7 @@ class BookingDeleteView(LoginRequiredMixin, DeleteView):
         return self.object.get_redirect_url_for_event_list()
 
 
-class BookingApproveView(LoginRequiredMixin, UpdateView):
+class BookingApproveView(UserIsAssistantMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ БРОНИ ОПЕРАТОРОМ
     """

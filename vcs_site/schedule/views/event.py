@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from ..models import Event, Conference, Booking, Grade, get_object_or_none
 from ..forms import EventCreateForm, EventUpdateForm
 from ..services import set_status_completed
-from .mixins import HelpMixin
+from .mixins import HelpMixin, UserIsOwnerMixin
 
 
 class EventsListView(LoginRequiredMixin, ListView):
@@ -87,7 +87,7 @@ class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return super().form_valid(form)
 
 
-class EventUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
+class EventUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ МЕРОПРИЯТИЙ
     """
@@ -99,7 +99,7 @@ class EventUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
         return super().get_success_url()
 
 
-class EventDeleteView(LoginRequiredMixin, HelpMixin, DeleteView):
+class EventDeleteView(UserIsOwnerMixin, HelpMixin, DeleteView):
     """
     УДАЛЕНИЕ  МЕРОПРИЯТИЙ
     """
