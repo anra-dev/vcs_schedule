@@ -20,8 +20,8 @@ class SettingsView(UpdateView):
             return referer_url
         return reverse_lazy('event_list')
 
-    # def get_object(self, queryset=None):
-    #     return Staffer.objects.get(user=self.request.user)
+    def get_object(self, queryset=None):
+        return self.request.user
 
     def form_valid(self, form):  # Переписать так что бы показывало обе ошибки одновременно если они есть
         if form.cleaned_data['subscribe_mail'] and not form.cleaned_data['email']:
