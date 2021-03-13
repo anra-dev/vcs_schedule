@@ -25,9 +25,9 @@ class User(AbstractUser):
     organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.SET_NULL,
                                      null=True, blank=True)
     subscribe_mail = models.BooleanField(verbose_name='Подписка на почтовую рассылку', default=False)
-    telegram = models.CharField(max_length=10, verbose_name='Телеграм чат-id', null=True, blank=True,)
+    telegram = models.CharField(max_length=10, verbose_name='Телеграм чат-id', null=True, blank=True)
     subscribe_telegram = models.BooleanField(verbose_name='Подписка на рассылку в телеграм', default=False)
-    phone = models.CharField(max_length=100, verbose_name='Телефон')
+    phone = models.CharField(max_length=100, verbose_name='Телефон', null=True, blank=True)
 
 
 class Event(models.Model):
