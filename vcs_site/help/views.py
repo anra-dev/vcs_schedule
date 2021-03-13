@@ -1,10 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 
 from .models import Page, Section
 
 
-class HelpIndexView(TemplateView):
+class HelpIndexView(LoginRequiredMixin, TemplateView):
 
     template_name = "help/help_page.html"
 
@@ -14,7 +15,7 @@ class HelpIndexView(TemplateView):
         return context
 
 
-class HelpPageView(DetailView):
+class HelpPageView(LoginRequiredMixin, DetailView):
 
     model = Page
 
