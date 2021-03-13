@@ -1,5 +1,5 @@
 {% extends 'schedule/base.html' %}
-
+{% load custom_filter %}
 {% block content %}
 
 <h1 class="mt-4">{% block title %}Предстоящие мероприятия{% endblock title %}</h1>
@@ -17,10 +17,7 @@
   </thead>
   <tbody>
   {% for event in page_obj %}
-  <tr class="{% if event.status == 'wait' %} table-warning
-               {% elif event.status == 'ready' %} table-success
-               {% elif event.status == 'rejection' %} table-danger
-               {% elif event.status == 'completed' %} table-secondary {% endif %}">
+  <tr class="table-{{ event.status|get_postfix }}">
     <td>
       {% if event.date_start == event.date_end %}{{ event.date_start|date:"d.m.Y" }}
       {% else %}{{ event.date_start|date:"d.m" }}-{{ event.date_end|date:"d.m.Y" }}
@@ -28,11 +25,7 @@
     </td>
     <td>{{ event.name }}</td>
     <td>
-      {% if event.status == 'wait' %}<h4><span class="badge bg-warning">{{ event.get_status_display  }}</span></h4>
-      {% elif event.status == 'ready' %}<h4><span class="badge bg-success">{{ event.get_status_display  }}</span></h4>
-      {% elif event.status == 'rejection' %}<h4><span class="badge bg-danger">{{ event.get_status_display  }}</span></h4>
-      {% elif event.status == 'completed' %}<h4><span class="badge bg-secondary">{{ event.get_status_display  }}</span></h4>
-      {% endif %}
+      <h4><span class="badge bg-{{ event.status|get_postfix }}">{{ event.get_status_display  }}</span></h4>
     </td>
     <td>{{ event.organization }}</td>
     <td>{{ event.responsible }}</td>

@@ -1,15 +1,12 @@
 {% extends 'schedule/base.html' %}
+{% load custom_filter %}
 
 {% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block data %}
 
 <h1 class="mt-4" >Мероприятие "{{ event.name }}"
-  {% if event.status == 'wait' %}<span class="badge bg-warning">{{ event.get_status_display  }}</span>
-  {% elif event.status == 'ready' %}<span class="badge bg-success">{{ event.get_status_display  }}</span>
-  {% elif event.status == 'rejection' %}<span class="badge bg-danger">{{ event.get_status_display  }}</span>
-  {% elif event.status == 'completed' %}<span class="badge bg-secondary">{{ event.get_status_display  }}</span>
-  {% endif %}
+<span class="badge bg-{{ event.status|get_postfix }}">{{ event.get_status_display  }}</span>
 </h1>
 <div class="mt-4">
   <a class="btn btn-primary" href="{% url 'conference_create' pk=event.pk %}" role="button">Добавить видеоконференцию</a>
@@ -56,11 +53,7 @@
 {% if conferences %}
 {% for conference in conferences %}
 <h3 class="mt-4">Видеоконференция "{{ conference.application }}"
-  {% if conference.status == 'wait' %}<span class="badge bg-warning">{{ conference.get_status_display  }}</span>
-  {% elif conference.status == 'ready' %}<span class="badge bg-success">{{ conference.get_status_display  }}</span>
-  {% elif conference.status == 'rejection' %}<span class="badge bg-danger">{{ conference.get_status_display  }}</span>
-  {% elif conference.status == 'completed' %}<span class="badge bg-secondary">{{ conference.get_status_display  }}</span>
-  {% endif %}
+  <span class="badge bg-{{ event.status|get_postfix }}">{{ conference.get_status_display  }}</span>
 </h3>
 {% if conference.comment %}
 <div class="alert alert-danger" role="alert">
@@ -112,11 +105,7 @@
 {% if bookings %}
 {% for booking in bookings %}
 <h3 class="mt-4">Комната на {{ booking.room.quota }} мест(а)
-  {% if booking.status == 'wait' %}<span class="badge bg-warning">{{ booking.get_status_display  }}</span>
-  {% elif booking.status == 'ready' %}<span class="badge bg-success">{{ booking.get_status_display  }}</span>
-  {% elif booking.status == 'rejection' %}<span class="badge bg-danger">{{ booking.get_status_display  }}</span>
-  {% elif booking.status == 'completed' %}<span class="badge bg-secondary">{{ booking.get_status_display  }}</span>
-  {% endif %}
+  <span class="badge bg-{{ event.status|get_postfix }}">{{ booking.get_status_display  }}</span>
 </h3>
 {% if booking.comment %}
 <div class="alert alert-danger" role="alert">
