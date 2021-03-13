@@ -1,8 +1,9 @@
+from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from ..models import Event, Booking, get_object_or_none
+from ..models import Event, Conference, Booking, Room, get_object_or_none
 from ..forms import BookingCreateForm, BookingUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsAssistantMixin
@@ -18,7 +19,10 @@ class BookingsListView(UserIsAssistantMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         set_status_completed(queryset)
-        return queryset.filter(status__in=('wait',))
+        return queryset.filter(
+            Q(status__in=('wait',), room__in=Room.objects.filter(assistants=self.request.user)),
+            Q(conference__isnull=True) | Q(conference__in=Conference.objects.filter(status=Conference.STATUS_READY))
+        )
 
 
 class BookingCreateView(LoginRequiredMixin, HelpMixin, CreateView):
