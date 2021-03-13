@@ -58,7 +58,7 @@ class Event(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название мероприятия')
     description = models.TextField(verbose_name='Описание')
     organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.CASCADE)  # Возможно избыточно
-    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    owner = models.ForeignKey('User', verbose_name='Владелец', on_delete=models.CASCADE)
     date_start = models.DateField(verbose_name='Дата начала мероприятия', null=True, blank=True)
     date_end = models.DateField(verbose_name='Дата окончания мероприятия', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
@@ -110,8 +110,10 @@ class Conference(models.Model):
 
     event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
     server = models.ForeignKey('Server', verbose_name='Сервер', on_delete=models.CASCADE)
-    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE,
-                                    null=True, blank=True)
+    owner = models.ForeignKey('User', verbose_name='Владелец', on_delete=models.CASCADE,
+                              related_name='conference_owner')
+    operator = models.ForeignKey('User', verbose_name='Оператор', on_delete=models.CASCADE,
+                                 related_name='conference_operator', null=True, blank=True)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', verbose_name='Файл', null=True, blank=True)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
@@ -169,8 +171,9 @@ class Booking(models.Model):
     conference = models.ForeignKey('Conference', verbose_name='Конференция', null=True, blank=True,
                                    on_delete=models.CASCADE)
     without_conference = models.BooleanField(verbose_name='Без конференции', default=False)
-    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE,
-                                    null=True, blank=True)
+    owner = models.ForeignKey('User', verbose_name='Владелец', on_delete=models.CASCADE, related_name='booking_owner')
+    assistant = models.ForeignKey('User', verbose_name='Ассистент', on_delete=models.CASCADE,
+                                  related_name='booking_assistant', null=True, blank=True)
     room = models.ForeignKey('Room', verbose_name='Место проведения', on_delete=models.CASCADE)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     date = models.DateField(verbose_name='Дата проведения')
