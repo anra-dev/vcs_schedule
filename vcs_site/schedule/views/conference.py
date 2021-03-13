@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from ..models import Event, Conference, Booking, get_object_or_None
+from ..models import Event, Conference, Booking, get_object_or_none
 from ..forms import ConferenceCreateForm, ConferenceUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsOperatorMixin
@@ -19,7 +19,7 @@ class ConferencesListView(UserIsOperatorMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         set_status_completed(queryset)
-        return queryset.filter(status__in=('wait',))
+        return queryset.filter(status__in=('wait',), )
 
 
 class ConferenceCreateView(LoginRequiredMixin, HelpMixin, CreateView):
@@ -35,7 +35,7 @@ class ConferenceCreateView(LoginRequiredMixin, HelpMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        form.instance.event = get_object_or_None(Event, pk=self.kwargs.get('pk'))
+        form.instance.event = get_object_or_none(Event, pk=self.kwargs.get('pk'))
         return super().form_valid(form)
 
 
@@ -47,7 +47,7 @@ class ConferenceUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
     form_class = ConferenceUpdateForm
 
     def get(self, request, *args, **kwargs):
-        conference = get_object_or_None(Conference, pk=kwargs.get('pk'))
+        conference = get_object_or_none(Conference, pk=kwargs.get('pk'))
         booking = Booking.objects.filter(conference=conference)
         if booking:
             messages.add_message(

@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from ..models import Event, Conference, Booking, Grade, get_object_or_None
+from ..models import Event, Conference, Booking, Grade, get_object_or_none
 from ..forms import EventCreateForm, EventUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin
@@ -122,7 +122,7 @@ class GradeCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        form.instance.event = get_object_or_None(Event, pk=pk)  # Возможно надо обработать None
+        form.instance.event = get_object_or_none(Event, pk=pk)  # Возможно надо обработать None
         form.instance.created_by = self.request.user
         if Grade.objects.filter(event=form.instance.event, created_by=form.instance.created_by):
             form.add_error('', 'Оценить мероприятие можно только один раз')

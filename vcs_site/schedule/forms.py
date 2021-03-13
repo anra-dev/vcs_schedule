@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 
-from .models import Event, Conference, Booking, get_object_or_None
+from .models import Event, Conference, Booking, get_object_or_none
 from .services import check_free_quota, check_room_is_free
 
 
@@ -16,7 +16,7 @@ class CustomSelectWidget(forms.Select):
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         option = super().create_option(name, value, label, selected, index)
         if value:
-            server = self.choices.queryset.get(pk=str(value))  # get server instance
+            server = get_object_or_none(self.choices.queryset, pk=str(value))  # get server instance
             option['attrs']['data-server-type'] = server.server_type  # set option attribute
         return option
 
@@ -163,7 +163,7 @@ class BookingCreateForm(forms.ModelForm):
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-        self.event = get_object_or_None(Event, pk=event_id)  # Возможно нужно обработать None
+        self.event = get_object_or_none(Event, pk=event_id)  # Возможно нужно обработать None
         conference = Conference.objects.filter(event=self.event)
         self.fields['conference'].queryset = conference
 

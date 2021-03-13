@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.shortcuts import _get_queryset
 
 
-def get_object_or_None(klass, *args, **kwargs):
+def get_object_or_none(klass, *args, **kwargs):
     """
     Uses get() to return an object or None if the object does not exist.
     klass may be a Model, Manager, or QuerySet object. All other passed
@@ -209,7 +209,7 @@ class Room(models.Model):
     address = models.CharField(max_length=255, verbose_name='Адрес')
     room = models.CharField(max_length=255, verbose_name='Комната')
     quota = models.PositiveIntegerField(verbose_name='Вместимость')
-    responsible = models.ManyToManyField('User', verbose_name='Ответственные сотрудники')
+    assistants = models.ManyToManyField('User', verbose_name='Ассистенты')
     applications = models.ManyToManyField('Application', verbose_name='Доступные приложения',
                                           related_name='related_room')
     created_at = models.DateTimeField(auto_now=True)
@@ -237,7 +237,7 @@ class Server(models.Model):
     application = models.ForeignKey('Application', verbose_name='Приложение', on_delete=models.CASCADE)
     server_address = models.CharField(max_length=50, verbose_name='Адрес сервера', null=True, blank=True)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
-    responsible = models.ManyToManyField('User', verbose_name='Ответственные сотрудники')
+    operators = models.ManyToManyField('User', verbose_name='Операторы')
     created_at = models.DateTimeField(auto_now=True)
     server_type = models.CharField(
         max_length=100,

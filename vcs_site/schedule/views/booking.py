@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from ..models import Event, Booking, get_object_or_None
+from ..models import Event, Booking, get_object_or_none
 from ..forms import BookingCreateForm, BookingUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsAssistantMixin
@@ -39,7 +39,7 @@ class BookingCreateView(LoginRequiredMixin, HelpMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        form.instance.event = get_object_or_None(Event, pk=self.kwargs.get('pk'))
+        form.instance.event = get_object_or_none(Event, pk=self.kwargs.get('pk'))
         return super().form_valid(form)
 
 

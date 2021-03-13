@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 
-from ..models import get_object_or_None
+from ..models import get_object_or_none
 from help.models import Page
 
 
@@ -8,7 +8,7 @@ class HelpMixin:
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['help'] = get_object_or_None(Page, slug=self.model.__name__.lower())
+        context['help'] = get_object_or_none(Page, slug=self.model.__name__.lower())
         return context
 
 
