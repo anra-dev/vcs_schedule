@@ -38,12 +38,14 @@ class Event(models.Model):
         'delete': 'Мероприятие удалено!'
     }
 
+    STATUS_DRAFT = 'draft'
     STATUS_WAIT = 'wait'
     STATUS_READY = 'ready'
     STATUS_REJECTION = 'rejection'
     STATUS_COMPLETED = 'completed'
 
     STATUS_CHOICES = (
+        (STATUS_DRAFT, 'Черновик'),
         (STATUS_WAIT, 'Ожидание'),
         (STATUS_READY, 'Готово'),
         (STATUS_REJECTION, 'Отказ'),
@@ -61,7 +63,7 @@ class Event(models.Model):
         max_length=100,
         verbose_name='Статус мероприятия',
         choices=STATUS_CHOICES,
-        default=STATUS_WAIT
+        default=STATUS_DRAFT
     )
 
     def __str__(self):

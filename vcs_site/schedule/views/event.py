@@ -34,7 +34,7 @@ class MyEventsListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         set_status_completed(queryset)
         return queryset.filter(
-            status__in=('wait', 'ready', 'rejection'),
+            status__in=('wait', 'ready', 'draft', 'rejection'),
             responsible=self.request.user
         )
 
@@ -97,10 +97,6 @@ class EventUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
     def get_success_url(self):
         messages.add_message(self.request, messages.INFO, self.object.MESSAGES['update'])
         return super().get_success_url()
-
-    def form_valid(self, form):
-        self.object.status = 'wait'
-        return super().form_valid(form)
 
 
 class EventDeleteView(LoginRequiredMixin, HelpMixin, DeleteView):
