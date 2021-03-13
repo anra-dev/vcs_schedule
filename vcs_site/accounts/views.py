@@ -6,11 +6,11 @@ from django.urls import reverse_lazy
 
 
 from .forms import LoginForm
-from schedule.models import Staffer
+from schedule.models import User
 
 
 class SettingsView(UpdateView):
-    model = Staffer
+    model = User
     fields = ['subscribe_mail', 'email', 'subscribe_telegram', 'telegram']
     template_name = 'accounts/staffer_form.html'
 
@@ -20,8 +20,8 @@ class SettingsView(UpdateView):
             return referer_url
         return reverse_lazy('event_list')
 
-    def get_object(self, queryset=None):
-        return Staffer.objects.get(user=self.request.user)
+    # def get_object(self, queryset=None):
+    #     return Staffer.objects.get(user=self.request.user)
 
     def form_valid(self, form):  # Переписать так что бы показывало обе ошибки одновременно если они есть
         if form.cleaned_data['subscribe_mail'] and not form.cleaned_data['email']:

@@ -1,10 +1,33 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 from django.shortcuts import _get_queryset
 
 
-User = get_user_model()
+def get_object_or_None(klass, *args, **kwargs):
+    """
+    Uses get() to return an object or None if the object does not exist.
+    klass may be a Model, Manager, or QuerySet object. All other passed
+    arguments and keyword arguments are used in the get() query.
+    Note: Like with get(), a MultipleObjectsReturned will be raised if more than one
+    object is found.
+    """
+    queryset = _get_queryset(klass)
+    try:
+        return queryset.get(*args, **kwargs)
+    except queryset.model.DoesNotExist:
+        return None
+
+
+class User(AbstractUser):
+    is_operator = models.BooleanField(default=False, verbose_name='Опертор')
+    is_assistant = models.BooleanField(default=False, verbose_name='Ассистент')
+    organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.SET_NULL,
+                                     null=True, blank=True)
+    subscribe_mail = models.BooleanField(verbose_name='Подписка на почтовую рассылку', default=False)
+    telegram = models.CharField(max_length=10, verbose_name='Телеграм чат-id', null=True, blank=True,)
+    subscribe_telegram = models.BooleanField(verbose_name='Подписка на рассылку в телеграм', default=False)
+    phone = models.CharField(max_length=100, verbose_name='Телефон')
 
 
 class Event(models.Model):
@@ -29,8 +52,8 @@ class Event(models.Model):
 
     name = models.CharField(max_length=255, verbose_name='Название мероприятия')
     description = models.TextField(verbose_name='Описание')
-    organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.CASCADE)
-    responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.CASCADE)  # Возможно избыточно
+    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
     date_start = models.DateField(verbose_name='Дата начала мероприятия', null=True, blank=True)
     date_end = models.DateField(verbose_name='Дата окончания мероприятия', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
@@ -80,8 +103,9 @@ class Conference(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
-    event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
-    server = models.ForeignKey('Server', verbose_name='Сервер', on_delete=models.CASCADE, null=True, blank=True)
+    event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
+    server = models.ForeignKey('Server', verbose_name='Сервер', on_delete=models.CASCADE)
+    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', verbose_name='Файл', null=True, blank=True)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
@@ -135,11 +159,12 @@ class Booking(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
-    event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
+    event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
     conference = models.ForeignKey('Conference', verbose_name='Конференция', null=True, blank=True,
                                    on_delete=models.CASCADE)
     without_conference = models.BooleanField(verbose_name='Без конференции', default=False)
-    room = models.ForeignKey('Room', verbose_name='Место проведения', null=True, blank=True, on_delete=models.CASCADE)
+    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    room = models.ForeignKey('Room', verbose_name='Место проведения', on_delete=models.CASCADE)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников')
     date = models.DateField(verbose_name='Дата проведения')
     time_start = models.TimeField(verbose_name='Время начала')
@@ -169,28 +194,14 @@ class Booking(models.Model):
         verbose_name_plural = 'Бронирования'
 
 
-class Organization(models.Model):
-
-    name = models.CharField(max_length=255, verbose_name='Название организации')
-    responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = 'Организация'
-        verbose_name_plural = 'Организации'
-
-
 class Room(models.Model):
 
     address = models.CharField(max_length=255, verbose_name='Адрес')
     room = models.CharField(max_length=255, verbose_name='Комната')
     quota = models.PositiveIntegerField(verbose_name='Вместимость')
-    responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
-    applications = models.ManyToManyField('Application', verbose_name='Приложения', related_name='related_room')
+    responsible = models.ManyToManyField('User', verbose_name='Ответственные сотрудники')
+    applications = models.ManyToManyField('Application', verbose_name='Доступные приложения',
+                                          related_name='related_room')
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -213,11 +224,10 @@ class Server(models.Model):
     )
 
     name = models.CharField(max_length=255, verbose_name='Название сервера')
-    application = models.ForeignKey('Application', verbose_name='Приложение', null=True, blank=True,
-                                    on_delete=models.CASCADE)
+    application = models.ForeignKey('Application', verbose_name='Приложение', on_delete=models.CASCADE)
     server_address = models.CharField(max_length=50, verbose_name='Адрес сервера', null=True, blank=True)
-    quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий', null=True, blank=True)
-    responsible = models.ForeignKey('Staffer', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
+    responsible = models.ManyToManyField('User', verbose_name='Ответственные сотрудники')
     created_at = models.DateTimeField(auto_now=True)
     server_type = models.CharField(
         max_length=100,
@@ -237,6 +247,21 @@ class Server(models.Model):
         verbose_name_plural = 'Сервера'
 
 
+class Organization(models.Model):
+
+    name = models.CharField(max_length=255, verbose_name='Название организации')
+    room = models.ManyToManyField('Room', verbose_name='Доступные помещения', related_name='related_room')
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Организация'
+        verbose_name_plural = 'Организации'
+
+
 class Application(models.Model):
 
     name = models.CharField(max_length=255, verbose_name='Название приложения')
@@ -249,26 +274,6 @@ class Application(models.Model):
         ordering = ['name']
         verbose_name = 'Приложение'
         verbose_name_plural = 'Приложения'
-
-
-class Staffer(models.Model):
-
-    user = models.OneToOneField(User, verbose_name='Пользователь', on_delete=models.PROTECT)
-    name = models.CharField(max_length=255, verbose_name='ФИО')
-    email = models.EmailField(verbose_name='Электронная почта', null=True, blank=True,)
-    subscribe_mail = models.BooleanField(verbose_name='Подписка на почтовую рассылку', default=False)
-    telegram = models.CharField(max_length=10, verbose_name='Телеграм чат-id', null=True, blank=True,)
-    subscribe_telegram = models.BooleanField(verbose_name='Подписка на рассылку в телеграм', default=False)
-    phone = models.CharField(max_length=100, verbose_name='Телефон')
-    created_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = 'Сотрудник'
-        verbose_name_plural = 'Сотрудники'
 
 
 class Grade(models.Model):
@@ -287,8 +292,8 @@ class Grade(models.Model):
         (GRADE_5, 'Отлично')
     )
 
-    event = models.ForeignKey('Event', verbose_name='Мероприятие', null=True, blank=True, on_delete=models.CASCADE)
-    created_by = models.ForeignKey('Staffer', verbose_name='Сотрудник', on_delete=models.CASCADE)
+    event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
+    created_by = models.ForeignKey('User', verbose_name='Сотрудник', on_delete=models.CASCADE)
     grade = models.SmallIntegerField(verbose_name='Оценка', choices=GRADE_CHOICES)
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
@@ -300,19 +305,3 @@ class Grade(models.Model):
         ordering = ['created_at']
         verbose_name = 'Оценка'
         verbose_name_plural = 'Оценки'
-
-
-def get_object_or_None(klass, *args, **kwargs):
-    """
-    Uses get() to return an object or None if the object does not exist.
-    klass may be a Model, Manager, or QuerySet object. All other passed
-    arguments and keyword arguments are used in the get() query.
-    Note: Like with get(), a MultipleObjectsReturned will be raised if more than one
-    object is found.
-    """
-    queryset = _get_queryset(klass)
-    try:
-        return queryset.get(*args, **kwargs)
-    except queryset.model.DoesNotExist:
-        return None
-

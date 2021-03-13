@@ -15,10 +15,10 @@ class HelpMixin:
 class UserIsOperatorMixin(UserPassesTestMixin):
 
     def test_func(self):
-        return self.request.user.groups.filter(name='Оператор').exists()
+        return self.request.user.is_operator
 
 
 class UserIsAssistantMixin(UserPassesTestMixin):
 
     def test_func(self):
-        return self.request.user.groups.filter(name='Ассистент').exists()
+        return self.request.user.is_assistant

@@ -157,3 +157,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# Custom Django auth settings
+
+AUTH_USER_MODEL = 'schedule.User'

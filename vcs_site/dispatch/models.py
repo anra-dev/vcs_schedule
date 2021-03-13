@@ -1,10 +1,10 @@
 from django.db import models
-from schedule.models import Staffer
+from schedule.models import User
 
 
 class Message(models.Model):
 
-    recipient = models.ManyToManyField(Staffer, verbose_name='Получатель', blank=True)
+    recipient = models.ManyToManyField(User, verbose_name='Получатель', blank=True)
     message = models.TextField(verbose_name='Сообщение', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
 
