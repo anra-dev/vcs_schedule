@@ -60,6 +60,7 @@ class ConferenceCreateForm(forms.ModelForm):
 
     def clean_event(self):
         # защита от подмены на стороне клиента. Пока ищу более правильный способ.
+        print(self.event)
         return self.event
 
     def clean_date(self):
@@ -127,6 +128,7 @@ class ConferenceCreateForm(forms.ModelForm):
             if not link and not file:
                 raise forms.ValidationError(f"Необходимо заполнить поле {self.fields['link'].label} или "
                                             f"{self.fields['file'].label}")
+        print(cleaned_data)
         return cleaned_data
 
     class Meta:

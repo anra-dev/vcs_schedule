@@ -39,6 +39,7 @@ class ConferenceCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return self.object.get_redirect_url_for_event_list()
 
     def form_valid(self, form):
+        self.object.responsible = self.request.user
         return super().form_valid(form)
 
 
