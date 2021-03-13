@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from ..models import Conference, Booking, get_object_or_None
+from ..models import Event, Conference, Booking, get_object_or_None
 from ..forms import ConferenceCreateForm, ConferenceUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsOperatorMixin
@@ -29,17 +29,12 @@ class ConferenceCreateView(LoginRequiredMixin, HelpMixin, CreateView):
     model = Conference
     form_class = ConferenceCreateForm
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'event_id': self.kwargs.get('pk')})
-        return kwargs
-
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, self.object.MESSAGES['create'])
         return self.object.get_redirect_url_for_event_list()
 
     def form_valid(self, form):
-        self.object.responsible = self.request.user
+        form.instance.event = get_object_or_None(Event, pk=self.kwargs.get('pk'))
         return super().form_valid(form)
 
 
@@ -60,11 +55,6 @@ class ConferenceUpdateView(LoginRequiredMixin, HelpMixin, UpdateView):
             )
             return HttpResponseRedirect(conference.get_redirect_url_for_event_list())
         return super().get(request, *args, **kwargs)
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'event_id': self.object.event.pk})
-        return kwargs
 
     def get_success_url(self):
         messages.add_message(self.request, messages.INFO, self.object.MESSAGES['update'])
@@ -110,6 +100,7 @@ class ConferenceApproveView(LoginRequiredMixin, UpdateView):
             else:
                 form.instance.status = 'ready'
                 form.instance.comment = None
+                form.instance.responsible = self.request.user
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
         return super().form_valid(form)

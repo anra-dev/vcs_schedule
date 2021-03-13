@@ -88,9 +88,13 @@
   <tr>
     <th>Технический специалист</th>
     <td>
-      {{ conference.server.responsible }}<hr>
-      телефон: {{ conference.server.responsible.phone }},
-      email: <a href="mailto:{{ conference.server.responsible.email }}?subject={{ conference }}">{{ conference.server.responsible.email }}</a>
+      {% if conference.responsible %}
+      {{ conference.responsible }}<hr>
+      телефон: {{ conference.responsible.phone }},
+      email: <a href="mailto:{{ conference.responsible.email }}?subject={{ conference }}">{{ conference.responsible.email }}</a>
+      {% else %}
+      Специалист еще не назначен
+      {% endif %}
     </td>
   </tr>
   <tr>

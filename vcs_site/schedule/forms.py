@@ -51,17 +51,10 @@ class ConferenceCreateForm(forms.ModelForm):
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}))
 
     def __init__(self, *args, **kwargs):
-        event_id = kwargs.pop('event_id')
         super().__init__(*args, **kwargs)
         self.fields['date'].label = 'Дата проведения'
         self.fields['time_start'].label = 'Время начала'
         self.fields['time_end'].label = 'Время окончания'
-        self.event = get_object_or_None(Event, pk=event_id)  # Возможно нужно обработать None
-
-    def clean_event(self):
-        # защита от подмены на стороне клиента. Пока ищу более правильный способ.
-        print(self.event)
-        return self.event
 
     def clean_date(self):
         date = self.cleaned_data['date']
@@ -128,13 +121,11 @@ class ConferenceCreateForm(forms.ModelForm):
             if not link and not file:
                 raise forms.ValidationError(f"Необходимо заполнить поле {self.fields['link'].label} или "
                                             f"{self.fields['file'].label}")
-        print(cleaned_data)
         return cleaned_data
 
     class Meta:
         model = Conference
         fields = (
-            'event',
             'server',
             'quota',
             'link',
@@ -145,7 +136,6 @@ class ConferenceCreateForm(forms.ModelForm):
             'time_end',
         )
         widgets = {
-            'event': forms.HiddenInput(),
             'server': CustomSelectWidget(),
         }
 

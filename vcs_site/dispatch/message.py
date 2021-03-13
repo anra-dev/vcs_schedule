@@ -20,9 +20,9 @@ def get_message(event=None):
         message += f'время проведения с {conference.time_start} по  {conference.time_end}\n'
         message += f'Сервер:  {conference.server}\n'
         message += f'Ссылка: {conference.link}\n'
-        message += f'Ответственный сотрудник: {conference.server.responsible} \n'
-        message += f'Телефон: {conference.server.responsible.phone}, '
-        message += f'электронная почта: {conference.server.responsible.email} \n'
+        message += f'Ответственный сотрудник: {conference.responsible} \n'
+        message += f'Телефон: {conference.responsible.phone}, '
+        message += f'электронная почта: {conference.responsible.email} \n'
         message += f'----без бронирования помещения----\n'
         message += f'----------------------------------\n'
         i += 1
@@ -30,15 +30,15 @@ def get_message(event=None):
         message += f'Сессия №{i}\n'
         message += f'время проведения с {booking.time_start} по  {booking.time_end}\n'
         message += f'Помещение {booking.room}\n'
-        message += f'Ответственный сотрудник: {booking.room.responsible} \n'
-        message += f'Телефон: {booking.room.responsible.phone}, '
+        message += f'Ответственный сотрудник: {booking.responsible} \n'
+        message += f'Телефон: {booking.responsible.phone}, '
         message += f'электронная почта: {booking.room.responsible.email} \n'
         if not booking.without_conference:
             message += f'Подключение конференции:  {booking.conference.server}\n'
             message += f'Ссылка: {booking.conference.link}\n'
-            message += f'Ответственный сотрудник: {booking.conference.server.responsible} \n'
-            message += f'Телефон: {booking.conference.server.responsible.phone}, '
-            message += f'электронная почта: {booking.conference.server.responsible.email} \n'
+            message += f'Ответственный сотрудник: {booking.conference.responsible} \n'
+            message += f'Телефон: {booking.conference.responsible.phone}, '
+            message += f'электронная почта: {booking.conference.responsible.email} \n'
         message += f'----------------------------------\n'
         i += 1
     return message
@@ -46,14 +46,14 @@ def get_message(event=None):
 
 def get_recipients(event=None):
     print('Function get_recipients begins')
-    staffers = [booking.room.responsible for booking in Booking.objects.filter(event=event)]
-    staffers.append(event.responsible)
+    responsibles = [booking.responsible for booking in Booking.objects.filter(event=event)]
+    responsibles.append(event.responsible)
 
     recipients = {'mail': [], 'telegram': []}
-    for staffer in set(staffers):
-        if staffer.subscribe_mail:
-            recipients['mail'].append(staffer.email)
-        if staffer.subscribe_telegram:
-            recipients['telegram'].append(staffer.telegram)
+    for responsible in set(responsibles):
+        if responsible.subscribe_mail:
+            recipients['mail'].append(responsible.email)
+        if responsible.subscribe_telegram:
+            recipients['telegram'].append(responsible.telegram)
     print('Function get_recipients:', recipients)
-    return recipients, staffers
+    return recipients, responsibles

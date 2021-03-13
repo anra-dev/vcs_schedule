@@ -105,7 +105,8 @@ class Conference(models.Model):
 
     event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
     server = models.ForeignKey('Server', verbose_name='Сервер', on_delete=models.CASCADE)
-    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE)
+    responsible = models.ForeignKey('User', verbose_name='Ответственный сотрудник', on_delete=models.CASCADE,
+                                    null=True, blank=True)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', verbose_name='Файл', null=True, blank=True)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
