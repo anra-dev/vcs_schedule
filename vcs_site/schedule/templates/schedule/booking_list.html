@@ -21,7 +21,7 @@
     <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
     <td>{{ booking.quota }}</td>
     <td>{{ booking.event.organization }}</td>
-    <td>{{ booking.event.responsible }}</td>
+    <td>{{ booking.owner }}</td>
     <td>
       <a class="btn btn-success" href="{% url 'booking_approve' pk=booking.pk %}" role="button">Обработать</a>
     </td>

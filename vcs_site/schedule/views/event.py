@@ -35,7 +35,7 @@ class MyEventsListView(LoginRequiredMixin, ListView):
         set_status_completed(queryset)
         return queryset.filter(
             status__in=('wait', 'ready', 'draft', 'rejection'),
-            responsible=self.request.user
+            owner=self.request.user
         )
 
 
@@ -53,7 +53,7 @@ class ArchiveEventsListView(LoginRequiredMixin, ListView):
         set_status_completed(queryset)
         return queryset.filter(
             status__in=('completed',),
-            responsible=self.request.user
+            owner=self.request.user
         )
 
 
@@ -82,7 +82,7 @@ class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return super().get_success_url()
 
     def form_valid(self, form):
-        form.instance.responsible = self.request.user
+        form.instance.owner = self.request.user
         form.instance.organization = self.request.user.organization
         return super().form_valid(form)
 
@@ -109,9 +109,6 @@ class EventDeleteView(LoginRequiredMixin, HelpMixin, DeleteView):
     def get_success_url(self):
         messages.add_message(self.request, messages.ERROR, self.object.MESSAGES['delete'])
         return reverse_lazy('event_list')
-
-    def delete(self, request, *args, **kwargs):
-        return super().delete(request, *args, **kwargs)
 
 
 class GradeCreate(LoginRequiredMixin, CreateView):

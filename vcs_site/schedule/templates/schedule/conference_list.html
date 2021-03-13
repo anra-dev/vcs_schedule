@@ -22,7 +22,7 @@
     <td>{{ conference.server }}</td>
     <td>{{ conference.quota|default_if_none:'' }}</td>
     <td>{{ conference.event.organization }}</td>
-    <td>{{ conference.event.responsible }}</td>
+    <td>{{ conference.owner }}</td>
     <td>
       <a class="btn btn-success" href="{% url 'conference_approve' pk=conference.pk %}" role="button">Обработать</a>
     </td>

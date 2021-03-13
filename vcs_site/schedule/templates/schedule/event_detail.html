@@ -34,9 +34,9 @@
   <tr>
     <th>Сотрудник ответственный за мероприятие</th>
     <td>
-      {{ event.responsible }}<hr>
-      телефон: {{ event.responsible.phone }},
-      email: <a href="mailto:{{ event.responsible.email }}?subject={{ event }}">{{ event.responsible.email }}</a>
+      {{ event.owner }}<hr>
+      телефон: {{ event.owner.phone }},
+      email: <a href="mailto:{{ event.owner.email }}?subject={{ event }}">{{ event.owner.email }}</a>
     </td>
   </tr>
   <tr>
@@ -53,7 +53,7 @@
 {% if conferences %}
 {% for conference in conferences %}
 <h3 class="mt-4">Видеоконференция "{{ conference.application }}"
-  <span class="badge bg-{{ event.status|get_postfix }}">{{ conference.get_status_display  }}</span>
+  <span class="badge bg-{{ conference.status|get_postfix }}">{{ conference.get_status_display  }}</span>
 </h3>
 {% if conference.comment %}
 <div class="alert alert-danger" role="alert">
@@ -81,10 +81,10 @@
   <tr>
     <th>Технический специалист</th>
     <td>
-      {% if conference.responsible %}
-      {{ conference.responsible }}<hr>
-      телефон: {{ conference.responsible.phone }},
-      email: <a href="mailto:{{ conference.responsible.email }}?subject={{ conference }}">{{ conference.responsible.email }}</a>
+      {% if conference.operator %}
+      {{ conference.operator }}<hr>
+      телефон: {{ conference.operator.phone }},
+      email: <a href="mailto:{{ conference.operator.email }}?subject={{ conference }}">{{ conference.operator.email }}</a>
       {% else %}
       Специалист еще не назначен
       {% endif %}
@@ -105,7 +105,7 @@
 {% if bookings %}
 {% for booking in bookings %}
 <h3 class="mt-4">Комната на {{ booking.room.quota }} мест(а)
-  <span class="badge bg-{{ event.status|get_postfix }}">{{ booking.get_status_display  }}</span>
+  <span class="badge bg-{{ booking.status|get_postfix }}">{{ booking.get_status_display  }}</span>
 </h3>
 {% if booking.comment %}
 <div class="alert alert-danger" role="alert">
@@ -135,10 +135,10 @@
   <tr>
     <th>Ассистент</th>
     <td>
-      {% if booking.responsible %}
-      {{ booking.responsible }}<hr>
+      {% if booking.assistant %}
+      {{ booking.assistant }}<hr>
       телефон: {{ booking.responsible.phone }},
-      email: <a href="mailto:{{ booking.responsible.email }}?subject={{ booking }}">{{ booking.responsible.email }}</a>
+      email: <a href="mailto:{{ booking.assistant.email }}?subject={{ booking }}">{{ booking.assistant.email }}</a>
       {% else %}
       Специалист еще не назначен
       {% endif %}

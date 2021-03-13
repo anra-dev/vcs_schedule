@@ -38,6 +38,7 @@ class BookingCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         return self.object.get_redirect_url_for_event_list()
 
     def form_valid(self, form):
+        form.instance.owner = self.request.user
         form.instance.event = get_object_or_None(Event, pk=self.kwargs.get('pk'))
         return super().form_valid(form)
 
@@ -91,7 +92,7 @@ class BookingApproveView(LoginRequiredMixin, UpdateView):
         if 'ready' in form.data:
             form.instance.status = 'ready'
             form.instance.comment = None
-            form.instance.responsible = self.request.user
+            form.instance.assistant = self.request.user
         elif 'rejection' in form.data:
             form.instance.status = 'rejection'
         return super().form_valid(form)

@@ -28,7 +28,7 @@
       <h4><span class="badge bg-{{ event.status|get_postfix }}">{{ event.get_status_display  }}</span></h4>
     </td>
     <td>{{ event.organization }}</td>
-    <td>{{ event.responsible }}</td>
+    <td>{{ event.owner }}</td>
     {% block grade %}{% endblock grade %}
     <td><a href="{{ event.get_absolute_url }}" type="button" class="btn btn-primary">Подробно</a></td>
   </tr>

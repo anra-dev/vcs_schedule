@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date as datetime_date
 
 from django.db.models import Sum, Q
 from django.db.models.signals import post_save, post_delete
@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from dispatch.calling import send_out_message
 from .models import Event, Conference, Booking
 
-today = date.today()
+today = datetime_date.today()
 
 
 def check_free_quota(conf_id, server, date, time_start, time_end):
