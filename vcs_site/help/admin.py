@@ -9,7 +9,7 @@ class PageAdminForm(forms.ModelForm):
     body_text = forms.CharField(widget=CKEditorWidget())
 
     class Meta:
-        model =Page
+        model = Page
         fields = '__all__'
 
 
