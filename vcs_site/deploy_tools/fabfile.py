@@ -58,8 +58,8 @@ def _update_key_file(source_folder):
 
 def _updata_static_files(source_folder):
     """обновить статические файлы"""
-    run(f'cd {source_folder}/ && ../virtualenv/bin/python manage.py collectstatic --noinput')
+    run(f'cd {source_folder}/vcs_site && ../../virtualenv/bin/python manage.py collectstatic --noinput')
 
 def _updata_database(source_folder):
     """обновить базу данных"""
-    run(f'cd {source_folder}/ && ../virtualenv/bin/python manage.py migrate --noinput')
+    run(f'cd {source_folder}/vcs_site && ../../virtualenv/bin/python manage.py migrate --noinput')

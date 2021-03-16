@@ -1,7 +1,13 @@
+import threading
+
 from .models import Message
 from .message import get_message, get_recipients
 from .telegram import send_telegram_message
 from .mail import send_mail_message
+
+
+def run_async(func, args):
+    threading.Thread(target=func, args=args).start()
 
 
 def send_out_message(event=None):
@@ -11,12 +17,12 @@ def send_out_message(event=None):
 
     for chat_id in recipients['telegram']:
         if chat_id is not None and chat_id:
-            send_telegram_message(message, chat_id)
+            run_async(send_telegram_message, (message, chat_id))
     print('1', recipients['mail'])
     for mail in recipients['mail']:
         if mail is not None and mail:
             print('2', mail)
-            send_mail_message(message, mail)
+            run_async(send_mail_message, (message, mail))
 
 
 def save_message(message, recipients_obj_list):
