@@ -16,7 +16,7 @@
 <table class="table">
   <tbody>
   <tr>
-    <th class="col-3">Дата проведения</th>
+    <th width="30%">Дата проведения</th>
     <td>
       {% if event.date_start == event.date_end %}{{ event.date_start|date:"d.m.Y" }}
       {% else %}{{ event.date_start|date:"d.m" }}-{{ event.date_end|date:"d.m.Y" }}
@@ -65,7 +65,7 @@
 <table class="table">
   <tbody>
   <tr>
-    <th class="col-3">Дата и время</th>
+    <th width="30%">Дата и время</th>
     <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
   </tr>
   <tr>
@@ -119,7 +119,7 @@
 <table class="table">
   <tbody>
   <tr>
-    <th class="col-3">Дата и время</th>
+    <th width="30%">Дата и время</th>
     <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} {{ booking.date|date:"d.m.Y" }}</td>
   </tr>
   <tr>
