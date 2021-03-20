@@ -1,8 +1,8 @@
-{% extends 'schedule/base.html' %}
+{% extends 'schedule/base_list.html' %}
 
-{% block content %}
+{% block title %}Заявки на помещения{% endblock title %}
 
-<h1 class="mt-4">Заявки на помещения</h1>
+{% block table %}
 <table class="table text-center table-sm table-hover">
   <thead>
   <tr>
@@ -29,5 +29,4 @@
   {% endfor %}
   </tbody>
 </table>
-{% include 'pagination.html' %}
-{% endblock content %}
+{% endblock table %}

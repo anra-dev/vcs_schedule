@@ -1,9 +1,10 @@
-{% extends 'schedule/base.html' %}
+{% extends 'schedule/base_list.html' %}
 {% load crispy_forms_tags %}
 
-{% block content %}
 
-<h1 class="mt-4">Заявки на конференции</h1>
+{% block title %}Заявки на конференции{% endblock title %}
+
+{% block table %}
 <table class="table text-center table-sm table-hover">
   <thead>
   <tr>
@@ -30,5 +31,4 @@
   {% endfor %}
   </tbody>
 </table>
-{% include 'pagination.html' %}
-{% endblock content %}
+{% endblock table %}

@@ -1,8 +1,9 @@
-{% extends 'schedule/base.html' %}
+{% extends 'schedule/base_list.html' %}
 {% load custom_filter %}
-{% block content %}
 
-<h1 class="mt-4">{% block title %}Предстоящие мероприятия{% endblock title %}</h1>
+{% block title %}Предстоящие мероприятия{% endblock title %}
+
+{% block table %}
 <table class="table text-center table-hover">
   <thead>
   <tr>
@@ -35,5 +36,4 @@
   {% endfor %}
   </tbody>
 </table>
-{% include 'pagination.html' %}
-{% endblock content %}
+{% endblock table %}
