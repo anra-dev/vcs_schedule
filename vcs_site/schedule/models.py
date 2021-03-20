@@ -61,7 +61,8 @@ class Event(models.Model):
     owner = models.ForeignKey('User', verbose_name='Владелец', on_delete=models.CASCADE)
     date_start = models.DateField(verbose_name='Дата начала мероприятия', null=True, blank=True)
     date_end = models.DateField(verbose_name='Дата окончания мероприятия', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
         max_length=100,
         verbose_name='Статус мероприятия',
@@ -121,7 +122,8 @@ class Conference(models.Model):
     date = models.DateField(verbose_name='Дата проведения')
     time_start = models.TimeField(verbose_name='Время начала')
     time_end = models.TimeField(verbose_name='Время окончания')
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
         max_length=100,
         verbose_name='Статус видеоконференции',
@@ -179,7 +181,8 @@ class Booking(models.Model):
     date = models.DateField(verbose_name='Дата проведения')
     time_start = models.TimeField(verbose_name='Время начала')
     time_end = models.TimeField(verbose_name='Время окончания')
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
         max_length=100,
         verbose_name='Статус бронирования',
@@ -212,7 +215,8 @@ class Room(models.Model):
     assistants = models.ManyToManyField('User', verbose_name='Ассистенты')
     applications = models.ManyToManyField('Application', verbose_name='Доступные приложения',
                                           related_name='related_room')
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.address} {self.room}'
@@ -238,7 +242,8 @@ class Server(models.Model):
     server_address = models.CharField(max_length=50, verbose_name='Адрес сервера', null=True, blank=True)
     quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
     operators = models.ManyToManyField('User', verbose_name='Операторы')
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     server_type = models.CharField(
         max_length=100,
         verbose_name='Тип сервера',
@@ -261,7 +266,8 @@ class Organization(models.Model):
 
     name = models.CharField(max_length=255, verbose_name='Название организации')
     room = models.ManyToManyField('Room', verbose_name='Доступные помещения', related_name='related_room')
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -275,7 +281,8 @@ class Organization(models.Model):
 class Application(models.Model):
 
     name = models.CharField(max_length=255, verbose_name='Название приложения')
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -306,7 +313,8 @@ class Grade(models.Model):
     created_by = models.ForeignKey('User', verbose_name='Сотрудник', on_delete=models.CASCADE)
     grade = models.SmallIntegerField(verbose_name='Оценка', choices=GRADE_CHOICES)
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'Оценку {self.grade} балов поставил(а) {self.created_by}'

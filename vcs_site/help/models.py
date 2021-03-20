@@ -5,6 +5,8 @@ from django.urls import reverse
 class Section(models.Model):
     serial_number = models.SmallIntegerField(verbose_name='Порядковый номер', unique=True)
     name = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -29,7 +31,8 @@ class Page(models.Model):
                                       'где ";" - конец адреса.',
                             null=True, blank=True)
     section = models.ForeignKey('Section', verbose_name='Раздел', on_delete=models.CASCADE)
-    update_date = models.DateTimeField(verbose_name='Дата изменения')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(verbose_name='Заголовок', max_length=60)
     body_text = models.TextField(verbose_name='Содержание страницы')
 

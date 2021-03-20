@@ -15,8 +15,7 @@ class PageAdminForm(forms.ModelForm):
 
 class PageAdmin(admin.ModelAdmin):
     form = PageAdminForm
-    list_display = ('name', 'title', 'update_date')
-    ordering = ('name',)
+    list_display = ('name', 'title', 'created_at')
     search_fields = ('title', 'body_text')
 
 

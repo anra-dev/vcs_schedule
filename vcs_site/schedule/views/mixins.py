@@ -8,10 +8,6 @@ from help.models import Page
 class HelpMixin:
 
     def get_url_pattern(self):
-        print(dir(self.request))
-        print(self.request.path.strip())
-        url_parts = re.sub(r'\d+', '*.*', self.request.path)
-        print(url_parts)
         return re.sub(r'\d+', '*.*', self.request.path) + ';'
 
     def get_context_data(self, **kwargs):
