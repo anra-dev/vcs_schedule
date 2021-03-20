@@ -43,8 +43,10 @@
     <th></th>
     <td align="right">
       <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
-      {% if event.owner == request.user and event.status != 'completed' %}
+      {% if event.owner == request.user and event.status != 'completed' and event.status != 'ready' %}
       <a class="btn btn-success" href="{% url 'event_update' pk=event.pk %}" role="button">Изменить</a>
+      {% endif %}
+      {% if event.owner == request.user and event.status != 'completed' %}
       <a class="btn btn-danger" href="{% url 'event_delete' pk=event.pk %}" role="button">Удалить</a>
       {% endif %}
     </td>
@@ -95,8 +97,10 @@
   <tr>
     <th></th>
     <td align="right">
-      {% if conference.owner == request.user and conference.status != 'completed' %}
+      {% if conference.owner == request.user and conference.status != 'completed' and conference.status != 'ready' %}
       <a class="btn btn-success" href="{% url 'conference_update' pk=conference.pk %}" role="button">Изменить</a>
+      {% endif %}
+      {% if conference.owner == request.user and conference.status != 'completed' %}
       <a class="btn btn-danger" href="{% url 'conference_delete' pk=conference.pk %}" role="button">Удалить</a>
       {% endif %}
     </td>
@@ -151,8 +155,10 @@
   <tr>
     <th></th>
     <td align="right">
-      {% if booking.owner == request.user and booking.status != 'completed' %}
+      {% if booking.owner == request.user and booking.status != 'completed' and booking.status != 'ready' %}
       <a class="btn btn-success" href="{% url 'booking_update' pk=booking.pk %}" role="button">Изменить</a>
+      {% endif %}
+      {% if booking.owner == request.user and booking.status != 'completed' %}
       <a class="btn btn-danger" href="{% url 'booking_delete' pk=booking.pk %}" role="button">Удалить</a>
       {% endif %}
     </td>
