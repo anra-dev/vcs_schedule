@@ -15,7 +15,7 @@ class PageAdminForm(forms.ModelForm):
 
 class PageAdmin(admin.ModelAdmin):
     form = PageAdminForm
-    list_display = ('name', 'title', 'created_at')
+    list_display = ('name', 'serial_number',  'title', 'section', 'created_at')
     search_fields = ('title', 'body_text')
 
 
