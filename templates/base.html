@@ -15,109 +15,113 @@
     <!-- Custom styles for this template -->
     <link href=" {% static 'css/simple-sidebar.css' %}" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-    {% block link %}{% endblock link %}
+    {% block link %}
+        ...
+    {% endblock link %}
 </head>
 
 <body>
 
 <div class="d-flex" id="wrapper">
     {% block sidebar %}
-    <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">
-            <img src="{% static 'image.png' %}" width="24" class="img-fluid mr-1" alt="...">
-            ГБУ ВО "ЦИТ ВО"
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <img src="{% static 'image.png' %}" width="24" class="img-fluid mr-1" alt="...">
+                ГБУ ВО "ЦИТ ВО"
+            </div>
+            <div class="list-group list-group-flush">
+                {% block sidebar_link %}
+                    <a href="{% url 'event_list' %}" class="list-group-item list-group-item-action bg-light">Все мероприятия</a>
+                    <a href="{% url 'my_event_list' %}" class="list-group-item list-group-item-action bg-light">Мои мероприятия</a>
+                    {% if request.user.is_operator %}
+                        <a href="{% url 'conference_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на конференции</a>
+                    {% endif %}
+                    {% if request.user.is_assistant %}
+                        <a href="{% url 'booking_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на помещения</a>
+                    {% endif %}
+                    <a href="{% url 'event_archive' %}" class="list-group-item list-group-item-action bg-light">Мой архив</a>
+                {% endblock sidebar_link %}
+            </div>
         </div>
-        <div class="list-group list-group-flush">
-            {% block sidebar_link %}
-            <a href="{% url 'event_list' %}" class="list-group-item list-group-item-action bg-light">Все мероприятия</a>
-            <a href="{% url 'my_event_list' %}" class="list-group-item list-group-item-action bg-light">Мои мероприятия</a>
-            {% if request.user.is_operator %}
-            <a href="{% url 'conference_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на конференции</a>
-            {% endif %}
-            {% if request.user.is_assistant %}
-            <a href="{% url 'booking_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на помещения</a>
-            {% endif %}
-            <a href="{% url 'event_archive' %}" class="list-group-item list-group-item-action bg-light">Мой архив</a>
-            {% endblock sidebar_link %}
-        </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
+        <!-- /#sidebar-wrapper -->
 
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <button class="btn btn-light" id="menu-toggle">...</button>
-            {% block bottom_nav %}{% endblock bottom_nav %}
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            {% endblock sidebar %}
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        {% if request.user.is_authenticated %}
-                        <a class="nav-link" href="{% url 'settings' %}">Здраствуйте, {{ request.user.first_name }}</a>
-                        {% endif %}
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Меню
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'help_index_page' %}">Помощь</a>
-                            <a class="dropdown-item" href="{% url 'settings' %}">Настройки</a>
-                            {% if request.user.is_staff %}
-                            <a class="dropdown-item" href="{% url 'admin:index' %}">Администратор</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                            {% if not request.user.is_authenticated %}
-                            <a href="{% url 'login' %}" class="dropdown-item">Войти в систему</a>
-                            {% endif %}
-                            {% if request.user.is_authenticated %}
-                            <a href="{% url 'logout' %}" class="dropdown-item">Выйти из системы</a>
-                            {% endif %}
+        <button class="btn btn-light" id="menu-toggle">...</button>
+        {% block bottom_nav %}{% endblock bottom_nav %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    {% endblock sidebar %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                {% if request.user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'settings' %}">Здраствуйте, {{ request.user.first_name }}</a>
+                {% endif %}
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Меню
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'help_index_page' %}">Помощь</a>
+                    <a class="dropdown-item" href="{% url 'settings' %}">Настройки</a>
+                    {% if request.user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'admin:index' %}">Администратор</a>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>
+                    {% if not request.user.is_authenticated %}
+                        <a href="{% url 'login' %}" class="dropdown-item">Войти в систему</a>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="dropdown-item">Выйти из системы</a>
+                    {% endif %}
 
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="mt-1">
-                <!-- Message -->
-                {% include 'messages.html' %}
-            </div>
-            <div >
-                {% block content %}
-
-                {% endblock content %}
-            </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="mt-1">
+            <!-- Message -->
+            {% include 'messages.html' %}
+        </div>
+        <div >
+            {% block content %}
+                ...
+            {% endblock content %}
         </div>
     </div>
+    </div>
     <!-- /#page-content-wrapper -->
-
 </div>
 <!-- /#wrapper -->
+
 <footer class="py-5 bg-dark mt-3">
-  <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; Roman Andreev 2020</p>
-  </div>
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Roman Andreev 2020</p>
+    </div>
 </footer>
+
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-{% block script %} {% endblock script %}
+{% block script %}
+    ...
+{% endblock script %}
 
 <!-- Menu Toggle Script -->
 <script>
     $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
     });
- </script>
+</script>
 
 </body>
 

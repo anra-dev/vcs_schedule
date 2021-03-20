@@ -3,18 +3,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-<h1 class="mt-4">Удаление объекта</h1>
-<form method="post">{% csrf_token %}
-    <div>
-        <div class="form-text mt-4">
-            <p>Вы действительно хотите удалить объект "{{ object }}"?</p>
+    <h1 class="mt-4">Удаление объекта</h1>
+    <form method="post">{% csrf_token %}
+        <div>
+            <div class="form-text mt-4">
+                <p>Вы действительно хотите удалить объект "{{ object }}"?</p>
+            </div>
+            <div class="mt-4">
+                <input class="btn btn-danger" type="submit" value="Да, удалить!">
+                <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
+            </div>
         </div>
-        <div class="mt-4">
-            <input class="btn btn-danger" type="submit" value="Да, удалить!">
-            <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
-        </div>
-    </div>
-</form>
-
+    </form>
 {% endblock content %}

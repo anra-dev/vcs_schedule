@@ -5,21 +5,19 @@
 {% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block data %}
-
-<h1 class="mt-4">Заявка на организацию видеоконференции</h1>
-<div>
-    <form action=""  method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <div align="right">
-            <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
-            <input type="submit" class="btn btn-success" value="Сохранить">
-        </div>
-    </form>
-</div>
-
+    <h1 class="mt-4">Заявка на организацию видеоконференции</h1>
+    <div>
+        <form action=""  method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div align="right">
+                <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
+                <input type="submit" class="btn btn-success" value="Сохранить">
+            </div>
+        </form>
+    </div>
 {% endblock data %}
 
 {% block script %}
-<script type="text/javascript" src="{% static 'schedule/js/conference.js' %}"></script>
+    <script type="text/javascript" src="{% static 'schedule/js/conference.js' %}"></script>
 {% endblock script %}

@@ -2,25 +2,27 @@
 {% load static %}
 
 {% block bottom_nav %}
-<a class="btn btn-secondary ml-2" href="{% url 'event_create' %}">Создать мероприятие <span class="sr-only">(current)</span></a>
+    <a class="btn btn-secondary ml-2" href="{% url 'event_create' %}">Создать мероприятие <span class="sr-only">(current)</span></a>
 {% endblock bottom_nav %}
 
 {% block content %}
-<h1 class="mt-4">{% block title %}{% endblock title %}
-  <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Справка
-  </a></h1>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body">
-    {% autoescape off %}
-    {{ help.body_text }}
-    {% endautoescape %}
-  </div>
-</div>
-
-{% block table %}
-{% endblock table %}
-
-{% include 'pagination.html' %}
-
+    <div class="row">
+        <h1 class="mt-4">
+            {% block title %}{% endblock title %}
+            <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Справка
+            </a>
+        </h1>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                {% autoescape off %}
+                    {{ help.body_text }}
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+    {% block table %}
+        ...
+    {% endblock table %}
+    {% include 'pagination.html' %}
 {% endblock content %}

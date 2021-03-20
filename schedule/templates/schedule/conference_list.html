@@ -1,34 +1,33 @@
 {% extends 'schedule/base_list.html' %}
 {% load crispy_forms_tags %}
 
-
 {% block title %}Заявки на конференции{% endblock title %}
 
 {% block table %}
-<table class="table text-center table-sm table-hover">
-  <thead>
-  <tr>
-    <th scope="col">Дата и время</th>
-    <th scope="col">Сервер</th>
-    <th scope="col">Количество участников</th>
-    <th scope="col">Организация</th>
-    <th scope="col">Ответственный</th>
-    <th scope="col">Действие</th>
-  </tr>
-  </thead>
-  <tbody>
-  {% for conference in page_obj %}
-  <tr>
-    <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
-    <td>{{ conference.server }}</td>
-    <td>{{ conference.quota|default_if_none:'' }}</td>
-    <td>{{ conference.event.organization }}</td>
-    <td>{{ conference.owner }}</td>
-    <td>
-      <a class="btn btn-success" href="{% url 'conference_approve' pk=conference.pk %}" role="button">Обработать</a>
-    </td>
-  </tr>
-  {% endfor %}
-  </tbody>
-</table>
+    <table class="table text-center table-sm table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Дата и время</th>
+            <th scope="col">Сервер</th>
+            <th scope="col">Количество участников</th>
+            <th scope="col">Организация</th>
+            <th scope="col">Ответственный</th>
+            <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for conference in page_obj %}
+            <tr>
+                <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
+                <td>{{ conference.server }}</td>
+                <td>{{ conference.quota|default_if_none:'' }}</td>
+                <td>{{ conference.event.organization }}</td>
+                <td>{{ conference.owner }}</td>
+                <td>
+                    <a class="btn btn-success" href="{% url 'conference_approve' pk=conference.pk %}" role="button">Обработать</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock table %}
