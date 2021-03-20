@@ -9,7 +9,7 @@ from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsOperatorMixin, UserIsOwnerMixin
 
 
-class ConferencesListView(UserIsOperatorMixin, ListView):
+class ConferencesListView(UserIsOperatorMixin, HelpMixin, ListView):
     """
     ПРОСМОТР СПИСКА КОНФЕРЕНЦИЙ
     """
@@ -67,7 +67,7 @@ class ConferenceUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ConferenceDeleteView(UserIsOwnerMixin, DeleteView):
+class ConferenceDeleteView(UserIsOwnerMixin, HelpMixin, DeleteView):
     """
     УДАЛЕНИЕ КОНФЕРЕНЦИЙ
     """
@@ -79,7 +79,7 @@ class ConferenceDeleteView(UserIsOwnerMixin, DeleteView):
         return self.object.get_redirect_url_for_event_list()
 
 
-class ConferenceApproveView(UserIsOperatorMixin, UpdateView):
+class ConferenceApproveView(UserIsOperatorMixin, HelpMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ КОНФЕРЕНЦИЙ ОПЕРАТОРОМ
     """

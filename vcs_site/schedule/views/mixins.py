@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 from ..models import get_object_or_none
@@ -6,9 +7,16 @@ from help.models import Page
 
 class HelpMixin:
 
+    def get_url_pattern(self):
+        print(dir(self.request))
+        print(self.request.path.strip())
+        url_parts = re.sub(r'\d+', '*.*', self.request.path)
+        print(url_parts)
+        return re.sub(r'\d+', '*.*', self.request.path) + ';'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['help'] = get_object_or_none(Page, slug=self.model.__name__.lower())
+        context['help'] = Page.objects.filter(urls__icontains=self.get_url_pattern()).first()
         return context
 
 

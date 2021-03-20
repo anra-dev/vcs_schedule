@@ -9,7 +9,7 @@ from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsAssistantMixin, UserIsOwnerMixin
 
 
-class BookingsListView(UserIsAssistantMixin, ListView):
+class BookingsListView(UserIsAssistantMixin, HelpMixin, ListView):
     """
     ПРОСМОТР СПИСКА БРОНИ
     """
@@ -68,7 +68,7 @@ class BookingUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
         return super().form_valid(form)
 
 
-class BookingDeleteView(UserIsOwnerMixin, DeleteView):
+class BookingDeleteView(UserIsOwnerMixin, HelpMixin, DeleteView):
     """
     УДАЛЕНИЕ БРОНИ
     """
@@ -80,7 +80,7 @@ class BookingDeleteView(UserIsOwnerMixin, DeleteView):
         return self.object.get_redirect_url_for_event_list()
 
 
-class BookingApproveView(UserIsAssistantMixin, UpdateView):
+class BookingApproveView(UserIsAssistantMixin, HelpMixin, UpdateView):
     """
     РЕДАКТИРОВАНИЕ БРОНИ ОПЕРАТОРОМ
     """

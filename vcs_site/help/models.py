@@ -22,6 +22,12 @@ class Page(models.Model):
     serial_number = models.SmallIntegerField(verbose_name='Порядковый номер')
     name = models.CharField(verbose_name='Название', max_length=20)
     slug = models.SlugField(unique=True)
+    urls = models.TextField(verbose_name='Страницы для автоматического вывода',
+                            help_text='Перечислите url-адреса страниц на которых будет автоматически отображатся эта '
+                                      'страница помощи. Например: "/schedule/event-create/;" или '
+                                      '"/schedule/event/*.*/conference-create/; /schedule/conference-approve/*.*/;", '
+                                      'где ";" - конец адреса.',
+                            null=True, blank=True)
     section = models.ForeignKey('Section', verbose_name='Раздел', on_delete=models.CASCADE)
     update_date = models.DateTimeField(verbose_name='Дата изменения')
     title = models.CharField(verbose_name='Заголовок', max_length=60)

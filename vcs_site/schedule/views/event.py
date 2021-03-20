@@ -9,7 +9,7 @@ from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsOwnerMixin
 
 
-class EventsListView(LoginRequiredMixin, ListView):
+class EventsListView(LoginRequiredMixin, HelpMixin, ListView):
     """
     ПРОСМОТР СПИСКА МЕРОПРИЯТИЙ
     """
@@ -22,7 +22,7 @@ class EventsListView(LoginRequiredMixin, ListView):
         return queryset.filter(status__in=('wait', 'ready'))
 
 
-class MyEventsListView(LoginRequiredMixin, ListView):
+class MyEventsListView(LoginRequiredMixin, HelpMixin, ListView):
     """
     ПРОСМОТР СПИСКА МЕРОПРИЯТИЙ ПОЛЬЗОВАТЕЛЯ
     """
@@ -39,7 +39,7 @@ class MyEventsListView(LoginRequiredMixin, ListView):
         )
 
 
-class ArchiveEventsListView(LoginRequiredMixin, ListView):
+class ArchiveEventsListView(LoginRequiredMixin, HelpMixin, ListView):
     """
     ПРОСМОТР СПИСКА ПРОШЕДШИХ МЕРОПРИЯТИЙ
     """
@@ -111,7 +111,7 @@ class EventDeleteView(UserIsOwnerMixin, HelpMixin, DeleteView):
         return reverse_lazy('event_list')
 
 
-class GradeCreate(LoginRequiredMixin, CreateView):
+class GradeCreate(LoginRequiredMixin, HelpMixin, CreateView):
     model = Grade
     fields = ['grade', 'comment']
     success_url = reverse_lazy('event_archive')
