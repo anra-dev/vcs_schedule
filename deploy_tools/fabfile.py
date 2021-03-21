@@ -19,6 +19,7 @@ def deploy():
     _update_key_file(source_folder)
     _update_static_files(source_folder)
     _update_database(source_folder)
+    _load_fixture(source_folder)
 
 
 def _create_directory_structure_if_necessary(site_folder):
@@ -40,12 +41,15 @@ def _get_latest_source(source_folder):
 def _update_settings(source_folder, site_name):
     """обновить настройки"""
     settings_path = source_folder + '/' + DJANGO_PROJECT_NAME + '/settings.py'
+    # Выключаем режим отладки
     sed(settings_path, "DEBUG = True", "DEBUG = False")
     sed(settings_path, 'ALLOWED_HOSTS =.+$', f'ALLOWED_HOSTS = ["{site_name}"]')
-
+    # Генерируем новый ключ
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^*(-_=+)'
     key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
     sed(settings_path, 'SECRET_KEY = .+$', f'SECRET_KEY = "{key}"')
+    # Меняем путь к базе
+    sed(settings_path, 'db.sqlite3', '../database/db.sqlite3')
 
 
 def _update_virtualenv(source_folder):
