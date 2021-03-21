@@ -4,7 +4,7 @@ Description=Gunicorn server for SITENAME
 [Service]
 Restart=on-failure
 User=ubuntu
-WorkingDirectory=/home/ubuntu/sites/SITENAME/source/vcs_site
+WorkingDirectory=/home/ubuntu/sites/SITENAME/source
 Environment=EMAIL_PASSWORD=SEKRIT
 ExecStart=/home/ubuntu/sites/SITENAME/virtualenv/bin/gunicorn \
 --bind unix:/tmp/SITENAME.socket \

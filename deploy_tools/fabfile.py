@@ -7,6 +7,7 @@ DJANGO_PROJECT_NAME = 'vcs_site'
 KEY_FILE_PATH = '~/PycharmProjects/vcs_schedule/vcs_site/key.py'
 ROOT_NAME = 'ubuntu'
 
+
 def deploy():
     """развернуть"""
     site_folder = f'/home/{env.user}/sites/{env.host}'
@@ -40,16 +41,11 @@ def _update_settings(source_folder, site_name):
     """обновить настройки"""
     settings_path = source_folder + '/' + DJANGO_PROJECT_NAME + '/settings.py'
     sed(settings_path, "DEBUG = True", "DEBUG = False")
-    sed(settings_path,
-        'ALLOWED_HOSTS =.+$',
-        f'ALLOWED_HOSTS = ["{site_name}"]'
-    )
-    secret_key_file = source_folder + '/' + DJANGO_PROJECT_NAME + '/secret_key.py'
-    if not exists(secret_key_file):
-        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-        key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
-        append(secret_key_file, f'SECRET_KEY = "{key}"')
-    append(settings_path, '\nfrom .secret_key import SECRET_KEY')
+    sed(settings_path, 'ALLOWED_HOSTS =.+$', f'ALLOWED_HOSTS = ["{site_name}"]')
+
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^*(-_=+)'
+    key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
+    sed(settings_path, 'SECRET_KEY = .+$', f'SECRET_KEY = "{key}"')
 
 
 def _update_virtualenv(source_folder):
