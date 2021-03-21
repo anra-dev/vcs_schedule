@@ -62,6 +62,7 @@ def update_status_event(instance, **kwargs):
     status = conferences_status + bookings_status
 
     def _set_event_status(set_status: str):
+        """Функция обновляет статус мероприятия и отправляет уведомления для мероприятий со статусом Готово"""
         event.status = set_status
         event.save()
     if not status:
@@ -69,12 +70,11 @@ def update_status_event(instance, **kwargs):
     else:
         if 'wait' in status:
             _set_event_status('wait')
-            # send_out_message(event)  # для тестов - удалить на проде
         if 'rejection' in status:
             _set_event_status('rejection')
         if set(status) <= {'ready', 'completed'}:
             _set_event_status('ready')
-            send_out_message(event)  # раскомментировать на проде
+            send_out_message(event)
         if status[1:] == status[:-1] and status[0] == 'completed':  # Все элементы списка равны
             _set_event_status('completed')
 

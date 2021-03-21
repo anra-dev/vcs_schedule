@@ -3,8 +3,6 @@ from django.core.mail import send_mail
 
 
 def send_mail_message(message=None, mail=None):
-    print('Function send_email_message begins')
-
     message += '\n\nС уважением,'
     message += '\nАвтоматическая система оповещения Центра информационных технологий Волгоградской области'
     send_mail(

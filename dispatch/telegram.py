@@ -13,8 +13,6 @@ def send_telegram_message(message, chat_id):
          "chat_id": chat_id,
          "text": message
           })
-    print('Отправил сообщение на :', full_url)
-    print('Статус:', request.status_code)
     if request.status_code != 200:
         raise Exception("post_text error")
 

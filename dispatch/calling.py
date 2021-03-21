@@ -18,10 +18,8 @@ def send_out_message(event=None):
     for chat_id in recipients['telegram']:
         if chat_id is not None and chat_id:
             run_async(send_telegram_message, (message, chat_id))
-    print('1', recipients['mail'])
     for mail in recipients['mail']:
         if mail is not None and mail:
-            print('2', mail)
             run_async(send_mail_message, (message, mail))
 
 
