@@ -7,17 +7,19 @@
 
 {% block content %}
     <div class="row">
-        <h1 class="mt-4">
-            {% block title %}{% endblock title %}
-            <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Справка
-            </a>
-        </h1>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-                {% autoescape off %}
-                    {{ help.body_text }}
-                {% endautoescape %}
+        <div class="col-md-12">
+            <h1 class="mt-4">
+                {% block title %}{% endblock title %}
+                <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Справка
+                </a>
+            </h1>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    {% autoescape off %}
+                        {{ help.body_text }}
+                    {% endautoescape %}
+                </div>
             </div>
         </div>
     </div>

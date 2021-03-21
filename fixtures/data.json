@@ -1,0 +1,2675 @@
+[
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2021-03-13T08:40:51.685Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "2",
+        "object_repr": "T_Gnedash",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2021-03-13T08:57:42.081Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "2",
+        "object_repr": "T_Gnedash",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2021-03-13T08:58:00.254Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "TrueConf",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2021-03-13T09:00:28.623Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "2",
+        "object_repr": "Y_Grigorev",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2021-03-13T09:01:48.846Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "2",
+        "object_repr": "Y_Grigorev",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\", \"Email address\", \"\\u041e\\u043f\\u0435\\u0440\\u0442\\u043e\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2021-03-13T09:02:11.331Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "3",
+        "object_repr": "E_Lagutin",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2021-03-13T09:03:19.595Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "3",
+        "object_repr": "E_Lagutin",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\", \"Email address\", \"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2021-03-13T09:03:51.744Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "4",
+        "object_repr": "E_Mardovin",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2021-03-13T09:05:04.321Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "4",
+        "object_repr": "E_Mardovin",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\", \"Email address\", \"\\u041e\\u043f\\u0435\\u0440\\u0442\\u043e\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2021-03-13T09:06:14.102Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "5",
+        "object_repr": "Al_Cherepanov",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2021-03-13T09:07:20.159Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "5",
+        "object_repr": "Al_Cherepanov",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\", \"Email address\", \"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2021-03-13T09:07:48.165Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "4",
+        "object_repr": "E_Mardovin",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2021-03-13T09:07:55.411Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "2",
+        "object_repr": "Y_Grigorev",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2021-03-13T09:08:35.797Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2021-03-13T09:08:42.596Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2021-03-13T09:09:53.771Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "ВКС Администрации Волгоградской области - TrueConf",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2021-03-13T09:10:17.739Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "Неизвестное приложение",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+        "action_time": "2021-03-13T09:10:53.887Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "Внешний сервер - Неизвестное приложение",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+        "action_time": "2021-03-13T09:11:25.751Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "ГБУ ВО \"Центр информационных технологий\"",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+        "action_time": "2021-03-13T09:11:29.788Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "ГБУ ВО \"Центр информационных технологий\"",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+        "action_time": "2021-03-13T09:11:54.343Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "6",
+        "object_repr": "T_Gnedash",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+        "action_time": "2021-03-13T09:12:42.511Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "6",
+        "object_repr": "T_Gnedash",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"\\u041e\\u0440\\u0433\\u0430\\u043d\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\", \"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\", \"Email address\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+        "action_time": "2021-03-13T09:17:22.578Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "1",
+        "object_repr": "admin",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0435\\u0440\\u0442\\u043e\\u0440\", \"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+        "action_time": "2021-03-13T09:18:56.161Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "7",
+        "object_repr": "R_Andreev",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 25,
+    "fields": {
+        "action_time": "2021-03-13T09:20:15.946Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "7",
+        "object_repr": "R_Andreev",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"\\u041e\\u0440\\u0433\\u0430\\u043d\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\", \"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\", \"Email address\", \"\\u0422\\u0435\\u043b\\u0435\\u0433\\u0440\\u0430\\u043c \\u0447\\u0430\\u0442-id\", \"\\u041f\\u043e\\u0434\\u043f\\u0438\\u0441\\u043a\\u0430 \\u043d\\u0430 \\u043f\\u043e\\u0447\\u0442\\u043e\\u0432\\u0443\\u044e \\u0440\\u0430\\u0441\\u0441\\u044b\\u043b\\u043a\\u0443\", \"\\u041f\\u043e\\u0434\\u043f\\u0438\\u0441\\u043a\\u0430 \\u043d\\u0430 \\u0440\\u0430\\u0441\\u0441\\u044b\\u043b\\u043a\\u0443 \\u0432 \\u0442\\u0435\\u043b\\u0435\\u0433\\u0440\\u0430\\u043c\", \"\\u041e\\u043f\\u0435\\u0440\\u0442\\u043e\\u0440\", \"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 26,
+    "fields": {
+        "action_time": "2021-03-13T17:21:56.501Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "Внешний сервер - Неизвестное приложение",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0435\\u0440\\u0430\\u0442\\u043e\\u0440\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 27,
+    "fields": {
+        "action_time": "2021-03-13T17:22:08.972Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "ВКС Администрации Волгоградской области - TrueConf",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0435\\u0440\\u0430\\u0442\\u043e\\u0440\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 28,
+    "fields": {
+        "action_time": "2021-03-13T17:48:34.638Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "ВКС Администрации Волгоградской области - TrueConf",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0435\\u0440\\u0430\\u0442\\u043e\\u0440\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 29,
+    "fields": {
+        "action_time": "2021-03-13T17:50:01.192Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "Polycom",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 30,
+    "fields": {
+        "action_time": "2021-03-13T17:50:27.935Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "3",
+        "object_repr": "POLYCOM Губернатора - Polycom",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+        "action_time": "2021-03-13T17:50:39.982Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "ВКС Администрации Волгоградской области - TrueConf",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0435\\u0440\\u0430\\u0442\\u043e\\u0440\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 32,
+    "fields": {
+        "action_time": "2021-03-13T17:52:58.449Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 33,
+    "fields": {
+        "action_time": "2021-03-13T17:53:48.297Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "улю Витимская д. 15 (ЦИТ) Ситуационный центр 2 этаж",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 34,
+    "fields": {
+        "action_time": "2021-03-13T18:15:39.640Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 35,
+    "fields": {
+        "action_time": "2021-03-13T18:16:09.770Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 36,
+    "fields": {
+        "action_time": "2021-03-13T18:16:14.437Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "улю Витимская д. 15 (ЦИТ) Ситуационный центр 2 этаж",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 37,
+    "fields": {
+        "action_time": "2021-03-13T19:18:32.927Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "3",
+        "object_repr": "Лагутин Егор Александрович",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u0440\\u0433\\u0430\\u043d\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 38,
+    "fields": {
+        "action_time": "2021-03-13T19:42:46.923Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "5",
+        "object_repr": "Черепанов Алексей Игоревич",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u0440\\u0433\\u0430\\u043d\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 39,
+    "fields": {
+        "action_time": "2021-03-14T17:56:24.170Z",
+        "user": 1,
+        "content_type": 16,
+        "object_id": "1",
+        "object_repr": "О системе",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 40,
+    "fields": {
+        "action_time": "2021-03-14T17:56:54.853Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 41,
+    "fields": {
+        "action_time": "2021-03-17T09:33:56.889Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 42,
+    "fields": {
+        "action_time": "2021-03-17T09:34:23.894Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 43,
+    "fields": {
+        "action_time": "2021-03-17T09:39:05.062Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 44,
+    "fields": {
+        "action_time": "2021-03-17T09:40:37.928Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 45,
+    "fields": {
+        "action_time": "2021-03-17T09:41:42.769Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 46,
+    "fields": {
+        "action_time": "2021-03-17T09:42:05.693Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 47,
+    "fields": {
+        "action_time": "2021-03-17T10:36:27.960Z",
+        "user": 1,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 48,
+    "fields": {
+        "action_time": "2021-03-17T10:37:59.905Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0441\\u0441\\u0438\\u0441\\u0442\\u0435\\u043d\\u0442\\u044b\", \"\\u0414\\u043e\\u0441\\u0442\\u0443\\u043f\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0438\\u043b\\u043e\\u0436\\u0435\\u043d\\u0438\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 49,
+    "fields": {
+        "action_time": "2021-03-17T10:38:06.165Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "улю Витимская д. 15 (ЦИТ) Ситуационный центр 2 этаж",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0414\\u043e\\u0441\\u0442\\u0443\\u043f\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0438\\u043b\\u043e\\u0436\\u0435\\u043d\\u0438\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 50,
+    "fields": {
+        "action_time": "2021-03-17T10:38:15.646Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "3",
+        "object_repr": "POLYCOM Губернатора - Polycom",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0435\\u0440\\u0430\\u0442\\u043e\\u0440\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 51,
+    "fields": {
+        "action_time": "2021-03-17T10:38:20.724Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "ВКС Администрации Волгоградской области - TrueConf",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0435\\u0440\\u0430\\u0442\\u043e\\u0440\\u044b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 52,
+    "fields": {
+        "action_time": "2021-03-17T10:38:24.956Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "Внешний сервер - Неизвестное приложение",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 53,
+    "fields": {
+        "action_time": "2021-03-17T10:39:38.572Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "1",
+        "object_repr": " ",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 54,
+    "fields": {
+        "action_time": "2021-03-17T10:40:08.069Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "7",
+        "object_repr": "Андреев Роман Александрович",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Staff status\", \"Superuser status\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 55,
+    "fields": {
+        "action_time": "2021-03-17T10:54:27.710Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "3",
+        "object_repr": "О системе",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 56,
+    "fields": {
+        "action_time": "2021-03-17T11:05:10.885Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 57,
+    "fields": {
+        "action_time": "2021-03-17T11:11:55.733Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 58,
+    "fields": {
+        "action_time": "2021-03-17T11:18:52.658Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 59,
+    "fields": {
+        "action_time": "2021-03-17T11:19:06.861Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 60,
+    "fields": {
+        "action_time": "2021-03-17T11:26:34.440Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 61,
+    "fields": {
+        "action_time": "2021-03-17T11:29:13.533Z",
+        "user": 7,
+        "content_type": 16,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 62,
+    "fields": {
+        "action_time": "2021-03-17T11:29:36.157Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0420\\u0430\\u0437\\u0434\\u0435\\u043b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 63,
+    "fields": {
+        "action_time": "2021-03-17T11:31:06.812Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 64,
+    "fields": {
+        "action_time": "2021-03-17T11:41:36.109Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 65,
+    "fields": {
+        "action_time": "2021-03-17T11:45:48.154Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 66,
+    "fields": {
+        "action_time": "2021-03-17T11:49:49.338Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 67,
+    "fields": {
+        "action_time": "2021-03-17T11:51:25.238Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 68,
+    "fields": {
+        "action_time": "2021-03-17T11:53:04.163Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 69,
+    "fields": {
+        "action_time": "2021-03-17T12:06:30.897Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 70,
+    "fields": {
+        "action_time": "2021-03-17T12:07:24.389Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 71,
+    "fields": {
+        "action_time": "2021-03-17T12:09:57.228Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 72,
+    "fields": {
+        "action_time": "2021-03-17T12:10:44.325Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 73,
+    "fields": {
+        "action_time": "2021-03-17T12:10:51.706Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 74,
+    "fields": {
+        "action_time": "2021-03-17T12:11:01.534Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 75,
+    "fields": {
+        "action_time": "2021-03-17T12:17:03.353Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Все мероприятия",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 76,
+    "fields": {
+        "action_time": "2021-03-17T12:20:02.187Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "6",
+        "object_repr": "Мои мероприятия",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 77,
+    "fields": {
+        "action_time": "2021-03-17T12:23:51.515Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "7",
+        "object_repr": "Заявки на конференции",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 78,
+    "fields": {
+        "action_time": "2021-03-17T12:24:12.306Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "7",
+        "object_repr": "Заявки на конференции",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 79,
+    "fields": {
+        "action_time": "2021-03-17T12:26:11.360Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "8",
+        "object_repr": "Заявки на помещения",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 80,
+    "fields": {
+        "action_time": "2021-03-17T12:27:02.393Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 81,
+    "fields": {
+        "action_time": "2021-03-17T12:27:59.728Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "9",
+        "object_repr": "Мой архив",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 82,
+    "fields": {
+        "action_time": "2021-03-17T12:30:24.870Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "9",
+        "object_repr": "Мой архив",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 83,
+    "fields": {
+        "action_time": "2021-03-17T12:30:38.682Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "7",
+        "object_repr": "Заявки на конференции",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 84,
+    "fields": {
+        "action_time": "2021-03-17T12:30:42.487Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "8",
+        "object_repr": "Заявки на помещения",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 85,
+    "fields": {
+        "action_time": "2021-03-17T12:30:51.807Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "6",
+        "object_repr": "Мои мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 86,
+    "fields": {
+        "action_time": "2021-03-17T12:30:59.468Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Все мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 87,
+    "fields": {
+        "action_time": "2021-03-17T12:31:23.853Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "9",
+        "object_repr": "Мой архив",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u043e\\u0440\\u044f\\u0434\\u043a\\u043e\\u0432\\u044b\\u0439 \\u043d\\u043e\\u043c\\u0435\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 88,
+    "fields": {
+        "action_time": "2021-03-17T12:31:34.124Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "8",
+        "object_repr": "Заявки на помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u043e\\u0440\\u044f\\u0434\\u043a\\u043e\\u0432\\u044b\\u0439 \\u043d\\u043e\\u043c\\u0435\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 89,
+    "fields": {
+        "action_time": "2021-03-17T12:31:44.096Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "7",
+        "object_repr": "Заявки на конференции",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u043e\\u0440\\u044f\\u0434\\u043a\\u043e\\u0432\\u044b\\u0439 \\u043d\\u043e\\u043c\\u0435\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 90,
+    "fields": {
+        "action_time": "2021-03-17T12:31:54.351Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "6",
+        "object_repr": "Мои мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u043e\\u0440\\u044f\\u0434\\u043a\\u043e\\u0432\\u044b\\u0439 \\u043d\\u043e\\u043c\\u0435\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 91,
+    "fields": {
+        "action_time": "2021-03-17T12:32:00.023Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Все мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u043e\\u0440\\u044f\\u0434\\u043a\\u043e\\u0432\\u044b\\u0439 \\u043d\\u043e\\u043c\\u0435\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 92,
+    "fields": {
+        "action_time": "2021-03-17T12:32:14.297Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u043e\\u0440\\u044f\\u0434\\u043a\\u043e\\u0432\\u044b\\u0439 \\u043d\\u043e\\u043c\\u0435\\u0440\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 93,
+    "fields": {
+        "action_time": "2021-03-17T12:32:19.157Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 94,
+    "fields": {
+        "action_time": "2021-03-17T12:32:24.388Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 95,
+    "fields": {
+        "action_time": "2021-03-17T12:32:30.528Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "3",
+        "object_repr": "О системе",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 96,
+    "fields": {
+        "action_time": "2021-03-17T12:34:24.392Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 97,
+    "fields": {
+        "action_time": "2021-03-17T12:35:09.885Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 98,
+    "fields": {
+        "action_time": "2021-03-17T12:35:31.010Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 99,
+    "fields": {
+        "action_time": "2021-03-17T12:35:52.197Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 100,
+    "fields": {
+        "action_time": "2021-03-18T05:47:45.086Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 101,
+    "fields": {
+        "action_time": "2021-03-18T05:47:51.489Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 102,
+    "fields": {
+        "action_time": "2021-03-18T05:48:18.171Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 103,
+    "fields": {
+        "action_time": "2021-03-19T08:42:09.593Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Все мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 104,
+    "fields": {
+        "action_time": "2021-03-19T08:58:10.430Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 105,
+    "fields": {
+        "action_time": "2021-03-20T04:51:55.860Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0420\\u0430\\u0437\\u0434\\u0435\\u043b\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 106,
+    "fields": {
+        "action_time": "2021-03-20T05:50:31.754Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 107,
+    "fields": {
+        "action_time": "2021-03-20T05:51:54.234Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 108,
+    "fields": {
+        "action_time": "2021-03-20T06:25:34.399Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 109,
+    "fields": {
+        "action_time": "2021-03-20T06:34:33.698Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 110,
+    "fields": {
+        "action_time": "2021-03-20T06:48:31.169Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 111,
+    "fields": {
+        "action_time": "2021-03-20T06:49:58.730Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 112,
+    "fields": {
+        "action_time": "2021-03-20T06:50:16.585Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 113,
+    "fields": {
+        "action_time": "2021-03-20T07:02:27.390Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 114,
+    "fields": {
+        "action_time": "2021-03-20T07:06:30.179Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "7",
+        "object_repr": "Заявки на конференции",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 115,
+    "fields": {
+        "action_time": "2021-03-20T07:10:31.912Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 116,
+    "fields": {
+        "action_time": "2021-03-20T07:10:48.186Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Конференция",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 117,
+    "fields": {
+        "action_time": "2021-03-20T08:08:30.040Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Все мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 118,
+    "fields": {
+        "action_time": "2021-03-20T08:13:56.306Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "6",
+        "object_repr": "Мои мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 119,
+    "fields": {
+        "action_time": "2021-03-20T08:14:31.203Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "6",
+        "object_repr": "Мои мероприятия",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 120,
+    "fields": {
+        "action_time": "2021-03-20T08:16:00.876Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "6",
+        "object_repr": "Мои мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 121,
+    "fields": {
+        "action_time": "2021-03-20T08:17:19.172Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "9",
+        "object_repr": "Мой архив",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 122,
+    "fields": {
+        "action_time": "2021-03-20T08:17:43.969Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "9",
+        "object_repr": "Мой архив",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 123,
+    "fields": {
+        "action_time": "2021-03-20T08:20:46.317Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "7",
+        "object_repr": "Заявки на конференции",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 124,
+    "fields": {
+        "action_time": "2021-03-20T08:30:08.252Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Все мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"body_text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 125,
+    "fields": {
+        "action_time": "2021-03-20T08:35:06.200Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "8",
+        "object_repr": "Заявки на помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 126,
+    "fields": {
+        "action_time": "2021-03-20T08:36:54.401Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "8",
+        "object_repr": "Заявки на помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 127,
+    "fields": {
+        "action_time": "2021-03-20T08:38:40.698Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 128,
+    "fields": {
+        "action_time": "2021-03-20T08:38:57.788Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 129,
+    "fields": {
+        "action_time": "2021-03-20T08:39:47.645Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Мероприятия",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 130,
+    "fields": {
+        "action_time": "2021-03-20T09:22:25.004Z",
+        "user": 7,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "ул. Витимская д. 15а (ЦИТ) Ситуационный центр 2 этаж",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0434\\u0440\\u0435\\u0441\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 131,
+    "fields": {
+        "action_time": "2021-03-20T09:23:49.596Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "3",
+        "object_repr": "О системе",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 132,
+    "fields": {
+        "action_time": "2021-03-20T19:11:52.005Z",
+        "user": 7,
+        "content_type": 16,
+        "object_id": "2",
+        "object_repr": "TrueConf",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 133,
+    "fields": {
+        "action_time": "2021-03-20T19:13:20.943Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "10",
+        "object_repr": "Настройка TrueConf в браузере",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 134,
+    "fields": {
+        "action_time": "2021-03-20T21:16:23.633Z",
+        "user": 7,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Помещения",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b \\u0434\\u043b\\u044f \\u0430\\u0432\\u0442\\u043e\\u043c\\u0430\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0433\\u043e \\u0432\\u044b\\u0432\\u043e\\u0434\\u0430\"]}}]"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "0g4zu5h01f9107oqqwjffstwdd2l3f4w",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lMbvB:t383s2dMb5CgdZDQUlQPeZpy_292Zusck0NLENt6OdQ",
+        "expire_date": "2021-03-31T19:33:33.007Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "0ohx1xxc72x4ltanbenrkea74yxsw8mx",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lNAc9:lA--cr9-hKeX0_EcNu1Ok3AGNZagQg83SBK858qvZjo",
+        "expire_date": "2021-04-02T08:36:13.813Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "0rr52pbzjpfr3icgq4y47cyx5xijotdu",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lLl00:VPZKtqagSSdBqbQM0AjF023kb6XAaKS8cYlo3_180us",
+        "expire_date": "2021-03-29T11:03:00.310Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "23jr9get7ar0lf9h7ef3wnralllhlj4z",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hDqQGFcuu8ZyAwMtmpoUtqV8e7apAvd_vfef6lI2zrGrckSp6wuqlOn340pPaTuIN-p3mad5rouE-td0QdtepizPK-H-3cwUhu_dUi-UCpgiMGLlMSFeyhAvsPgeiM2OJ8NngXJQA-AXJDFJbAZBa16fwAM3Dh8:1lL0PY:h-jQfQvxCGil2RZdVtRNJv4Z37nEeq6w8KZe4jdBzUs",
+        "expire_date": "2021-03-27T09:18:16.105Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "7aeebuefix5glzk8rdnr61e6ms2tq40b",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lLBII:fmjwezcdoC6sThwLxM4hCJJ3CneYLokQ1RG7f1JFqSg",
+        "expire_date": "2021-03-27T20:55:30.615Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "aq8hzd2d51y0tddo2bdwzow1yua1f8o9",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lMTbD:61luzCxRi9ciDrQqVJCochyYlvQfNzxTYLAg_4GzaWs",
+        "expire_date": "2021-03-31T10:40:23.911Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "b3zoi1ua5rhlt1j3h83jnypy0ahxje3o",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lN8Ln:SnUnwluLuTpED_oDaQnrHCeys8Rb8rcBuoq4cMDaTdQ",
+        "expire_date": "2021-04-02T06:11:11.301Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "dbjbzsz78o3qezawaan8xwrpsrsybxs5",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lLkxr:CyQ0RBBin8Ur4jVkMNoOT9-R7SKa4UTAngaoNHfQcug",
+        "expire_date": "2021-03-29T11:00:47.330Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "dsayoxwztpvf89lyfa3mc5iqfx29gfh5",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lMVEU:e8ZSTEI1OZIaCe-ucz9JjRX5IqOYEBsMgGLR_ppAQDw",
+        "expire_date": "2021-03-31T12:25:02.338Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "esay30a4q571u90qpwu6tif5bw8s2wdq",
+    "fields": {
+        "session_data": ".eJxVjDkOwjAURO_iGln-TmIbSnrOEP3NOIAcKUuFuDuJlAI03bw38zY9rkvp11mnfhBzMWBOvx0hP7XuQB5Y76PlsS7TQHZX7EFnextFX9fD_TsoOJdtzclRk0EdAaPzLTSp9axJyXWOMUZi8EiiuCV6H7hrkM8SJGQgyebzBfvHOSY:1lLZMu:qEPV7uWaPJtHlEoFPWYCUuiPvLsvXO0k8wDhrn56k7A",
+        "expire_date": "2021-03-28T22:37:52.245Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "lfggqo6085vdd2eoddhcrvybq75ohuhj",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lNE94:r-Ft4dCllxDMAFUlztMIx3-gGSb0ni4Ry_ctwV_f-AY",
+        "expire_date": "2021-04-02T12:22:26.617Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "q7fpmiv1msdcpm80kxtfcehrjyccr6z1",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lNAwr:sY_UD913WzZFGi-c4C_2t10P3tLPiLG5VAA7PA9ScTY",
+        "expire_date": "2021-04-02T08:57:37.511Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "ufhgnili270lb894c79zslw1xye8d9vk",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lNZkJ:M5nqja8KlezEL13LNw1aYcAhb2a1TP5am_1E_Kf3sZI",
+        "expire_date": "2021-04-03T11:26:19.126Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "wshjyhn54fw2l4boy99lz7kkw9qb3862",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lNCaM:3SsZK5GZlq1hKpegmV_EHxD8zlh8DPlDex5C5Ln6xMI",
+        "expire_date": "2021-04-02T10:42:30.239Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "xocrd0dxwev7ze8evmfbk2xr3pr0roag",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lL0S1:efnFTqIlfGEOSe2a4qIWkMslAaasOGYRamu1r4dKrwM",
+        "expire_date": "2021-03-27T09:20:49.748Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "y5rtwq6v6qfh9jl2559dpozpb7no6bjx",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKZRhcuvcMZOhMpWpKUtqV8e7apAvd_vfef6lE21rS1mRJE6uzCur0u2UaHjLvgO8036oe6rwuU9a7og_a9LWyPC-H-3dQqJVvDYCuN9zhKJjRmpAjezChZ2ELQCNaYDZoOyY3sJMujhi9s0IUyHj1_gDTxzex:1lMVBJ:jdWOfm5CrDQ_6ILaLBtx3k8aYHaJdoUrfHm3eUrExuA",
+        "expire_date": "2021-03-31T12:21:45.849Z"
+    }
+},
+{
+    "model": "schedule.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$JxQO7ojtDvgn$0ST+nDYW3OijOdlkiBPVqZL2F6YxUzjXa8Pm9+ZF1hA=",
+        "last_login": "2021-03-17T12:20:27.016Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2021-03-13T07:22:36Z",
+        "is_operator": true,
+        "is_assistant": true,
+        "organization": null,
+        "subscribe_mail": false,
+        "telegram": null,
+        "subscribe_telegram": false,
+        "phone": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "schedule.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$OJchXPYih6KN$td/x0/J4jYsScv8924o5afvJctmeO67chTD7TfUC9qs=",
+        "last_login": "2021-03-17T10:23:51.805Z",
+        "is_superuser": false,
+        "username": "Y_Grigorev",
+        "first_name": "Юрий Александрович",
+        "last_name": "Григорьев",
+        "email": "Y_Grigorev@volganet.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-03-13T09:00:28Z",
+        "is_operator": true,
+        "is_assistant": false,
+        "organization": null,
+        "subscribe_mail": false,
+        "telegram": null,
+        "subscribe_telegram": false,
+        "phone": "35-32-71",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "schedule.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$M6jzmaNK5IzJ$VOefjMNiyisSHqWm/m/8nKOeZimaKclT7MYnqI9bg2g=",
+        "last_login": "2021-03-17T10:26:22.499Z",
+        "is_superuser": false,
+        "username": "E_Lagutin",
+        "first_name": "Егор Александрович",
+        "last_name": "Лагутин",
+        "email": "E_Lagutin@volganet.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-03-13T09:02:11Z",
+        "is_operator": false,
+        "is_assistant": true,
+        "organization": 1,
+        "subscribe_mail": false,
+        "telegram": null,
+        "subscribe_telegram": false,
+        "phone": "35-27-60",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "schedule.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$ZfzMY4qr8uqs$rFCLbreNGKq5vZahVt/Z4xFYtotZgnrVOkXub/d1LyE=",
+        "last_login": "2021-03-17T10:24:37.725Z",
+        "is_superuser": false,
+        "username": "E_Mardovin",
+        "first_name": "Егор Александрович",
+        "last_name": "Мардовин",
+        "email": "E_Mardovin@volganet.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-03-13T09:03:51Z",
+        "is_operator": true,
+        "is_assistant": false,
+        "organization": null,
+        "subscribe_mail": false,
+        "telegram": null,
+        "subscribe_telegram": false,
+        "phone": "35-32-71",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "schedule.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$rPjq2AcTrkiD$Doy+GUjf6m9f3xd7ZxV1ZflUEEyxKzXSOhESyoKOXyc=",
+        "last_login": "2021-03-19T12:16:27.105Z",
+        "is_superuser": false,
+        "username": "Al_Cherepanov",
+        "first_name": "Алексей Игоревич",
+        "last_name": "Черепанов",
+        "email": "al_cherepanov@volganet.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-03-13T09:06:13Z",
+        "is_operator": false,
+        "is_assistant": true,
+        "organization": 1,
+        "subscribe_mail": false,
+        "telegram": null,
+        "subscribe_telegram": false,
+        "phone": "35-27-60",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "schedule.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$fww27C7lnU7I$uMo/TgZADdP4Z2fP6M5kCLyXFyUfGdp3XCPWw3nHuMA=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "T_Gnedash",
+        "first_name": "Татьяна Геннадьевна",
+        "last_name": "Гнедаш",
+        "email": "T_Gnedash@volganet.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-03-13T09:11:54Z",
+        "is_operator": false,
+        "is_assistant": false,
+        "organization": 1,
+        "subscribe_mail": false,
+        "telegram": null,
+        "subscribe_telegram": false,
+        "phone": "35-27-62",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "schedule.user",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$2L1suc8CSK6W$TSJQwHetD5B81cwhmoJE0fzVUKWoLzC6xu0SvQV5AzM=",
+        "last_login": "2021-03-20T11:26:19.125Z",
+        "is_superuser": true,
+        "username": "R_Andreev",
+        "first_name": "Роман Александрович",
+        "last_name": "Андреев",
+        "email": "R_Andreev@volganet.ru",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2021-03-13T09:18:56Z",
+        "is_operator": true,
+        "is_assistant": true,
+        "organization": 1,
+        "subscribe_mail": true,
+        "telegram": "325848334",
+        "subscribe_telegram": true,
+        "phone": "35-27-50",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "schedule.room",
+    "pk": 1,
+    "fields": {
+        "address": "ул. Витимская д. 15",
+        "room": "Переговорная комната ЦИТ (4 этаж)",
+        "quota": 8,
+        "created_at": "2021-03-17T10:37:59.901Z",
+        "updated_at": "2021-03-20T09:39:00.274Z",
+        "assistants": [
+            5,
+            7
+        ],
+        "applications": [
+            3,
+            1,
+            2
+        ]
+    }
+},
+{
+    "model": "schedule.room",
+    "pk": 2,
+    "fields": {
+        "address": "ул. Витимская д. 15а (ЦИТ)",
+        "room": "Ситуационный центр 2 этаж",
+        "quota": 10,
+        "created_at": "2021-03-20T09:22:24.998Z",
+        "updated_at": "2021-03-20T09:39:00.274Z",
+        "assistants": [
+            3,
+            7
+        ],
+        "applications": [
+            3,
+            1,
+            2
+        ]
+    }
+},
+{
+    "model": "schedule.server",
+    "pk": 1,
+    "fields": {
+        "name": "ВКС Администрации Волгоградской области",
+        "application": 1,
+        "server_address": "vsc.volganet.ru",
+        "quota": 100,
+        "created_at": "2021-03-17T10:38:20.722Z",
+        "updated_at": "2021-03-20T09:39:00.282Z",
+        "server_type": "local",
+        "operators": [
+            4,
+            7
+        ]
+    }
+},
+{
+    "model": "schedule.server",
+    "pk": 2,
+    "fields": {
+        "name": "Внешний сервер",
+        "application": 2,
+        "server_address": null,
+        "quota": 200,
+        "created_at": "2021-03-17T10:38:24.954Z",
+        "updated_at": "2021-03-20T09:39:00.282Z",
+        "server_type": "external",
+        "operators": [
+            2,
+            4,
+            7
+        ]
+    }
+},
+{
+    "model": "schedule.server",
+    "pk": 3,
+    "fields": {
+        "name": "POLYCOM Губернатора",
+        "application": 3,
+        "server_address": "polycom.volganet.ru",
+        "quota": 50,
+        "created_at": "2021-03-17T10:38:15.644Z",
+        "updated_at": "2021-03-20T09:39:00.282Z",
+        "server_type": "local",
+        "operators": [
+            2,
+            7
+        ]
+    }
+},
+{
+    "model": "schedule.organization",
+    "pk": 1,
+    "fields": {
+        "name": "ГБУ ВО \"Центр информационных технологий\"",
+        "created_at": "2021-03-13T09:11:29.786Z",
+        "updated_at": "2021-03-20T09:39:00.266Z",
+        "room": [
+            1
+        ]
+    }
+},
+{
+    "model": "schedule.application",
+    "pk": 1,
+    "fields": {
+        "name": "TrueConf",
+        "created_at": "2021-03-13T08:58:00.253Z",
+        "updated_at": "2021-03-20T09:39:00.223Z"
+    }
+},
+{
+    "model": "schedule.application",
+    "pk": 2,
+    "fields": {
+        "name": "Неизвестное приложение",
+        "created_at": "2021-03-13T09:10:17.738Z",
+        "updated_at": "2021-03-20T09:39:00.223Z"
+    }
+},
+{
+    "model": "schedule.application",
+    "pk": 3,
+    "fields": {
+        "name": "Polycom",
+        "created_at": "2021-03-13T17:50:01.190Z",
+        "updated_at": "2021-03-20T09:39:00.223Z"
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 1,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Первое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-14-2021-03-14 \n----------------------------------\nСессия №1\nвремя проведения с 02:00:00 по  02:02:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs.volganet.ru/vcs-link\nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-13T11:14:04.986Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 2,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Первое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-14-2021-03-14 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs.volganet.ru/vcs-link\nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-13T11:21:34.016Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 3,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Первое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-14-2021-03-14 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:22:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs.volganet.ru/vcs-link\nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-13T11:36:18.281Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 4,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Первое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-14-2021-03-14 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs.volganet.ru/vcs-link\nОтветственный сотрудник: R_Andreev \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-13T12:22:43.482Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 5,
+    "fields": {
+        "message": "----------------------------------\nМероприятие drte - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-14-2021-03-14 \n----------------------------------\nСессия №1\nвремя проведения с 04:05:00 по  05:00:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-13T13:19:51.049Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 6,
+    "fields": {
+        "message": "----------------------------------\nМероприятие drgsdfgd - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-14-2021-03-14 \n----------------------------------\nСессия №1\nвремя проведения с 22:00:00 по  23:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs.volganet.ru/vcs-link\nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-13T16:49:35.208Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 7,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Полный цикл - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-13-2021-03-13 \n----------------------------------\nСессия №1\nвремя проведения с 22:00:00 по  23:00:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nОтветственный сотрудник: Лагутин Егор Александрович \nТелефон: 35-27-60, электронная почта: E_Lagutin@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs.volganet.ru/vcs-link\nОтветственный сотрудник: Григорьев Юрий Александрович \nТелефон: 35-32-71, электронная почта: Y_Grigorev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-13T16:55:50.938Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            3,
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 8,
+    "fields": {
+        "message": "----------------------------------\nМероприятие drgsdfgd - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-14-2021-03-14 \n----------------------------------\nСессия №1\nвремя проведения с 22:00:00 по  23:00:00\nПомещение улю Витимская д. 15 (ЦИТ) Ситуационный центр 2 этаж\nАссистент: Лагутин Егор Александрович \nТелефон: 35-27-60, электронная почта: E_Lagutin@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs.volganet.ru/vcs-link\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-13T19:39:29.045Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            3,
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 9,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовая ВКС - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-18-2021-03-18 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nПомещение улю Витимская д. 15 (ЦИТ) Ситуационный центр 2 этаж\nАссистент: Лагутин Егор Александрович \nТелефон: 35-27-60, электронная почта: E_Lagutin@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vdfghdfhj\nОператор: Мардовин Егор Александрович \nТелефон: 35-32-71, электронная почта: E_Mardovin@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-17T10:28:01.979Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            3,
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 10,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Первое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-12-01-2021-12-01 \n----------------------------------\nСессия №1\nвремя проведения с 11:00:00 по  11:15:00\nСервер:  POLYCOM Губернатора - Polycom\nСсылка: 11111\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\nСессия №2\nвремя проведения с 11:00:00 по  11:15:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-17T11:49:24.207Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 11,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовая ВКС - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-18-2021-03-18 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vdfghdfhj\nОператор: Мардовин Егор Александрович \nТелефон: 35-32-71, электронная почта: E_Mardovin@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-17T12:18:00.198Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 12,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовая ВКС - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-17-2021-03-17 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: 1\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-17T12:18:24.557Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 13,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовая ВКС - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-17-2021-03-17 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: 1\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-17T12:18:25.480Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 14,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Какоетосоывещание - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-18-2021-03-18 \n----------------------------------\nСессия №1\nвремя проведения с 01:00:00 по  02:00:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vkdkfjghksdjfgksdhfg.aertgaioeriodaf.dfg\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-17T12:27:32.466Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 15,
+    "fields": {
+        "message": "----------------------------------\nМероприятие 123 - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-25-2021-03-25 \n----------------------------------\nСессия №1\nвремя проведения с 11:00:00 по  12:00:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  POLYCOM Губернатора - Polycom\nСсылка: ен\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-17T12:48:57.317Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 16,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Новое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-20-2021-03-20 \n----------------------------------\nСессия №1\nвремя проведения с 05:12:00 по  12:15:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs rtrt12\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-19T10:22:43.095Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 17,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Новое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-20-2021-03-20 \n----------------------------------\nСессия №1\nвремя проведения с 05:12:00 по  12:15:00\nПомещение улю Витимская д. 15 (ЦИТ) Ситуационный центр 2 этаж\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs rtrt12\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-19T10:27:00.164Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 18,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Test event - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-20-2021-03-21 \n----------------------------------\nСессия №1\nвремя проведения с 01:00:00 по  02:00:00\nСервер:  POLYCOM Губернатора - Polycom\nСсылка: xfhgdf\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\nСессия №2\nвремя проведения с 11:00:00 по  12:12:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vsdfjutdcghjctghj\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-19T10:47:45.294Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 19,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Test event - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-20-2021-03-21 \n----------------------------------\nСессия №1\nвремя проведения с 01:00:00 по  02:00:00\nСервер:  POLYCOM Губернатора - Polycom\nСсылка: xfhgdf\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\nСессия №2\nвремя проведения с 11:00:00 по  12:12:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vsdfjutdcghjctghj\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-19T10:49:46.599Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 20,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовая ВКС - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-30-2021-03-30 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: цук\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-19T10:56:55.122Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 21,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Мероприятие на 19.03 - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-19-2021-03-19 \n----------------------------------\nСессия №1\nвремя проведения с 15:10:00 по  15:30:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  POLYCOM Губернатора - Polycom\nСсылка: http\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-19T12:09:05.088Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 22,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Мероприятие на 19.03 - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-19-2021-03-19 \n----------------------------------\nСессия №1\nвремя проведения с 15:10:00 по  15:30:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  POLYCOM Губернатора - Polycom\nСсылка: http\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-19T12:32:04.465Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 23,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовое мероприятия (проверка основных шагов) - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-21-2021-04-19 \n----------------------------------\nСессия №1\nвремя проведения с 10:00:00 по  11:03:00\nПомещение ул. Витимская д. 15 Переговорная комната ЦИТ (4 этаж)\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: ссылка\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-19T12:50:05.511Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 24,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовое мероприятия (проверка основных шагов) - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-04-19-2021-04-19 \n----------------------------------\nСессия №1\nвремя проведения с 10:00:00 по  11:03:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: ссылка\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-20T06:27:26.331Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 25,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Тестовая ВКС - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-30-2021-03-30 \n----------------------------------\nСессия №1\nвремя проведения с 11:01:00 по  12:00:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: 1\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-20T08:44:22.288Z",
+        "updated_at": "2021-03-20T09:39:00.190Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 26,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Новое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-20-2021-03-20 \n----------------------------------\nСессия №1\nвремя проведения с 05:12:00 по  12:15:00\nПомещение ул. Витимская д. 15а (ЦИТ) Ситуационный центр 2 этаж\nАссистент: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nПодключение конференции:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs rtrt12\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----------------------------------\n",
+        "created_at": "2021-03-20T13:15:24.345Z",
+        "updated_at": "2021-03-20T13:15:24.345Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "dispatch.message",
+    "pk": 27,
+    "fields": {
+        "message": "----------------------------------\nМероприятие Новое мероприятие - полностью готово к проведению \nОрганизатор: ГБУ ВО \"Центр информационных технологий\" \nОтветственный сотрудник: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \nДата проведения: 2021-03-20-2021-03-20 \n----------------------------------\nСессия №1\nвремя проведения с 05:12:00 по  12:15:00\nСервер:  ВКС Администрации Волгоградской области - TrueConf\nСсылка: vcs rtrt12\nОператор: Андреев Роман Александрович \nТелефон: 35-27-50, электронная почта: R_Andreev@volganet.ru \n----без бронирования помещения----\n----------------------------------\n",
+        "created_at": "2021-03-20T13:15:45.419Z",
+        "updated_at": "2021-03-20T13:15:45.419Z",
+        "recipient": [
+            7
+        ]
+    }
+},
+{
+    "model": "help.section",
+    "pk": 1,
+    "fields": {
+        "serial_number": 1,
+        "name": "О системе",
+        "created_at": "2021-03-20T09:39:00.212Z",
+        "updated_at": "2021-03-20T09:39:00.215Z"
+    }
+},
+{
+    "model": "help.section",
+    "pk": 2,
+    "fields": {
+        "serial_number": 2,
+        "name": "TrueConf",
+        "created_at": "2021-03-20T09:39:00.212Z",
+        "updated_at": "2021-03-20T19:11:52.003Z"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 1,
+    "fields": {
+        "serial_number": 2,
+        "name": "Мероприятие",
+        "slug": "event",
+        "urls": "/schedule/event-create/; /schedule/event/*.*;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "Мероприятия",
+        "body_text": "<hr />\r\n<p>Для создания мероприятия&nbsp;необходимо указать &quot;<em>Название мероприятия</em>&quot; и &quot;<em>Описание</em>&quot; (краткое содержание) и нажать кнопку &quot;Сохранить&quot;. Мероприятие получает статус &quot;Черновик&quot;.</p>\r\n\r\n<p>Если <u><em>Мероприятие </em></u>должно проводиться с использованием технических ресурсов (в режиме конференции), с ним необходимо связать <em><u>Конференцию </u></em>(кнопка&nbsp;&quot;<em>Добавить конференцию</em>&quot;). Очные мероприятия не требуют бронирования конференций.</p>\r\n\r\n<p>Если <em><u>Мероприятие</u></em> должно проводиться в оборудованных помещениях, для него необходимо забронировать <u><em>Помещение </em></u>(кнопка&nbsp; &quot;<em>Забронировать комнату</em>&quot;). Мероприятия, проводимые на рабочих местах участников (например, совещание в режиме ВКС), не требуют бронирования помещений.</p>\r\n\r\n<p>Мероприятие может проводиться в несколько этапов с использованием различных ресурсов, поэтому с ним может быть связано любое количество <u><em>Конференций </em></u>и <u><em>Помещений</em></u>. Не может быть <u><em>Мероприятия </em></u>совсем без связей - хотя бы одно <u><em>Помещение </em></u>или <u><em>Конференция </em></u>должно быть привязано в обязательном порядке..</p>\r\n\r\n<p>Если для мероприятия требуется бронирование как&nbsp;<u><em>Конференции</em></u>, так&nbsp; и<u><em>&nbsp;Помещения</em></u>,&nbsp;то следует сначала забронировать&nbsp;<u><em>Коференцию</em></u> а затем <em><u>Помещение</u></em>.</p>\r\n\r\n<p>После бронирования ресурсов и помещений&nbsp;<u><em>Мероприятие</em></u> переходит в статус &quot;<em>Ожидание</em>&quot; и передается на рассмотрение ответственным за ресурсы и помещения. После рассмотрения заявок на бронирование <u><em>Конференций </em></u>и <u><em>Помещений </em></u>ответственными, <u><em>Мероприятие </em></u>переходит в статус &quot;<em>Готово</em>&quot;. &nbsp;После завершения всех связанных объектов <em><u>Мероприятие</u></em> переходит в статус <em>&quot;Окончено&quot; </em>и отправляется в <u><em>Архив</em></u>. Архивные мероприятия доступны только для просмотра.</p>\r\n\r\n<hr />\r\n<p>&nbsp;</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 2,
+    "fields": {
+        "serial_number": 3,
+        "name": "Конференция",
+        "slug": "conference",
+        "urls": "/schedule/event/*.*/conference-create/;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "Конференция",
+        "body_text": "<p>Для бронирования <u><em>Конференции </em></u>нужно указать сервер, количество участников, дату и время проведения конференции, нажать кнопку &quot;Сохранить&quot;.</p>\r\n\r\n<p>Система контролирует предельное количество участников <u><em>Конференции </em></u>для данного сервера.</p>\r\n\r\n<p>После сохранения заявка на&nbsp;<u><em>Конференцию </em></u>переходит в статус &quot;Ожидание&quot; и поступает на рассмотрение ответственному за заявленные ресурсы.</p>\r\n\r\n<p>Ответственный может подтвердить проведение <u><em>Конференции</em></u> (в этом случае он обязательно прикрепляет ссылку на конференцию) или отказать в ее проведении (в этом случае - указывает причину отказа).</p>\r\n\r\n<p>Отклоненная заявка получает статус &quot;Отказ&quot;. Такую заявку можно отредактировать с учетом причины отказа, и она снова поступит на рассмотрение ответственному.&nbsp;</p>\r\n\r\n<p>Подтвержденная&nbsp;заявка на&nbsp;<u><em>Конференцию</em></u> получает статус &quot;Готово&quot;. Такие заявки не редактируются в карточке мероприятия.</p>\r\n\r\n<p>Ссылка на подтвержденную <u><em>Конференцию </em></u>автоматически отображается в заявке на бронирование <u><em>Помещения </em></u>и становится видна ответственному за помещение.</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 3,
+    "fields": {
+        "serial_number": 1,
+        "name": "Главная",
+        "slug": "Main",
+        "urls": "",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "О системе",
+        "body_text": "<p>Система предназначена для бронирования ресурсов и помещений при проведении мероприятий с участием органов исполнительной власти Волгоградской области.</p>\r\n\r\n<p>Для проведения мероприятия Оператору органа&nbsp;исполнительной власти требуется подать заявку, при необходимости - с бронированием ресурсов ВКС и/или помещения.</p>\r\n\r\n<p>После одобрения или отклонения заявки Оператор получает уведомление.</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 4,
+    "fields": {
+        "serial_number": 4,
+        "name": "Помещение",
+        "slug": "room",
+        "urls": "/schedule/event/*.*/booking-create/;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T21:16:23.631Z",
+        "title": "Помещения",
+        "body_text": "<p>Для бронирования <u><em>Помещения </em></u>необходимо:</p>\r\n\r\n<p>- в случае, если мероприятие очное, установить признак &quot;Без конференции&quot;, выбрать место проведения, указать количество участников, дату и время проведения мероприятия и нажать кнопку &quot;Сохранить&quot;;</p>\r\n\r\n<p>- в случае, если мероприятие проводится в режиме конференции, выбрать <u><em>Конференцию</em></u>, забронированную для данного мероприятия, выбрать место проведения, указать количество участников и нажать кнопку &quot;Сохранить&quot;; дата и время проведения мероприятия в этом случае устанавливаются автоматически в соответствии с выбранной <u><em>Конференцией</em></u>.</p>\r\n\r\n<p>Система контролирует доступность выбранного <u><em>Помещения </em></u>в заданное время, техническую возможность проведения <u><em>Конференции </em></u>в данном <u><em>Помещении</em></u>, предельную вместимость <u><em>Помещения</em></u>.</p>\r\n\r\n<p>После сохранения заявка на&nbsp;<u><em>Помещение&nbsp;</em></u>переходит в статус &quot;Ожидание&quot; и поступает на рассмотрение ответственному за заявленное помещение.</p>\r\n\r\n<p>Ответственный может подтвердить бронирование помещения или отказать в бронировании (в этом случае ответственный указывает причину отказа).&nbsp;</p>\r\n\r\n<p>Отклоненная заявка получает статус &quot;Отказ&quot;. Такую заявку можно отредактировать с учетом причины отказа, и она снова поступит на рассмотрение ответственному.&nbsp;</p>\r\n\r\n<p>Подтвержденная заявка на&nbsp;<em><u>Помещение&nbsp;</u></em>получает статус &quot;Готово&quot;. Такая заявка не редактируется в карточке мероприятия.</p>\r\n\r\n<p>&nbsp;</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 5,
+    "fields": {
+        "serial_number": 5,
+        "name": "Все мероприятия",
+        "slug": "AllEvent",
+        "urls": "/schedule/event-list/;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "Все мероприятия",
+        "body_text": "<p>Список включает все заявки на мероприятия, кроме архивных и черновых.</p>\r\n\r\n<p>В этом окне можно добавить новую (кнопка &quot;Создать мероприятие&quot;) или изменить ранее поданную (кнопка &quot;Подробно&quot;) заявку на проведение мероприятия.</p>\r\n\r\n<p>Список содержит основные сведения о заявках на проведение мероприятий и текущий статус каждой заявки:</p>\r\n\r\n<p>- &quot;Ожидание&quot; - заявки на бронирование Коференций / Помещений, связанных с Мероприятием, на рассмотрении у ответственных;</p>\r\n\r\n<p>- &quot;Готово&quot; - заявка на проведение Мероприятия согласована, но Мероприятие еще не проведено.</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 6,
+    "fields": {
+        "serial_number": 6,
+        "name": "Мои мероприятия",
+        "slug": "MyEvent",
+        "urls": "/schedule/my-event-list/;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "Мои мероприятия",
+        "body_text": "<p>Список включает заявки на мероприятия, созданные текущим пользователем, кроме архивных.</p>\r\n\r\n<p>В этом окне можно добавить новую (кнопка &quot;Создать мероприятие&quot;) или изменить ранее поданную (кнопка &quot;Подробно&quot;) заявку на проведение мероприятия.</p>\r\n\r\n<p>Список содержит основные сведения о заявках на проведение мероприятий и текущий статус каждой заявки:</p>\r\n\r\n<p>- &quot;Ожидание&quot; - заявки на бронирование Коференций / Помещений, связанных с Мероприятием, на рассмотрении у ответственных;</p>\r\n\r\n<p>- &quot;Готово&quot; - заявка на проведение Мероприятия согласована, но Мероприятие еще не проведено</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 7,
+    "fields": {
+        "serial_number": 7,
+        "name": "Заявки на конференци",
+        "slug": "conflist",
+        "urls": "/schedule/conference-approve/*.*/; /schedule/conference-list/;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "Заявки на конференции",
+        "body_text": "<p>Список содержит заявки на проведение Конференции с использованием ресурсов, ответственым за которые назначен текущий пользователь.</p>\r\n\r\n<p>Каждую заявку необходимо рассмотреть (кнопка &quot;Обработать&quot;) и подтвердить или отклонить.</p>\r\n\r\n<p>При подтверждении заявки (кнопка &quot;Подтвердить&quot;) в обязательном порядке необходимо указать ссылку на проведение Конференции, при отклонении заявки (кнопка &quot;Отказ&quot;) - указать причину отказа.</p>\r\n\r\n<p>Рассмотренные (обработанные) заявки в списке не отображаются.</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 8,
+    "fields": {
+        "serial_number": 8,
+        "name": "Заявки на помещения",
+        "slug": "roomlist",
+        "urls": "/schedule/booking-list/; /schedule/booking-approve/*.*/;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "Заявки на помещения",
+        "body_text": "<p>Список содержит заявки на бронирование Помещений, ответственым за которые назначен текущий пользователь.</p>\r\n\r\n<p>Каждую заявку необходимо рассмотреть (кнопка &quot;Обработать&quot;) и подтвердить или отклонить.</p>\r\n\r\n<p>Подтверждение заявки выполняется кнопкой &quot;Подтвердить&quot;, отклонение - кнопкой &quot;Отказ&quot; (при отклонении обязательно нужно&nbsp;указать причину отказа).</p>\r\n\r\n<p>Рассмотренные (обработанные) заявки в списке не отображаются.</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 9,
+    "fields": {
+        "serial_number": 9,
+        "name": "Мой архив",
+        "slug": "myarch",
+        "urls": "/schedule/event-archive/;",
+        "section": 1,
+        "created_at": "2021-03-20T09:39:00.206Z",
+        "updated_at": "2021-03-20T09:39:00.209Z",
+        "title": "Мой архив",
+        "body_text": "<p>Список включает архивные заявки на мероприятия, созданные текущим пользователем, кроме архивных.</p>\r\n\r\n<p>Список содержит основные сведения о заявках на проведение мероприятий и текущий статус каждой заявки (&quot;Окончено&quot;).</p>\r\n\r\n<p>В этом окне можно просмотреть заявку (кнопка &quot;Подробно&quot;) или оценить / прокомментировать проведенное мероприятие (кнопка &quot;Оценить&quot;).</p>"
+    }
+},
+{
+    "model": "help.page",
+    "pk": 10,
+    "fields": {
+        "serial_number": 1,
+        "name": "Настройка TrueConf",
+        "slug": "trueconf-set",
+        "urls": "",
+        "section": 2,
+        "created_at": "2021-03-20T19:13:20.940Z",
+        "updated_at": "2021-03-20T19:13:20.940Z",
+        "title": "Настройка TrueConf в браузере",
+        "body_text": "<p>текст</p>"
+    }
+}
+]

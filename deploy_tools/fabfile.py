@@ -68,3 +68,8 @@ def _update_static_files(source_folder):
 def _update_database(source_folder):
     """обновить базу данных"""
     run(f'cd {source_folder} && ../virtualenv/bin/python manage.py migrate --noinput')
+
+
+def _load_fixture(source_folder):
+    """Загрузка первоначальных данных в базу"""
+    run(f'cd {source_folder} && ../virtualenv/bin/python manage.py loaddata fixtures/data.json')
