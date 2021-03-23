@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from datetime import date as datetime_date
 
 from django.db.models import Sum, Q
@@ -6,8 +7,6 @@ from django.dispatch import receiver
 
 from dispatch.calling import send_out_message
 from .models import Event, Conference, Booking
-
-today = datetime_date.today()
 
 
 def check_free_quota(conf_id, server, date, time_start, time_end):
@@ -81,6 +80,7 @@ def update_status_event(instance, **kwargs):
 
 def set_status_completed(queryset):
     """Функция которая устанавливает статус Архивный для прошедших моделей"""
+    today = datetime_date.today()
     if queryset.model == Event:
         completed_list = queryset.filter(date_start__lt=today, status__in=['wait', 'ready', 'rejection'])
         if completed_list:
@@ -108,5 +108,16 @@ def update_date_event(instance, **kwargs):
     event.date_start = min(dates) if dates else None
     event.date_end = max(dates) if dates else None
     event.save()
+
+
+def check_time_line(time_start, time_end, **kwargs):
+    # Начало конференции должно быть раньше ее конца
+    if time_start >= time_end:
+        raise ValidationError([
+            ValidationError({'time_start': ('Время начала не может совпадать или быть позже окончания')}),
+            ValidationError({'time_end': 'Время начала не может совпадать или быть позже окончания'})
+        ])
+
+
 
 

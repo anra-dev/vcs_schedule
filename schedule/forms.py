@@ -1,8 +1,9 @@
+from django.core.exceptions import ValidationError
 from django import forms
 import datetime
 
 from .models import Event, Conference, Booking, get_object_or_none
-from .services import check_free_quota, check_room_is_free
+from .services import check_free_quota, check_room_is_free, check_time_line
 
 
 my_default_errors = {
@@ -76,9 +77,12 @@ class ConferenceCreateForm(forms.ModelForm):
         conf_id = self.instance.id
 
         # Начало конференции должно быть раньше ее конца
-        if time_start >= time_end:
-            self.add_error('time_start', 'Время начала не может совпадать или быть позже окончания')
-            self.add_error('time_end', 'Время окончания не может совпадать или быть раньше начала')
+        try:
+            check_time_line(**cleaned_data)
+        except ValidationError as e:
+            for field, error in e.error_dict():
+                print(e)
+                self.add_error(field, error)
 
         # Проверка для локальных серверов
         if server.server_type == server.SERVER_TYPE_LOCAL:

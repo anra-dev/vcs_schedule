@@ -4,8 +4,6 @@ from schedule.models import Booking, Conference
 def get_message(event=None):
     conferences = Conference.objects.filter(event=event).exclude(booking__without_conference=False)
     bookings = Booking.objects.filter(event=event)
-    print('Queryset conference:', conferences)
-    print('Queryset booking:', bookings)
     message = f'----------------------------------\n'
     message += f'Мероприятие {event.name } - полностью готово к проведению \n'
     message += f'Организатор: {event.organization } \n'
@@ -45,7 +43,6 @@ def get_message(event=None):
 
 
 def get_recipients(event=None):
-    print('Function get_recipients begins')
     users = [booking.assistant for booking in Booking.objects.filter(event=event)]
     users.append(event.owner)
 
@@ -55,5 +52,4 @@ def get_recipients(event=None):
             recipients['mail'].append(user.email)
         if user.subscribe_telegram:
             recipients['telegram'].append(user.telegram)
-    print('Function get_recipients:', recipients)
     return recipients, users
