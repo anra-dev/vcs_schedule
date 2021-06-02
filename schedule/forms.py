@@ -3,7 +3,7 @@ from django import forms
 import datetime
 
 from .models import Event, Conference, Booking, get_object_or_none
-from .services import check_free_quota, check_room_is_free, check_time_line
+from .services import *
 
 
 my_default_errors = {
@@ -66,22 +66,19 @@ class ConferenceCreateForm(forms.ModelForm):
     def clean(self):
         """Валидация формы"""
         cleaned_data = super().clean()
-        time_start = cleaned_data['time_start']
-        time_end = cleaned_data['time_end']
-        quota = cleaned_data['quota']
         server = cleaned_data['server']
-        link = cleaned_data['link']
-        file = cleaned_data['file']
-        date = cleaned_data['date']
-        description = cleaned_data['description']
         conf_id = self.instance.id
 
         # Начало конференции должно быть раньше ее конца
         try:
-            check_time_line(**cleaned_data)
+            check_quota_lt_server_quota(**cleaned_data)
+            check_time(**cleaned_data)
+            check_required_field(cleaned_data['quota'])
+
+
         except ValidationError as e:
-            for field, error in e.error_dict():
-                print(e)
+            print('__________\n', e, '\n__________\n')
+            for field, error in e:
                 self.add_error(field, error)
 
         # Проверка для локальных серверов
@@ -91,40 +88,9 @@ class ConferenceCreateForm(forms.ModelForm):
             cleaned_data['description'] = None
             cleaned_data['file'] = ''  # Почему то None не удаляет значение из базы
 
-            # Проверка полей
-            if not quota:
-                # Квота обязательное поле
-                self.add_error('quota', my_default_errors['required'])
-            elif quota > server.quota:
-                # Квота не должна превышать квоту сервера
-                self.add_error('quota', f'Превышено количество участников для данного приложения! '
-                                        f'Максимальное число пользователей: {server.quota}')
-            else:
-                # Проверка свободных квот на сервере на предполагаемое время
-                free_quota = check_free_quota(conf_id=conf_id, server=server, date=date,
-                                              time_start=time_start, time_end=time_end)
-                if free_quota == 0:
-                    # Все квоты заняты
-                    self.add_error('quota', f'Все лицензии заняты! Выберите другое время')
-                elif quota > free_quota:
-                    # Запрашиваемые квоты больше чем свободные квоты
-                    self.add_error('quota', f'Количество участников превышает количество свободных лицензий!'
-                                            f' На это время свободно всего {free_quota} лицензий')
-
-        # Проверка для внешних серверов
         if server.server_type == server.SERVER_TYPE_EXTERNAL:
             # Очищаем поля не предусмотренные для заполнения пользователем для конференций на внешних серверах
             cleaned_data['quota'] = None
-
-            # Проверка полей
-            if not description:
-                # Квота обязательное поле
-                self.add_error('description', my_default_errors['required'])
-
-            # Поле Ссылка или Файл не должны быть пустыми
-            if not link and not file:
-                raise forms.ValidationError(f"Необходимо заполнить поле {self.fields['link'].label} или "
-                                            f"{self.fields['file'].label}")
         return cleaned_data
 
     class Meta:

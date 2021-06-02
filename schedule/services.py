@@ -81,7 +81,7 @@ def update_status_event(instance, **kwargs):
 def set_status_completed(queryset):
     """Функция которая устанавливает статус Архивный для прошедших моделей"""
     today = datetime_date.today()
-    if queryset.model == Event:
+    if queryset.model == Event:  # переписать через isinstance
         completed_list = queryset.filter(date_start__lt=today, status__in=['wait', 'ready', 'rejection'])
         if completed_list:
             conference = Conference.objects.filter(event__in=completed_list, date__lt=today)
@@ -89,7 +89,7 @@ def set_status_completed(queryset):
             conference.update(status='completed')
             booking.update(status='completed')
             completed_list.filter(date_end__lt=today).update(status='completed')
-    if queryset.model in [Conference, Booking]:
+    if queryset.model in [Conference, Booking]:  # переписать через isinstance
         completed_list = queryset.filter(date__lt=today, status__in=['wait', 'ready', 'rejection'])
         if completed_list:
             completed_list.update(status='completed')
@@ -110,14 +110,72 @@ def update_date_event(instance, **kwargs):
     event.save()
 
 
-def check_time_line(time_start, time_end, **kwargs):
+def check_time(time_start, time_end, **kwargs):
     # Начало конференции должно быть раньше ее конца
     if time_start >= time_end:
-        raise ValidationError([
-            ValidationError({'time_start': ('Время начала не может совпадать или быть позже окончания')}),
-            ValidationError({'time_end': 'Время начала не может совпадать или быть позже окончания'})
-        ])
+        raise ValidationError({
+            'time_start': 'Время начала не может совпадать или быть позже окончания',
+            'time_end': 'Время окончания не может совпадать или быть раньше начала'
+        })
 
 
+def check_required_field(arg):
+    if arg is None:
+        raise ValidationError({field: 'Это поле обязательное'})
+
+
+def check_quota_lt_server_quota(quota, server, **kwargs):
+    if quota > server.quota:
+        raise ValidationError({'quota': f'Превышено количество участников для данного приложения! '
+                                        f'Максимальное число пользователей: {server.quota}'})
+
+
+def check_conference_data_valid(conf_id, server, **kwargs):
+    print('___________________', server)
+    try:
+        check_time(**kwargs)
+        # Проверка для локальных серверов
+
+        if server.server_type == server.SERVER_TYPE_LOCAL:
+            check_required_field('quota', **kwargs)
+            check_quota_lt_server_quota(**kwargs)
+    except ValidationError as e:
+        print(e)
+
+
+        # # Проверка полей
+        # if not quota:
+        #     # Квота обязательное поле
+        #     self.add_error('quota', my_default_errors['required'])
+        # elif quota > server.quota:
+        #     # Квота не должна превышать квоту сервера
+        #     self.add_error('quota', f'Превышено количество участников для данного приложения! '
+        #                             f'Максимальное число пользователей: {server.quota}')
+        # else:
+        #     # Проверка свободных квот на сервере на предполагаемое время
+        #     free_quota = check_free_quota(conf_id=conf_id, server=server, date=date,
+        #                                   time_start=time_start, time_end=time_end)
+        #     if free_quota == 0:
+        #         # Все квоты заняты
+        #         self.add_error('quota', f'Все лицензии заняты! Выберите другое время')
+        #     elif quota > free_quota:
+        #         # Запрашиваемые квоты больше чем свободные квоты
+        #         self.add_error('quota', f'Количество участников превышает количество свободных лицензий!'
+        #                                 f' На это время свободно всего {free_quota} лицензий')
+        #
+        # # Проверка для внешних серверов
+        # if server.server_type == server.SERVER_TYPE_EXTERNAL:
+        #     # Очищаем поля не предусмотренные для заполнения пользователем для конференций на внешних серверах
+        #     cleaned_data['quota'] = None
+        #
+        #     # Проверка полей
+        #     if not description:
+        #         # Квота обязательное поле
+        #         self.add_error('description', my_default_errors['required'])
+        #
+        #     # Поле Ссылка или Файл не должны быть пустыми
+        #     if not link and not file:
+        #         raise forms.ValidationError(f"Необходимо заполнить поле {self.fields['link'].label} или "
+        #                                     f"{self.fields['file'].label}")
 
 
