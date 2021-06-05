@@ -7,7 +7,7 @@
     <table class="table text-center table-hover">
         <thead>
         <tr>
-            <th scope="col">Дата и время</th>
+            <th scope="col">Дата</th>
             <th scope="col">Наименование</th>
             <th scope="col">Статус</th>
             <th scope="col">Организатор</th>
@@ -20,9 +20,13 @@
         {% for event in page_obj %}
             <tr class="table-{{ event.status|get_postfix }}">
                 <td>
+                {% if event.status == 'draft' %}
+                    Оформление не завершено
+                    {% else %}
                     {% if event.date_start == event.date_end %}{{ event.date_start|date:"d.m.Y" }}
                         {% else %}{{ event.date_start|date:"d.m" }}-{{ event.date_end|date:"d.m.Y" }}
                     {% endif %}
+                {% endif %}
                 </td>
                 <td>{{ event.name }}</td>
                 <td>
