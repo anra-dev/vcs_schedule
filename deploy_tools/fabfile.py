@@ -5,7 +5,7 @@ import random
 REPO_URL = 'https://github.com/anra-dev/vcs_schedule.git'
 DJANGO_PROJECT_NAME = 'vcs_site'
 KEY_FILE_PATH = '~/PycharmProjects/vcs_schedule/vcs_site/key.py'
-ROOT_NAME = 'ubuntu'
+ROOT_NAME = 'administrator'
 
 
 def deploy():
@@ -61,6 +61,7 @@ def _update_virtualenv(source_folder):
 
 
 def _update_key_file(source_folder):
+    """Переносим файл с атрибутами доступа"""
     local(f"scp {KEY_FILE_PATH} {ROOT_NAME}@{env.host}:{source_folder}/{DJANGO_PROJECT_NAME}/", capture=True)
 
 
