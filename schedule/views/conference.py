@@ -19,8 +19,8 @@ class ConferencesListView(UserIsOperatorMixin, HelpMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         set_status_completed(queryset)
-
-        return queryset.filter(status__in=('wait',), server__in=Server.objects.filter(operators=self.request.user))
+        return queryset.filter(status__in=('wait', 'ready'),
+                               server__in=Server.objects.filter(operators=self.request.user))
 
 
 class ConferenceCreateView(LoginRequiredMixin, HelpMixin, CreateView):

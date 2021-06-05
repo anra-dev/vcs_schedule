@@ -20,7 +20,7 @@ class BookingsListView(UserIsAssistantMixin, HelpMixin, ListView):
         queryset = super().get_queryset()
         set_status_completed(queryset)
         return queryset.filter(
-            Q(status__in=('wait',), room__in=Room.objects.filter(assistants=self.request.user)),
+            Q(status__in=('wait', 'ready'), room__in=Room.objects.filter(assistants=self.request.user)),
             Q(conference__isnull=True) | Q(conference__in=Conference.objects.filter(status=Conference.STATUS_READY))
         )
 

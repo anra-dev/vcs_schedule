@@ -1,13 +1,17 @@
 {% extends 'schedule/base_list.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Заявки на конференции{% endblock title %}
+{% block title %}Конференции{% endblock title %}
 
 {% block table %}
     <table class="table text-center table-sm table-hover">
         <thead>
+        <tr class="table-secondary">
+            <td colspan="7"><p class="h3">Заявки на обработку</p></td>
+        </tr>
         <tr>
             <th scope="col">Дата и время</th>
+            <th scope="col">Мероприятие</th>
             <th scope="col">Сервер</th>
             <th scope="col">Количество участников</th>
             <th scope="col">Организация</th>
@@ -17,8 +21,10 @@
         </thead>
         <tbody>
         {% for conference in page_obj %}
+            {% if conference.status == 'wait' %}
             <tr>
                 <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
+                <td>{{ conference.event }}</td>
                 <td>{{ conference.server }}</td>
                 <td>{{ conference.quota|default_if_none:'' }}</td>
                 <td>{{ conference.event.organization }}</td>
@@ -27,6 +33,42 @@
                     <a class="btn btn-success" href="{% url 'conference_approve' pk=conference.pk %}" role="button">Обработать</a>
                 </td>
             </tr>
+            <tr class="table-secondary">
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <table class="table text-center table-sm table-hover">
+        <thead>
+        <tr class="table-secondary">
+            <td colspan="7"><p class="h3">Предстоящие конференции</p></td>
+        </tr>
+        <tr>
+            <th scope="col">Дата и время</th>
+            <th scope="col">Мероприятие</th>
+            <th scope="col">Сервер</th>
+            <th scope="col">Количество участников</th>
+            <th scope="col">Организация</th>
+            <th scope="col">Ответственный</th>
+            <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for conference in page_obj %}
+            {% if conference.status == 'ready' %}
+            <tr>
+                <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
+                <td>{{ conference.event }}</td>
+                <td>{{ conference.server }}</td>
+                <td>{{ conference.quota|default_if_none:'' }}</td>
+                <td>{{ conference.event.organization }}</td>
+                <td>{{ conference.owner }}</td>
+                <td>
+                    <a class="btn btn-success" href="{% url 'conference_approve' pk=conference.pk %}" role="button">Изменить</a>
+                </td>
+            </tr>
+            <tr class="table-secondary">
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>

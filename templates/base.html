@@ -35,10 +35,10 @@
                     <a href="{% url 'event_list' %}" class="list-group-item list-group-item-action bg-light">Все мероприятия</a>
                     <a href="{% url 'my_event_list' %}" class="list-group-item list-group-item-action bg-light">Мои мероприятия</a>
                     {% if request.user.is_operator %}
-                        <a href="{% url 'conference_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на конференции</a>
+                        <a href="{% url 'conference_list' %}" class="list-group-item list-group-item-action bg-light">Конференции</a>
                     {% endif %}
                     {% if request.user.is_assistant %}
-                        <a href="{% url 'booking_list' %}" class="list-group-item list-group-item-action bg-light">Заявки на помещения</a>
+                        <a href="{% url 'booking_list' %}" class="list-group-item list-group-item-action bg-light">Помещения</a>
                     {% endif %}
                     <a href="{% url 'event_archive' %}" class="list-group-item list-group-item-action bg-light">Мой архив</a>
                 {% endblock sidebar_link %}
