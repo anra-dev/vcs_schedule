@@ -72,7 +72,7 @@ def update_status_event(instance, **kwargs):
             _set_event_status('wait')
         if 'rejection' in status:
             _set_event_status('rejection')
-        if set(status) <= {'ready', 'completed'}:
+        if set(status) <= {'ready', 'completed'} and event.status != 'ready':
             _set_event_status('ready')
             send_out_message(event)
         if status[1:] == status[:-1] and status[0] == 'completed':  # Все элементы списка равны
