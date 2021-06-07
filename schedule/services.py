@@ -17,15 +17,16 @@ def check_free_quota(conf_id, server, date, time_start, time_end):
     quota = server.quota
     # Это мероприятия которые начинаются во время планируемого мероприятия. Исключаем планируемое если оно есть.
     conf_list = Conference.objects.filter(date=date, server=server, time_start__gte=time_start,
-                                          time_start__lt=time_end).exclude(pk=conf_id)
+                                          time_start__lt=time_end).exclude(Q(pk=conf_id) | Q(status='rejection'))
     # Квота изменяется в момент начала мероприятий. Выбираем точки
     time_start_list = [conf.time_start for conf in conf_list]
     time_start_list.append(time_start)
     # Считаем квоту в точках
     spent_quota_list = []
     for time_start in set(time_start_list):
-        spent_quota = Conference.objects.filter(date=date, server=server, time_start__lte=time_start,
-                                                time_end__gt=time_start).exclude(pk=conf_id).aggregate(Sum('quota'))
+        spent_quota = Conference.objects.filter(
+            date=date, server=server, time_start__lte=time_start,
+            time_end__gt=time_start).exclude(Q(pk=conf_id) | Q(status='rejection')).aggregate(Sum('quota'))
         if spent_quota['quota__sum']:
             spent_quota_list.append(spent_quota['quota__sum'])
     if len(spent_quota_list) == 0:
@@ -46,7 +47,7 @@ def check_room_is_free(booking_id, room, date, time_start, time_end):
     booking_on_date = Booking.objects.filter(
         Q(date=date, room=room), Q(time_start__gte=time_start, time_start__lt=time_end) |
         Q(time_start__lte=time_start, time_end__gt=time_start)
-    ).exclude(pk=booking_id)
+    ).exclude(Q(pk=booking_id) | Q(status='rejection'))
     return bool(booking_on_date)
 
 
