@@ -22,7 +22,9 @@ class TelegramBotView(View):
         except Exception as e:
             print('error: ', e)
             return JsonResponse({"ok": "POST request processed"})
-        if text == '/today':
+        if text == '/start':
+            answer = "Вас привествует volganet_bot!"
+        elif text == '/today':
             answer = get_message_for_booking_today(chat_id)
         elif text == '/all':
             answer = get_message_for_booking_all(chat_id)
