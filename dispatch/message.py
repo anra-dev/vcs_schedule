@@ -34,3 +34,16 @@ def get_message_for_booking_today(chat_id):
             return "Сегодня нет запланированных и обработанных мероприятий"
     else:
         return "Пользователь не заарегистрирован в системе"
+
+
+# TODO: Кондидат на рефакторизацию
+def get_message_for_booking_all(chat_id):
+    user = get_object_or_none(User, telegram=chat_id)
+    if user is not None:
+        bookings_all = Booking.objects.filter(Q(status='ready'), Q(owner=user) | Q(assistant=user))
+        if bookings_all:
+            return get_message_bookings(bookings_all)
+        else:
+            return "Нет запланированных и обработанных мероприятий"
+    else:
+        return "Пользователь не заарегистрирован в системе"
