@@ -14,5 +14,5 @@ def send_telegram_message(message, chat_id):
          "text": message
           })
     if request.status_code != 200:
-        raise Exception("post_text error")
+        raise Exception("post_text error", request.status_code)
 

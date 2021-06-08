@@ -1,51 +1,16 @@
-from schedule.models import Booking, Conference
+import datetime
+from django.db.models import Q
+from schedule.models import Booking, Conference, User, get_object_or_none
+from .templates_message import get_message_event_ready, get_message_bookings
 
 
 def get_message(event=None):
     conferences = Conference.objects.filter(event=event).exclude(booking__without_conference=False)
     bookings = Booking.objects.filter(event=event)
-    print('Queryset conference:', conferences)
-    print('Queryset booking:', bookings)
-    message = f'----------------------------------\n'
-    message += f'Мероприятие {event.name } - полностью готово к проведению \n'
-    message += f'Организатор: {event.organization } \n'
-    message += f'Ответственный сотрудник: {event.owner} \n'
-    message += f'Телефон: {event.owner.phone}, '
-    message += f'электронная почта: {event.owner.email} \n'
-    message += f'Дата проведения: {event.date_start}-{event.date_end} \n'
-    message += f'----------------------------------\n'
-    i = 1
-    for conference in conferences:
-        message += f'Сессия №{i}\n'
-        message += f'время проведения с {conference.time_start} по  {conference.time_end}\n'
-        message += f'Сервер:  {conference.server}\n'
-        message += f'Ссылка: {conference.link}\n'
-        message += f'Оператор: {conference.operator} \n'
-        message += f'Телефон: {conference.operator.phone}, '
-        message += f'электронная почта: {conference.operator.email} \n'
-        message += f'----без бронирования помещения----\n'
-        message += f'----------------------------------\n'
-        i += 1
-    for booking in bookings:
-        message += f'Сессия №{i}\n'
-        message += f'время проведения с {booking.time_start} по  {booking.time_end}\n'
-        message += f'Помещение {booking.room}\n'
-        message += f'Ассистент: {booking.assistant} \n'
-        message += f'Телефон: {booking.assistant.phone}, '
-        message += f'электронная почта: {booking.assistant.email} \n'
-        if not booking.without_conference:
-            message += f'Подключение конференции:  {booking.conference.server}\n'
-            message += f'Ссылка: {booking.conference.link}\n'
-            message += f'Оператор: {booking.conference.operator} \n'
-            message += f'Телефон: {booking.conference.operator.phone}, '
-            message += f'электронная почта: {booking.conference.operator.email} \n'
-        message += f'----------------------------------\n'
-        i += 1
-    return message
+    return get_message_event_ready(event, conferences, bookings)
 
 
 def get_recipients(event=None):
-    print('Function get_recipients begins')
     users = [booking.assistant for booking in Booking.objects.filter(event=event)]
     users.append(event.owner)
 
@@ -55,5 +20,17 @@ def get_recipients(event=None):
             recipients['mail'].append(user.email)
         if user.subscribe_telegram:
             recipients['telegram'].append(user.telegram)
-    print('Function get_recipients:', recipients)
     return recipients, users
+
+
+def get_message_for_booking_today(chat_id):
+    user = get_object_or_none(User, telegram=chat_id)
+    if user is not None:
+        bookings_today = Booking.objects.filter(Q(status='ready', date=datetime.datetime.now()),
+                                               Q(owner=user) | Q(assistant=user))
+        if bookings_today:
+            return get_message_bookings(bookings_today)
+        else:
+            return "Сегодня нет запланированных и обработанных мероприятий"
+    else:
+        return "Пользователь не заарегистрирован в системе"

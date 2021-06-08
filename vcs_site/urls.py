@@ -26,6 +26,7 @@ urlpatterns = [
     path('schedule/', include('schedule.urls')),
     path('help/', include('help.urls')),
     path('accounts/', include('accounts.urls')),
+    path('webhooks/', include('dispatch.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
