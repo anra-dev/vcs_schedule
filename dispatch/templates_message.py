@@ -1,6 +1,6 @@
 # Шаблона сообщений
 
-def get_message_conferences(conferences, number=1):
+def get_message_conferences(conferences=None, number=1):
     message = ''
     for conference in conferences:
         message += f'Сессия №{number}\n'
@@ -16,7 +16,7 @@ def get_message_conferences(conferences, number=1):
     return message, number
 
 
-def get_message_bookings(bookings, number=1):
+def get_message_bookings(bookings=None, number=1):
     message = ''
     for booking in bookings:
         message += f'Сессия №{number}\n'

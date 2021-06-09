@@ -10,7 +10,6 @@ from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsAssistantMixin, UserIsOwnerMixin
 
 
-
 class BookingsListView(UserIsAssistantMixin, HelpMixin, ListView):
     """
     ПРОСМОТР СПИСКА БРОНИ
@@ -28,11 +27,9 @@ class BookingsListView(UserIsAssistantMixin, HelpMixin, ListView):
 
     def post(self, request):
         if request.POST.get('send_telegram_all', False):
-            self.request.user
             send_telegram_message_booking_all(chat_id=self.request.user.telegram)
-            print("Нажата кнопка 1", self.request.user.telegram)
         if request.POST.get('send_telegram_today', False):
-            print("Нажата кнопка 2")
+            send_telegram_message_booking_today(chat_id=self.request.user.telegram)
         return self.get(request)
 
 
