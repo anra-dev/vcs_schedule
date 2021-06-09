@@ -3,10 +3,12 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
+from dispatch.calling import send_telegram_message_booking_all, send_telegram_message_booking_today
 from ..models import Event, Conference, Booking, Room, get_object_or_none
 from ..forms import BookingCreateForm, BookingUpdateForm
 from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsAssistantMixin, UserIsOwnerMixin
+
 
 
 class BookingsListView(UserIsAssistantMixin, HelpMixin, ListView):
@@ -23,6 +25,15 @@ class BookingsListView(UserIsAssistantMixin, HelpMixin, ListView):
             Q(status__in=('wait', 'ready'), room__in=Room.objects.filter(assistants=self.request.user)),
             Q(conference__isnull=True) | Q(conference__in=Conference.objects.filter(status=Conference.STATUS_READY))
         )
+
+    def post(self, request):
+        if request.POST.get('send_telegram_all', False):
+            self.request.user
+            send_telegram_message_booking_all(chat_id=self.request.user.telegram)
+            print("Нажата кнопка 1", self.request.user.telegram)
+        if request.POST.get('send_telegram_today', False):
+            print("Нажата кнопка 2")
+        return self.get(request)
 
 
 class BookingCreateView(LoginRequiredMixin, HelpMixin, CreateView):
