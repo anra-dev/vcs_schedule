@@ -3,7 +3,7 @@ from django.views.generic import UpdateView
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
-
+from django.conf import settings
 
 from .forms import LoginForm
 from schedule.models import User
@@ -13,6 +13,13 @@ class SettingsView(UpdateView):
     model = User
     fields = ['subscribe_mail', 'email', 'subscribe_telegram', 'telegram']
     template_name = 'accounts/staffer_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['size'] = 150
+        context['bot_name'] = settings.BOT_NAME
+        context['text'] = f'https://t.me/{settings.BOT_NAME}'
+        return context
 
     def get_success_url(self):
         referer_url = self.request.META.get('next')  # Прикольная тема но у меня на firefox не раюботает

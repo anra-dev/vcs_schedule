@@ -2,6 +2,8 @@ import json
 
 from django.views import View
 from django.http import JsonResponse
+from django.conf import settings
+
 from .telegram import send_telegram_message
 from .message import get_message_for_booking_today, get_message_for_booking_all
 
@@ -23,7 +25,7 @@ class TelegramBotView(View):
             print('error: ', e)
             return JsonResponse({"ok": "POST request processed"})
         if text == '/start':
-            answer = "Вас привествует volganet_bot!"
+            answer = f"Вас привествует @{settings.BOT_NAME}! Ваш чат-id: {chat_id}"
         elif text == '/today':
             answer = get_message_for_booking_today(chat_id)
         elif text == '/all':

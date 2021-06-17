@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block bottom_nav %}
-<a class="btn btn-secondary ml-2" href="{% url 'event_list' %}">Вернуться на сайт<span class="sr-only">(current)</span></a>
+    <a class="btn btn-secondary ml-2" href="{% url 'event_list' %}">Вернуться на сайт<span class="sr-only">(current)</span></a>
 {% endblock bottom_nav %}
 
 {% block content %}
 
-<h1 class="mt-4">Настройки аккаунта</h1>
+    <h1 class="mt-4">Настройки аккаунта</h1>
     <div class="col-md-8">
         <form action=""  method="POST">
             {% csrf_token %}
@@ -17,5 +17,14 @@
                 <input type="submit" class="btn btn-success" value="Сохранить">
             </div>
         </form>
+
+    </div>
+    <div class="media">
+        <img src="https://chart.googleapis.com/chart?cht=qr&amp;chs={{ size }}x{{ size }}&amp;chl={{ text }}" alt="{{ text }}" />
+        <div class="media-body">
+            <h5 class="mt-0">Как узнать свой чат-id?</h5>
+            <p>Для того что бы узнать свой чат-id напишите боту @{{ bot_name }} в телеграм
+                или получите ссылку через QR-код на своем телефоне</p>
+        </div>
     </div>
 {% endblock content %}

@@ -141,6 +141,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Телеграм
 
 BOT_API_TOKEN = BOT_API_TOKEN
+BOT_NAME = "TestVolganetBot"
 BOT_URL = "https://api.telegram.org/bot"
 
 # Телеграм
