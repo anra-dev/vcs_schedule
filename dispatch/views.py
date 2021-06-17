@@ -28,6 +28,8 @@ class TelegramBotView(View):
             answer = get_message_for_booking_today(chat_id)
         elif text == '/all':
             answer = get_message_for_booking_all(chat_id)
+        elif text == '/chat_id':
+            answer = chat_id
         else:
             answer = unknown_command
         send_telegram_message(answer, chat_id)
