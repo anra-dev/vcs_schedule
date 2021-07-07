@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  postgresdb:
+    build:
+      context: ./docker/postgres
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - postgresdb
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - postgresdb
+      - web
+    ports:
+    - 80:80
