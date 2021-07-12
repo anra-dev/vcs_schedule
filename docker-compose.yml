@@ -9,12 +9,15 @@ services:
       - POSTGRES_PASSWORD=password
     volumes:
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
 
   web:
     build:
       context: ./
       dockerfile: Dockerfile
+    volumes:
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
     depends_on:
       - postgresdb
 
@@ -22,8 +25,15 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
+    volumes:
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
     depends_on:
-      - postgresdb
       - web
     ports:
     - 80:80
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

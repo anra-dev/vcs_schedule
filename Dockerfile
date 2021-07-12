@@ -1,6 +1,12 @@
 FROM python:3
 
-WORKDIR /usr/src/app
+# create the appropriate directories
+#ENV HOME=/home/app
+ENV APP_HOME=/usr/src/app
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/static
+RUN mkdir $APP_HOME/media
+WORKDIR $APP_HOME
 
 COPY requirements.txt .
 COPY entrypoint.sh .
