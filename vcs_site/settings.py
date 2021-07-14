@@ -10,9 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
-from .key import EMAIL_HOST_PASSWORD, BOT_API_TOKEN
 from django.contrib.messages import constants as messages
+from django.core.exceptions import ImproperlyConfigured
+
+
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(env_variable)
+        raise ImproperlyConfigured(error_msg)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +35,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'y_n184b8us0kn3l-uj36w1j3q9m3p73_pqqv+@v5+ho#bz26*='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-
+DEBUG = bool(int(get_env_value('MODE_DEBUG')))
+ALLOWED_HOSTS = [x.strip() for x in get_env_value('MODE_ALLOWED_HOSTS').split(sep=',')]
 
 # Application definition
 
@@ -84,24 +93,24 @@ WSGI_APPLICATION = 'vcs_site.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'regvcs_db',
-        'USER': 'regvcs_admin',
-        'PASSWORD': 'password',
-        'HOST': 'postgresdb',
-        'PORT': 5432
+if os.environ.get('DATABASE_NAME'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': get_env_value('DATABASE_NAME'),
+            'USER': get_env_value('DATABASE_USER'),
+            'PASSWORD': get_env_value('DATABASE_PASSWORD'),
+            'HOST': get_env_value('DATABASE_HOST'),
+            'PORT': int(get_env_value('DATABASE_PORT'))
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -151,19 +160,19 @@ STATICFILES_DIRS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# Телеграм
+# Telegram
 
-BOT_API_TOKEN = BOT_API_TOKEN
-BOT_NAME = "TestVolganetBot"
+BOT_API_TOKEN = get_env_value('BOT_API_TOKEN')
+BOT_NAME = get_env_value('BOT_NAME')
 BOT_URL = "https://api.telegram.org/bot"
 
-# Телеграм
+# Email
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'superlists.login.test@gmail.com'
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = get_env_value('EMAIL_HOST')
+EMAIL_HOST_USER = get_env_value('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = get_env_value('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = int(get_env_value('EMAIL_PORT'))
+EMAIL_USE_TLS = bool(int(get_env_value('EMAIL_USE_TLS')))
 
 # Message class settings
 

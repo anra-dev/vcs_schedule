@@ -1,7 +1,5 @@
 FROM python:3
 
-# create the appropriate directories
-#ENV HOME=/home/app
 ENV APP_HOME=/usr/src/app
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/static

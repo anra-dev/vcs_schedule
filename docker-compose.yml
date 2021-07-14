@@ -15,6 +15,25 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    environment:
+      # Mode
+      - MODE_DEBUG=1
+      - MODE_ALLOWED_HOSTS=.localhost, 127.0.0.1, [::1]
+      # Database
+      - DATABASE_NAME=name_db
+      - DATABASE_USER=name_user
+      - DATABASE_PASSWORD=password
+      - DATABASE_HOST=name_host
+      - DATABASE_PORT=5432
+      # Telegram
+      - BOT_API_TOKEN=token
+      - BOT_NAME=bot_name
+      # Email
+      - EMAIL_HOST=mail.example.ru
+      - EMAIL_HOST_USER=name_user@mail.example.ru
+      - EMAIL_HOST_PASSWORD=password
+      - EMAIL_PORT=587
+      - EMAIL_USE_TLS=1
     volumes:
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/media
