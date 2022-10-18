@@ -2,38 +2,36 @@ version: "3"
 
 services:
   postgresdb:
-    build:
-      context: ./docker/postgres
-      dockerfile: Dockerfile
-    environment:
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_data:/var/lib/postgresql/data/
+      # Для использования версии 15 нужно разобрать с правами на public schema
+      image: postgres
+      restart: always
+      environment:
+        - POSTGRES_PASSWORD=password
+      volumes:
+        - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+        - postgres_data:/var/lib/postgresql/data/
 
   web:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: anra/reg_vcs
     environment:
       # Mode
-      - MODE_DEBUG=1
-      - MODE_ALLOWED_HOSTS=.localhost, 127.0.0.1, [::1]
+      - MODE_DEBUG=${MODE_DEBUG}
+      - MODE_ALLOWED_HOSTS=${MODE_ALLOWED_HOSTS}
       # Database
-      - DATABASE_NAME=name_db
-      - DATABASE_USER=name_user
-      - DATABASE_PASSWORD=password
-      - DATABASE_HOST=name_host
-      - DATABASE_PORT=5432
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
       # Telegram
-      - BOT_API_TOKEN=token
-      - BOT_NAME=bot_name
+      - BOT_API_TOKEN=${BOT_API_TOKEN}
+      - BOT_NAME=${BOT_NAME}
       # Email
-      - EMAIL_HOST=mail.example.ru
-      - EMAIL_HOST_USER=name_user@mail.example.ru
-      - EMAIL_HOST_PASSWORD=password
-      - EMAIL_PORT=587
-      - EMAIL_USE_TLS=1
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
     volumes:
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/media
@@ -41,10 +39,9 @@ services:
       - postgresdb
 
   nginx:
-    build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+    image: nginx
     volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/media
     depends_on:
