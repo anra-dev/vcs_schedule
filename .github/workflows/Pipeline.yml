@@ -36,8 +36,8 @@ jobs:
           ENV_FOR_DOCKER_COMPOSE: ${{ secrets.ENV_FOR_DOCKER_COMPOSE }}
         run:  echo "$ENV_FOR_DOCKER_COMPOSE" > .env
         
-      - name: copy file via ssh key
-        uses: appleboy/scp-action@b476d5806f2a4c1ed5902a87fa91b0623cac7258
+      - name: Copy file via ssh key
+        uses: appleboy/scp-action@6d1fc191a822daa12faa45f3a985413f995ff5c5
         with:
           host: ${{ secrets.REGVCS_TEST_SERVER_HOST }}
           username: ${{ secrets.REGVCS_TEST_SERVER_USERNAME }}
