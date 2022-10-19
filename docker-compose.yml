@@ -2,7 +2,6 @@ version: "3"
 
 services:
   postgresdb:
-      # Для использования версии 15 нужно разобрать с правами на public schema
       image: postgres
       restart: always
       environment:
