@@ -104,6 +104,10 @@ ENV/
 *.sqlite3
 media/
 
+# Pycharm
+.idea
+
 # my
 db.sqlite3
 key.py
+/fixtures/

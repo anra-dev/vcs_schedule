@@ -2,7 +2,9 @@ name: CI_CD
 
 on:
   workflow_dispatch:
-    
+env:
+  APP_PATH: "/root/app"
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -33,7 +35,7 @@ jobs:
         env:
           ENV_FOR_DOCKER_COMPOSE: ${{ secrets.ENV_FOR_DOCKER_COMPOSE }}
         run:  echo "$ENV_FOR_DOCKER_COMPOSE" > .env
-      - 
+      -
         name: copy file via ssh key
         uses: appleboy/scp-action@master
         with:
@@ -42,4 +44,19 @@ jobs:
           port: ${{ secrets.REGVCS_TEST_SERVER_PORT }}
           key: ${{ secrets.REGVCS_TEST_SERVER_KEY }}
           source: "docker-compose.yml, docker/nginx/default.conf, docker/postgres/init.sql, .env"
-          target: "/root/app"
+          target: ${{ env.APP_PATH }}
+      -
+        name: Deploy Stack
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REGVCS_TEST_SERVER_HOST }}
+          username: ${{ secrets.REGVCS_TEST_SERVER_USERNAME }}
+          port: ${{ secrets.REGVCS_TEST_SERVER_PORT }}
+          key: ${{ secrets.REGVCS_TEST_SERVER_KEY }}
+          script: |
+            cd "${{ env.APP_PATH }}"
+            docker compose down
+            docker-compose pull
+            docker compose up --remove-orphans --force-recreate -d
+            docker exec web python manage.py create-superuser --username "${{ secrets.DJANGO_ADMIN_NAME }}" --password "${{ secrets.DJANGO_ADMIN_PASSWORD }}" --email "${{ secrets.DJANGO_ADMIN_EMAIL }}"
+            docker image prune -f
