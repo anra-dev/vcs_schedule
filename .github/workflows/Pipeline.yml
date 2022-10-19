@@ -1,4 +1,4 @@
-name: CI_CD
+name: Pipeline
 
 on:
   workflow_dispatch:
@@ -6,38 +6,38 @@ env:
   APP_PATH: "/root/app"
 
 jobs:
-  docker:
+
+  build_and_push:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v2
+        
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8c0edbc76e98fa90f69d9a2c020dcb50019dc325
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
+          
+      - name: Build and push
+        uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
         with:
           push: true
           tags: anra/reg_vcs:latest
-      -
-        name: Create .env file
+          
+      - name: Create .env file
         env:
           ENV_FOR_DOCKER_COMPOSE: ${{ secrets.ENV_FOR_DOCKER_COMPOSE }}
         run:  echo "$ENV_FOR_DOCKER_COMPOSE" > .env
-      -
-        name: copy file via ssh key
-        uses: appleboy/scp-action@master
+        
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@b476d5806f2a4c1ed5902a87fa91b0623cac7258
         with:
           host: ${{ secrets.REGVCS_TEST_SERVER_HOST }}
           username: ${{ secrets.REGVCS_TEST_SERVER_USERNAME }}
@@ -45,9 +45,14 @@ jobs:
           key: ${{ secrets.REGVCS_TEST_SERVER_KEY }}
           source: "docker-compose.yml, docker/nginx/default.conf, docker/postgres/init.sql, .env"
           target: ${{ env.APP_PATH }}
-      -
+          
+  remote_run:
+    needs: build_and_push
+    runs-on: ubuntu-latest 
+    steps:
+       -
         name: Deploy Stack
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@f9010ff7f1bbd7db1a0b4bab661437550cea20c0
         with:
           host: ${{ secrets.REGVCS_TEST_SERVER_HOST }}
           username: ${{ secrets.REGVCS_TEST_SERVER_USERNAME }}
