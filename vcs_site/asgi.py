@@ -11,6 +11,8 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vcs_site.settings')
+from utils import db
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vcs_site.settings')
+db.database_ready("default", maximum_wait=15)
 application = get_asgi_application()

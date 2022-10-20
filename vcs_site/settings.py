@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'utils',
     'schedule',
     'accounts',
     'dispatch',
@@ -56,8 +57,6 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'ckeditor',
-
-    'psycopg2',
 ]
 
 MIDDLEWARE = [
