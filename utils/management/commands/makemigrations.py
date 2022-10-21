@@ -1,4 +1,4 @@
-from django.core.management.commands.migrate import Command
+from django.core.management.commands.makemigrations import Command
 
 from utils import db
 
