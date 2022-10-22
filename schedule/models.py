@@ -20,14 +20,41 @@ def get_object_or_none(klass, *args, **kwargs):
 
 
 class User(AbstractUser):
-    is_operator = models.BooleanField(default=False, verbose_name='Опертор')
-    is_assistant = models.BooleanField(default=False, verbose_name='Ассистент')
-    organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.SET_NULL,
-                                     null=True, blank=True)
-    subscribe_mail = models.BooleanField(verbose_name='Подписка на почтовую рассылку', default=False)
-    telegram = models.CharField(max_length=10, verbose_name='Телеграм чат-id', null=True, blank=True)
-    subscribe_telegram = models.BooleanField(verbose_name='Подписка на рассылку в телеграм', default=False)
-    phone = models.CharField(max_length=100, verbose_name='Телефон', null=True, blank=True)
+    organization = models.ForeignKey(
+        'Organization',
+        verbose_name='Организация',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    phone = models.CharField(
+        verbose_name='Телефон',
+        max_length=100,
+        null=True,
+        blank=True,
+    )
+    telegram = models.CharField(
+        verbose_name='Телеграм чат-id',
+        max_length=10,
+        null=True,
+        blank=True,
+    )
+    subscribe_telegram = models.BooleanField(
+        verbose_name='Подписка на рассылку в телеграм',
+        default=False,
+    )
+    subscribe_mail = models.BooleanField(
+        verbose_name='Подписка на почтовую рассылку',
+        default=False,
+    )
+    is_operator = models.BooleanField(
+        verbose_name='Оператор',
+        default=False,
+    )
+    is_assistant = models.BooleanField(
+        verbose_name='Ассистент',
+        default=False,
+    )
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
@@ -55,29 +82,62 @@ class Event(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
-    name = models.CharField(max_length=255, verbose_name='Название мероприятия')
-    description = models.TextField(verbose_name='Описание')
-    organization = models.ForeignKey('Organization', verbose_name='Организация', on_delete=models.CASCADE)  # Возможно избыточно
-    owner = models.ForeignKey('User', verbose_name='Владелец', on_delete=models.CASCADE)
-    date_start = models.DateField(verbose_name='Дата начала мероприятия', null=True, blank=True)
-    date_end = models.DateField(verbose_name='Дата окончания мероприятия', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(
+        verbose_name='Название мероприятия',
+        max_length=255,
+    )
+    description = models.TextField(
+        verbose_name='Описание',
+    )
+    organization = models.ForeignKey(
+        'Organization',
+        verbose_name='Организация',
+        on_delete=models.CASCADE,
+    )  # Возможно избыточно
+    owner = models.ForeignKey(
+        'User',
+        verbose_name='Владелец',
+        on_delete=models.CASCADE,
+    )
+    date_start = models.DateField(
+        verbose_name='Дата начала мероприятия',
+        null=True,
+        blank=True,
+    )
+    date_end = models.DateField(
+        verbose_name='Дата окончания мероприятия',
+        null=True,
+        blank=True,
+    )
+    date = models.DateField(
+        verbose_name='Дата',
+        null=True,
+        blank=True,
+    )
     status = models.CharField(
         max_length=100,
         verbose_name='Статус мероприятия',
         choices=STATUS_CHOICES,
-        default=STATUS_DRAFT
+        default=STATUS_DRAFT,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
     )
 
     def __str__(self):
-        return f'Мероприятие "{self.name}" дата: {self.date_start}-{self.date_end}'
+        return (f'Мероприятие "{self.name}" '
+                f'дата: {self.date_start}-{self.date_end}')
 
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'pk': self.pk})
 
     def get_avg_grade(self):
-        return Grade.objects.filter(event=self).aggregate(models.Avg('grade'))['grade__avg']
+        return Grade.objects.filter(
+            event=self
+        ).aggregate(models.Avg('grade'))['grade__avg']
 
     def get_grade(self):
         return get_object_or_none(Grade, event=self).grade
@@ -109,31 +169,83 @@ class Conference(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
-    event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
-    server = models.ForeignKey('Server', verbose_name='Сервер', on_delete=models.CASCADE)
-    owner = models.ForeignKey('User', verbose_name='Владелец', on_delete=models.CASCADE,
-                              related_name='conference_owner')
-    operator = models.ForeignKey('User', verbose_name='Оператор', on_delete=models.CASCADE,
-                                 related_name='conference_operator', null=True, blank=True)
-    description = models.TextField(verbose_name='Описание', null=True, blank=True)
-    file = models.FileField(upload_to='uploads/%Y/%m/%d/', verbose_name='Файл', null=True, blank=True)
-    quota = models.PositiveSmallIntegerField(verbose_name='Количество участников', null=True, blank=True)
-    link = models.CharField(max_length=255, verbose_name='Ссылка', null=True, blank=True)
-    date = models.DateField(verbose_name='Дата проведения')
-    time_start = models.TimeField(verbose_name='Время начала')
-    time_end = models.TimeField(verbose_name='Время окончания')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    event = models.OneToOneField(
+        'Event',
+        verbose_name='Мероприятие',
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    server = models.ForeignKey(
+        'Server',
+        verbose_name='Сервер',
+        on_delete=models.CASCADE,
+    )
+    owner = models.ForeignKey(
+        'User',
+        verbose_name='Владелец',
+        related_name='conference_owner',
+        on_delete=models.CASCADE,
+    )
+    operator = models.ForeignKey(
+        'User',
+        verbose_name='Оператор',
+        related_name='conference_operator',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    description = models.TextField(
+        verbose_name='Описание',
+        null=True,
+        blank=True,
+    )
+    file = models.FileField(
+        verbose_name='Файл',
+        upload_to='uploads/%Y/%m/%d/',
+        null=True,
+        blank=True,
+    )
+    quota = models.PositiveSmallIntegerField(
+        verbose_name='Количество участников',
+        null=True,
+        blank=True,
+    )
+    link = models.CharField(
+        max_length=255,
+        verbose_name='Ссылка',
+        null=True,
+        blank=True,
+    )
+    date = models.DateField(
+        verbose_name='Дата проведения',
+    )
+    time_start = models.TimeField(
+        verbose_name='Время начала',
+    )
+    time_end = models.TimeField(
+        verbose_name='Время окончания',
+    )
     status = models.CharField(
         max_length=100,
         verbose_name='Статус видеоконференции',
         choices=STATUS_CHOICES,
-        default=STATUS_WAIT
+        default=STATUS_WAIT,
     )
-    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+    comment = models.TextField(
+        verbose_name='Комментарий',
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
-        return f'Конференция на "{self.server}" запланирована на {self.date} с {self.time_start} по {self.time_end}'
+        return (f'Конференция на "{self.server}" запланирована '
+                f'на {self.date} с {self.time_start} по {self.time_end}')
 
     @staticmethod
     def get_list_url():
@@ -169,30 +281,75 @@ class Booking(models.Model):
         (STATUS_COMPLETED, 'Окончено')
     )
 
-    event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
-    conference = models.ForeignKey('Conference', verbose_name='Конференция', null=True, blank=True,
-                                   on_delete=models.CASCADE)
-    without_conference = models.BooleanField(verbose_name='Без конференции', default=False)
-    owner = models.ForeignKey('User', verbose_name='Владелец', on_delete=models.CASCADE, related_name='booking_owner')
-    assistant = models.ForeignKey('User', verbose_name='Ассистент', on_delete=models.CASCADE,
-                                  related_name='booking_assistant', null=True, blank=True)
-    room = models.ForeignKey('Room', verbose_name='Место проведения', on_delete=models.CASCADE)
-    quota = models.PositiveSmallIntegerField(verbose_name='Количество участников')
-    date = models.DateField(verbose_name='Дата проведения')
-    time_start = models.TimeField(verbose_name='Время начала')
-    time_end = models.TimeField(verbose_name='Время окончания')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    event = models.OneToOneField(
+        'Event',
+        verbose_name='Мероприятие',
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    conference = models.ForeignKey(
+        'Conference',
+        verbose_name='Конференция',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
+    without_conference = models.BooleanField(
+        verbose_name='Без конференции',
+        default=False,
+    )
+    owner = models.ForeignKey(
+        'User',
+        verbose_name='Владелец',
+        on_delete=models.CASCADE,
+        related_name='booking_owner',
+    )
+    assistant = models.ForeignKey(
+        'User',
+        verbose_name='Ассистент',
+        on_delete=models.CASCADE,
+        related_name='booking_assistant',
+        null=True,
+        blank=True,
+    )
+    room = models.ForeignKey(
+        'Room',
+        verbose_name='Место проведения',
+        on_delete=models.CASCADE,
+    )
+    quota = models.PositiveSmallIntegerField(
+        verbose_name='Количество участников',
+    )
+    date = models.DateField(
+        verbose_name='Дата проведения',
+    )
+    time_start = models.TimeField(
+        verbose_name='Время начала',
+    )
+    time_end = models.TimeField(
+        verbose_name='Время окончания',
+    )
     status = models.CharField(
         max_length=100,
         verbose_name='Статус бронирования',
         choices=STATUS_CHOICES,
-        default=STATUS_WAIT
+        default=STATUS_WAIT,
     )
-    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+    comment = models.TextField(
+        verbose_name='Комментарий',
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
-        return f'Помещение "{self.room}" забронировано на {self.date} с {self.time_start} по {self.time_end}'
+        return (f'Помещение "{self.room}" забронировано '
+                f'на {self.date} с {self.time_start} по {self.time_end}')
 
     @staticmethod
     def get_list_url():
@@ -209,14 +366,32 @@ class Booking(models.Model):
 
 class Room(models.Model):
 
-    address = models.CharField(max_length=255, verbose_name='Адрес')
-    room = models.CharField(max_length=255, verbose_name='Комната')
-    quota = models.PositiveIntegerField(verbose_name='Вместимость')
-    assistants = models.ManyToManyField('User', verbose_name='Ассистенты')
-    applications = models.ManyToManyField('Application', verbose_name='Доступные приложения',
-                                          related_name='related_room')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    address = models.CharField(
+        verbose_name='Адрес',
+        max_length=255,
+    )
+    room = models.CharField(
+        verbose_name='Комната',
+        max_length=255,
+    )
+    quota = models.PositiveIntegerField(
+        verbose_name='Вместимость',
+    )
+    assistants = models.ManyToManyField(
+        'User',
+        verbose_name='Ассистенты',
+    )
+    applications = models.ManyToManyField(
+        'Application',
+        verbose_name='Доступные приложения',
+        related_name='related_room',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
         return f'{self.address} {self.room}'
@@ -237,18 +412,39 @@ class Server(models.Model):
         (SERVER_TYPE_LOCAL, 'Внутренний сервер')
     )
 
-    name = models.CharField(max_length=255, verbose_name='Название сервера')
-    application = models.ForeignKey('Application', verbose_name='Приложение', on_delete=models.CASCADE)
-    server_address = models.CharField(max_length=50, verbose_name='Адрес сервера', null=True, blank=True)
-    quota = models.PositiveSmallIntegerField(verbose_name='Количество лицензий')
-    operators = models.ManyToManyField('User', verbose_name='Операторы')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(
+        max_length=255,
+        verbose_name='Название сервера',
+    )
+    application = models.ForeignKey(
+        'Application',
+        verbose_name='Приложение',
+        on_delete=models.CASCADE,
+    )
+    server_address = models.CharField(
+        max_length=50,
+        verbose_name='Адрес сервера',
+        null=True,
+        blank=True,
+    )
+    quota = models.PositiveSmallIntegerField(
+        verbose_name='Количество лицензий',
+    )
+    operators = models.ManyToManyField(
+        'User',
+        verbose_name='Операторы',
+    )
     server_type = models.CharField(
         max_length=100,
         verbose_name='Тип сервера',
         choices=SERVER_TYPE_CHOICES,
-        default=SERVER_TYPE_LOCAL
+        default=SERVER_TYPE_LOCAL,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
     )
 
     def __str__(self):
@@ -264,10 +460,21 @@ class Server(models.Model):
 
 class Organization(models.Model):
 
-    name = models.CharField(max_length=255, verbose_name='Название организации')
-    room = models.ManyToManyField('Room', verbose_name='Доступные помещения', related_name='related_room')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(
+        verbose_name='Название организации',
+        max_length=255,
+    )
+    room = models.ManyToManyField(
+        'Room',
+        verbose_name='Доступные помещения',
+        related_name='related_room',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
         return self.name
@@ -280,9 +487,16 @@ class Organization(models.Model):
 
 class Application(models.Model):
 
-    name = models.CharField(max_length=255, verbose_name='Название приложения')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(
+        max_length=255,
+        verbose_name='Название приложения',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
         return self.name
@@ -309,12 +523,31 @@ class Grade(models.Model):
         (GRADE_5, 'Отлично')
     )
 
-    event = models.ForeignKey('Event', verbose_name='Мероприятие', on_delete=models.CASCADE)
-    created_by = models.ForeignKey('User', verbose_name='Сотрудник', on_delete=models.CASCADE)
-    grade = models.SmallIntegerField(verbose_name='Оценка', choices=GRADE_CHOICES)
-    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    event = models.ForeignKey(
+        'Event',
+        verbose_name='Мероприятие',
+        on_delete=models.CASCADE,
+    )
+    created_by = models.ForeignKey(
+        'User',
+        verbose_name='Сотрудник',
+        on_delete=models.CASCADE,
+    )
+    grade = models.PositiveSmallIntegerField(
+        verbose_name='Оценка',
+        choices=GRADE_CHOICES,
+    )
+    comment = models.TextField(
+        verbose_name='Комментарий',
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
 
     def __str__(self):
         return f'Оценку {self.grade} балов поставил(а) {self.created_by}'
