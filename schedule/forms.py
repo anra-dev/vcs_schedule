@@ -1,8 +1,10 @@
 from django import forms
 import datetime
 
-from .models import Event, Conference, Booking, get_object_or_none
-from .services import check_free_quota, check_room_is_free
+from django.db.models import Q
+
+from schedule.models import Event, Conference, Booking, get_object_or_none
+from schedule.services import check_free_quota, check_room_is_free
 
 
 my_default_errors = {
@@ -13,11 +15,11 @@ my_default_errors = {
 
 class CustomSelectWidget(forms.Select):
 
-    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+    def create_option(self, name, value, label, selected, index,
+                      subindex=None, attrs=None):
         option = super().create_option(name, value, label, selected, index)
         if value:
-            server = get_object_or_none(self.choices.queryset, pk=str(value))  # get server instance
-            option['attrs']['data-server-type'] = server.server_type  # set option attribute
+            option['attrs']['data-server-type'] = value.instance.type
         return option
 
 
@@ -26,15 +28,49 @@ class EventCreateForm(forms.ModelForm):
     Форма для создания мероприятия
     """
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+        self.fields['date'].widget = forms.TextInput(
+            attrs={'type': 'date'})
+        self.fields['time_start'].widget = forms.TextInput(
+            attrs={'type': 'time'})
+        self.fields['time_end'].widget = forms.TextInput(
+            attrs={'type': 'time'})
+        self.fields['booking_room'].queryset = (
+            self.fields['booking_room'].queryset.filter(
+                organization__user=self.user,
+            )
+        )
 
     class Meta:
         model = Event
         fields = (
             'name',
             'description',
+            'date',
+            'time_start',
+            'time_end',
+            # 'status',
+            'with_conf',
+            'conf_server',
+            'conf_note',
+            'conf_number_clients',
+            'conf_file',
+            'conf_link',
+            # 'conf_status',
+            # 'conf_reason',
+            'with_booking',
+            'booking_room',
+            'booking_note',
+            # 'booking_status',
+            # 'booking_reason',
         )
-
+        widgets = {
+            'conf_server': CustomSelectWidget(),
+            'description': forms.Textarea(attrs={'rows': 9, 'cols': 40}),
+            'conf_note': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
+            'booking_note': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
+        }
 
 class EventUpdateForm(EventCreateForm):
     """

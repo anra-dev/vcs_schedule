@@ -1,7 +1,14 @@
 from django.urls import path
-from .views.event import *
-from .views.conference import *
-from .views.booking import *
+
+from schedule.views.booking import BookingsListView, BookingCreateView, \
+    BookingApproveView, BookingUpdateView, BookingDeleteView
+from schedule.views.conference import ConferencesListView, \
+    ConferenceCreateView, ConferenceApproveView, ConferenceUpdateView, \
+    ConferenceDeleteView
+from schedule.views.event import EventsListView, MyEventsListView, \
+    ArchiveEventsListView, EventCreateView, EventDetailView, EventUpdateView, \
+    EventDeleteView, get_server_for_room, GradeCreate, \
+    get_upcoming_conferences, get_upcoming_bookings
 
 urlpatterns = [
     path('event-list/', EventsListView.as_view(), name='event_list'),
@@ -24,6 +31,10 @@ urlpatterns = [
     path('booking-approve/<int:pk>/', BookingApproveView.as_view(), name='booking_approve'),
     path('booking-update/<int:pk>/', BookingUpdateView.as_view(), name='booking_update'),
     path('booking-delete/<int:pk>/', BookingDeleteView.as_view(), name='booking_delete'),
+
+    path('get-server-for-room/', get_server_for_room, name='get_server_for_room'),
+    path('get-upcoming-conferences/', get_upcoming_conferences, name='get_upcoming_conferences'),
+    path('get-upcoming-bookings/', get_upcoming_bookings, name='get_upcoming_bookings'),
 
     path('event/<int:pk>/grade/', GradeCreate.as_view(), name='grade')
 ]

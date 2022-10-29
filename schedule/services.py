@@ -80,19 +80,20 @@ def update_status_event(instance, **kwargs):
 
 def set_status_completed(queryset):
     """Функция которая устанавливает статус Архивный для прошедших моделей"""
-    today = datetime_date.today()
-    if queryset.model == Event:
-        completed_list = queryset.filter(date_start__lt=today, status__in=['wait', 'ready', 'rejection'])
-        if completed_list:
-            conference = Conference.objects.filter(event__in=completed_list, date__lt=today)
-            booking = Booking.objects.filter(event__in=completed_list, date__lt=today)
-            conference.update(status='completed')
-            booking.update(status='completed')
-            completed_list.filter(date_end__lt=today).update(status='completed')
-    if queryset.model in [Conference, Booking]:
-        completed_list = queryset.filter(date__lt=today, status__in=['wait', 'ready', 'rejection'])
-        if completed_list:
-            completed_list.update(status='completed')
+    pass
+    # today = datetime_date.today()
+    # if queryset.model == Event:
+    #     completed_list = queryset.filter(date_start__lt=today, status__in=['wait', 'ready', 'rejection'])
+    #     if completed_list:
+    #         conference = Conference.objects.filter(event__in=completed_list, date__lt=today)
+    #         booking = Booking.objects.filter(event__in=completed_list, date__lt=today)
+    #         conference.update(status='completed')
+    #         booking.update(status='completed')
+    #         completed_list.filter(date_end__lt=today).update(status='completed')
+    # if queryset.model in [Conference, Booking]:
+    #     completed_list = queryset.filter(date__lt=today, status__in=['wait', 'ready', 'rejection'])
+    #     if completed_list:
+    #         completed_list.update(status='completed')
 
 
 @receiver(post_save, sender=Conference)

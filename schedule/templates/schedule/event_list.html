@@ -18,19 +18,13 @@
         </thead>
         <tbody>
         {% for event in page_obj %}
-            <tr class="table-{{ event.status|get_postfix }}">
+            <tr class="{{ event.status|get_tabel_style_status }}">
                 <td>
-                {% if event.status == 'draft' %}
-                    Оформление не завершено
-                    {% else %}
-                    {% if event.date_start == event.date_end %}{{ event.date_start|date:"d.m.Y" }}
-                        {% else %}{{ event.date_start|date:"d.m" }}-{{ event.date_end|date:"d.m.Y" }}
-                    {% endif %}
-                {% endif %}
+                    {{ event.time_start|date:"H:i" }}-{{ event.time_end|date:"H:i" }} {{ event.date|date:"d.m.Y" }}
                 </td>
                 <td>{{ event.name }}</td>
                 <td>
-                    <h4><span class="badge bg-{{ event.status|get_postfix }}">{{ event.get_status_display  }}</span></h4>
+                    <h4>{{ event.status|get_badge_status }}</h4>
                 </td>
                 <td>{{ event.organization }}</td>
                 <td>{{ event.owner }}</td>

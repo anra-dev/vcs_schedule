@@ -6,20 +6,7 @@
 {% endblock bottom_nav %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-8 column-2">
-            {% block data %}
-                ...
-            {% endblock data %}
-        </div>
-        <div class="col-md-4 position-relative">
-            <div class="overflow-auto scroll-container">
-                <h3>{{ help.title }}</h3>
-                {% autoescape off %}
-                    {{ help.body_text }}
-                {% endautoescape %}
-            </div>
-        </div>
-    </div>
-    </div>
+    {% block data %}
+        ...
+    {% endblock data %}
 {% endblock content %}

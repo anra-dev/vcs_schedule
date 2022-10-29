@@ -1,12 +1,17 @@
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from ..models import Event, Conference, Booking, Grade, get_object_or_none
-from ..forms import EventCreateForm, EventUpdateForm
-from ..services import set_status_completed
-from .mixins import HelpMixin, UserIsOwnerMixin
+from schedule.api import get_server_choice, get_conferences_on_server, \
+    get_bookings_on_room
+from schedule.enums import StatusEnum, ServerTypeEnum
+from schedule.models import Event, Conference, Booking, Grade, get_object_or_none
+from schedule.forms import EventCreateForm, EventUpdateForm
+from schedule.services import set_status_completed
+from schedule.views.mixins import HelpMixin, UserIsOwnerMixin
 
 
 class EventsListView(LoginRequiredMixin, HelpMixin, ListView):
@@ -19,7 +24,12 @@ class EventsListView(LoginRequiredMixin, HelpMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         set_status_completed(queryset)
-        return queryset.filter(status__in=('wait', 'ready'))
+        return queryset.filter(
+            status__in=(
+                StatusEnum.STATUS_WAIT,
+                StatusEnum.STATUS_READY,
+            ),
+        )
 
 
 class MyEventsListView(LoginRequiredMixin, HelpMixin, ListView):
@@ -34,8 +44,13 @@ class MyEventsListView(LoginRequiredMixin, HelpMixin, ListView):
         queryset = super().get_queryset()
         set_status_completed(queryset)
         return queryset.filter(
-            status__in=('wait', 'ready', 'draft', 'rejection'),
-            owner=self.request.user
+            status__in=(
+                StatusEnum.STATUS_WAIT,
+                StatusEnum.STATUS_READY,
+                StatusEnum.STATUS_DRAFT,
+                StatusEnum.STATUS_REJECTION,
+            ),
+            owner=self.request.user,
         )
 
 
@@ -45,14 +60,16 @@ class ArchiveEventsListView(LoginRequiredMixin, HelpMixin, ListView):
     """
     model = Event
     paginate_by = 7
-    ordering = '-date_start'
+    ordering = '-date'
     template_name = 'schedule/event_archive.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
         set_status_completed(queryset)
         return queryset.filter(
-            status__in=('completed',),
+            status__in=(
+                StatusEnum.STATUS_COMPLETED,
+            ),
             owner=self.request.user
         )
 
@@ -63,12 +80,6 @@ class EventDetailView(LoginRequiredMixin, HelpMixin, DetailView):
     """
     model = Event
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['conferences'] = Conference.objects.filter(event=self.object)
-        context['bookings'] = Booking.objects.filter(event=self.object)
-        return context
-
 
 class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
     """
@@ -76,6 +87,12 @@ class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
     """
     model = Event
     form_class = EventCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['server_type_external'] = ServerTypeEnum.SERVER_TYPE_EXTERNAL
+        context['server_type_local'] = ServerTypeEnum.SERVER_TYPE_LOCAL
+        return context
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, self.object.MESSAGES['create'])
@@ -86,6 +103,11 @@ class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
         form.instance.organization = self.request.user.organization
         return super().form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
 
 class EventUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
     """
@@ -94,10 +116,20 @@ class EventUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
     model = Event
     form_class = EventUpdateForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['server_type_external'] = ServerTypeEnum.SERVER_TYPE_EXTERNAL
+        context['server_type_local'] = ServerTypeEnum.SERVER_TYPE_LOCAL
+        return context
+
     def get_success_url(self):
         messages.add_message(self.request, messages.INFO, self.object.MESSAGES['update'])
         return super().get_success_url()
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
 class EventDeleteView(UserIsOwnerMixin, HelpMixin, DeleteView):
     """
@@ -129,3 +161,35 @@ class GradeCreate(LoginRequiredMixin, HelpMixin, CreateView):
             return self.form_invalid(form)
         return super().form_valid(form)
 
+
+def get_server_for_room(request):
+    if request.is_ajax():
+        current_user = request.user
+        room_id = request.POST.get('booking_room', None)
+        if room_id is not None:
+            data = get_server_choice(room_id, current_user)
+        else:
+            data = None
+        return JsonResponse({"data": data})
+
+
+def get_upcoming_conferences(request):
+    if request.is_ajax():
+        current_user = request.user
+        room_id = request.POST.get('conf_id', None)
+        if room_id is not None:
+            data = get_conferences_on_server()
+        else:
+            data = None
+        return JsonResponse({"data": data})
+
+
+def get_upcoming_bookings(request):
+    if request.is_ajax():
+        current_user = request.user
+        room_id = request.POST.get('room_id', None)
+        if room_id is not None:
+            data = get_bookings_on_room()
+        else:
+            data = None
+        return JsonResponse({"data": data})

@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.shortcuts import _get_queryset
 
+from schedule.enums import StatusEnum, ServerTypeEnum
+
 
 def get_object_or_none(klass, *args, **kwargs):
     """
@@ -68,20 +70,6 @@ class Event(models.Model):
         'delete': 'Мероприятие удалено!'
     }
 
-    STATUS_DRAFT = 'draft'
-    STATUS_WAIT = 'wait'
-    STATUS_READY = 'ready'
-    STATUS_REJECTION = 'rejection'
-    STATUS_COMPLETED = 'completed'
-
-    STATUS_CHOICES = (
-        (STATUS_DRAFT, 'Черновик'),
-        (STATUS_WAIT, 'Ожидание'),
-        (STATUS_READY, 'Готово'),
-        (STATUS_REJECTION, 'Отказ'),
-        (STATUS_COMPLETED, 'Окончено')
-    )
-
     name = models.CharField(
         verbose_name='Название мероприятия',
         max_length=255,
@@ -89,36 +77,121 @@ class Event(models.Model):
     description = models.TextField(
         verbose_name='Описание',
     )
+    # Организация - возможно избыточно
     organization = models.ForeignKey(
         'Organization',
         verbose_name='Организация',
         on_delete=models.CASCADE,
-    )  # Возможно избыточно
+    )
     owner = models.ForeignKey(
         'User',
         verbose_name='Владелец',
         on_delete=models.CASCADE,
     )
-    date_start = models.DateField(
-        verbose_name='Дата начала мероприятия',
-        null=True,
-        blank=True,
-    )
-    date_end = models.DateField(
-        verbose_name='Дата окончания мероприятия',
-        null=True,
-        blank=True,
-    )
     date = models.DateField(
         verbose_name='Дата',
+    )
+    time_start = models.TimeField(
+        verbose_name='Время начала',
+    )
+    time_end = models.TimeField(
+        verbose_name='Время окончания',
+    )
+    status = models.PositiveSmallIntegerField(
+        verbose_name='Статус мероприятия',
+        choices=StatusEnum.choices,
+        default=StatusEnum.STATUS_DRAFT,
+    )
+    # VCS
+    with_conf = models.BooleanField(
+        verbose_name='Нужна видеоконференция',
+        default=False,
+    )
+    conf_operator = models.ForeignKey(
+        'User',
+        verbose_name='Оператор',
+        related_name='event_conference_operator',
+        on_delete=models.PROTECT,
         null=True,
         blank=True,
     )
-    status = models.CharField(
-        max_length=100,
-        verbose_name='Статус мероприятия',
-        choices=STATUS_CHOICES,
-        default=STATUS_DRAFT,
+    conf_server = models.ForeignKey(
+        'Server',
+        verbose_name='Сервер',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
+    conf_note = models.TextField(
+        verbose_name='Примечание',
+        null=True,
+        blank=True,
+    )
+    conf_number_clients = models.PositiveSmallIntegerField(
+        verbose_name='Количество участников',
+        null=True,
+        blank=True,
+    )
+    conf_file = models.FileField(
+        verbose_name='Файл',
+        upload_to='uploads/%Y/%m/%d/',
+        null=True,
+        blank=True,
+    )
+    conf_link = models.CharField(
+        max_length=255,
+        verbose_name='Ссылка',
+        null=True,
+        blank=True,
+    )
+    conf_status = models.PositiveSmallIntegerField(
+        verbose_name='Статус видеоконференции',
+        choices=StatusEnum.choices,
+        default=StatusEnum.STATUS_DRAFT,
+        null=True,
+        blank=True,
+    )
+    conf_reason = models.TextField(
+        verbose_name='Причина отказа',
+        null=True,
+        blank=True,
+    )
+    # Booking
+    with_booking = models.BooleanField(
+        verbose_name='Нужно помещение',
+        default=False,
+    )
+    booking_assistant = models.ForeignKey(
+        'User',
+        verbose_name='Ассистент',
+        on_delete=models.PROTECT,
+        related_name='event_booking_assistant',
+        null=True,
+        blank=True,
+    )
+    booking_room = models.ForeignKey(
+        'Room',
+        verbose_name='Место проведения',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
+    booking_note = models.TextField(
+        verbose_name='Примечание',
+        null=True,
+        blank=True,
+    )
+    booking_status = models.PositiveSmallIntegerField(
+        verbose_name='Статус бронирования',
+        choices=StatusEnum.choices,
+        default=StatusEnum.STATUS_DRAFT,
+        null=True,
+        blank=True,
+    )
+    booking_reason = models.TextField(
+        verbose_name='Причина отказа',
+        null=True,
+        blank=True,
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -128,8 +201,7 @@ class Event(models.Model):
     )
 
     def __str__(self):
-        return (f'Мероприятие "{self.name}" '
-                f'дата: {self.date_start}-{self.date_end}')
+        return f'Мероприятие "{self.name}" на {self.date}'
 
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'pk': self.pk})
@@ -143,7 +215,7 @@ class Event(models.Model):
         return get_object_or_none(Grade, event=self).grade
 
     class Meta:
-        ordering = ['date_start']
+        ordering = ['date', 'time_start']
         verbose_name = 'Мероприятие'
         verbose_name_plural = 'Мероприятия'
 
@@ -381,10 +453,9 @@ class Room(models.Model):
         'User',
         verbose_name='Ассистенты',
     )
-    applications = models.ManyToManyField(
-        'Application',
-        verbose_name='Доступные приложения',
-        related_name='related_room',
+    server = models.ManyToManyField(
+        'Server',
+        verbose_name='Доступные серверы',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -394,7 +465,7 @@ class Room(models.Model):
     )
 
     def __str__(self):
-        return f'{self.address} {self.room}'
+        return f'{self.address} {self.room} на {self.quota} человек(а)'
 
     class Meta:
         ordering = ['address']
@@ -403,14 +474,6 @@ class Room(models.Model):
 
 
 class Server(models.Model):
-
-    SERVER_TYPE_EXTERNAL = 'external'
-    SERVER_TYPE_LOCAL = 'local'
-
-    SERVER_TYPE_CHOICES = (
-        (SERVER_TYPE_EXTERNAL, 'Внешний сервер'),
-        (SERVER_TYPE_LOCAL, 'Внутренний сервер')
-    )
 
     name = models.CharField(
         max_length=255,
@@ -434,11 +497,10 @@ class Server(models.Model):
         'User',
         verbose_name='Операторы',
     )
-    server_type = models.CharField(
-        max_length=100,
+    type = models.PositiveSmallIntegerField(
         verbose_name='Тип сервера',
-        choices=SERVER_TYPE_CHOICES,
-        default=SERVER_TYPE_LOCAL,
+        choices=ServerTypeEnum.choices,
+        default=ServerTypeEnum.SERVER_TYPE_EXTERNAL,
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -467,7 +529,6 @@ class Organization(models.Model):
     room = models.ManyToManyField(
         'Room',
         verbose_name='Доступные помещения',
-        related_name='related_room',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
