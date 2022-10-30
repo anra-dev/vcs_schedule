@@ -176,8 +176,9 @@ def get_server_for_room(request):
 def get_upcoming_conferences(request):
     if request.is_ajax():
         current_user = request.user
-        room_id = request.POST.get('conf_id', None)
-        if room_id is not None:
+        conf_id = request.POST.get('conf_id', None)
+        date = request.POST.get('date', None)
+        if conf_id and date:
             data = get_conferences_on_server()
         else:
             data = None
@@ -188,7 +189,8 @@ def get_upcoming_bookings(request):
     if request.is_ajax():
         current_user = request.user
         room_id = request.POST.get('room_id', None)
-        if room_id is not None:
+        date = request.POST.get('date', None)
+        if room_id and date:
             data = get_bookings_on_room()
         else:
             data = None

@@ -6,7 +6,7 @@
 {% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block data %}
-    <h3 class="mt-4">Создание нового мероприятия</h3>
+    <h3 class="mt-4 bg-info">Создание нового мероприятия</h3>
     <div>
         <form action=""  method="POST" id="form">
             {% csrf_token %}
@@ -15,7 +15,7 @@
                 <div class="form-group col-4 pr-4">
                     {{ form.date|as_crispy_field }}
                     <div class="alert alert-warning" role="alert">
-                        Что бы выбрать свободное время выберите сервер и/или помещение
+                        Что бы выбрать свободное время укажите дату, выберите сервер и/или помещение
                     </div>
                     <div class="form-row">
                         <div class="form-group col-6">
@@ -37,15 +37,19 @@
                         {{ form.booking_room|as_crispy_field }}
                         {{ form.booking_note|as_crispy_field }}
                         <div class="pt-2">
-                            <h5>Предстоящие мероприятия</h5>
-                            <table class="table">
+                            <h5 class="bg-info">Предстоящие мероприятия</h5>
+                            <table class="table table-info">
                                 <thead>
                                 <tr>
                                     <th scope="col">Время</th>
                                     <th scope="col">Мероприятие</th>
                                 </tr>
                                 </thead>
-                                <tbody id="id_booking_list">
+                                <tbody id="id_tbody_booking_list">
+                                <tr>
+                                    <th scope="row">--------</th>
+                                    <td>--------</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -55,20 +59,28 @@
                     {{ form.with_conf|as_crispy_field  }}
                     <div id="with_conf_div">
                         {{ form.conf_server|as_crispy_field }}
-                        {{ form.conf_note|as_crispy_field }}
-                        {{ form.conf_number_clients|as_crispy_field  }}
-                        {{ form.conf_link|as_crispy_field }}
-                        {{ form.conf_file|as_crispy_field }}
+                        <div id="id_div_local_server_fields">
+                            {{ form.conf_number_clients|as_crispy_field  }}
+                        </div>
+                        <div id="id_div_external_server_fields">
+                            {{ form.conf_note|as_crispy_field }}
+                            {{ form.conf_link|as_crispy_field }}
+                            {{ form.conf_file|as_crispy_field }}
+                        </div>
                         <div class="pt-2">
-                            <h5>Предстоящие мероприятия</h5>
-                            <table class="table">
+                            <h5 class="bg-info">Предстоящие мероприятия</h5>
+                            <table class="table table-info">
                                 <thead>
                                 <tr>
                                     <th scope="col">Время</th>
                                     <th scope="col">Мероприятие</th>
                                 </tr>
                                 </thead>
-                                <tbody id="id_conf_list">
+                                <tbody id="id_tbody_conf_list">
+                                <tr>
+                                    <th scope="row">--------</th>
+                                    <td>--------</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -84,240 +96,250 @@
 {% endblock data %}
 {% block script %}
     <script>
-
         $(document).ready(function () {
-            $('#id_booking_room').change(function (){
-                var withBooking = $('#id_with_booking')
-                var withConf = $('#id_with_conf')
+            let form = $('#form');
+            const CSRFToken = $('[name=csrfmiddlewaretoken]').val();
+            let date = $('#id_date');
+            let bookingRoom = $('#id_booking_room');
+            let confServer = $("#id_conf_server");
+            let confServerSelected = $("#id_conf_server option:selected")
+            let withBooking = $('#id_with_booking');
+            let withConf = $('#id_with_conf');
+            let bookingBlock = $('#with_booking_div')
+            let confBlock = $('#with_conf_div')
+            let localServerFields = $('#id_div_local_server_fields');
+            let externalServerFields = $('#id_div_external_server_fields');
+            
+            // DOCUMENT READY
+            // Обработка чекбокса "Нужно помещение" при загрузке
+            if ( withBooking.is(':checked') ) {
+                bookingBlock.show();
+                getUpcomingBookings(bookingRoom.val(), date.val());
+            } else {
+                bookingBlock.hide();
+            }
+            // Обработка чекбокса "Нужна видеоконференция" при загрузке
+            if ( withConf.is(':checked') ) {
+                confBlock.show();
+                configureServerFields(confServerSelected.attr('data-server-type'))
+                if (!bookingRoom.val() && withBooking.is(':checked')) {
+                    confServer.prop( "disabled", true );
+                } else {
+                    updateConfServerField.bind(bookingRoom)();
+                    confServer.prop( "disabled", false );
+                    getUpcomingConferences(confServerSelected.val(), date.val());
+                }
+            } else {
+                confBlock.hide();
+            }
+            
+            // EVENT LISTENER
+            // Обработка чекбокса "Нужно помещение" по событию
+            withBooking.on('click', function () {
+                if ( $(this).is(':checked') ) {
+                    bookingBlock.show();
+                    if (!bookingRoom.val()) {
+                        confServer.prop( "disabled", true );
+                    }
+                } else {
+                    bookingBlock.hide();
+                    bookingRoom.val('');
+                    updateConfServerField.bind(bookingRoom)();
+                    confServer.prop( "disabled", false );
+                }
+            });
+            
+            // Обработка чекбокса "Нужна видеоконференция" по событию
+            withConf.on('click', function () {
+                if ( $(this).is(':checked') ) {
+                    confBlock.show();
+                    if (!bookingRoom.val() && withBooking.is(':checked')) {
+                        confServer.prop( "disabled", true );
+                        configureServerFields(confServerSelected.attr('data-server-type'));
+                    } else {
+                        updateConfServerField.bind(bookingRoom)();
+                        confServer.prop( "disabled", false );
+                    }
+                } else {
+                    confBlock.hide();
+                }
+            });
+            
+            // Обработка поля "Дата" по событию
+            date.change(function (){
+                if (withBooking.is(":checked") && bookingRoom.val()) {
+                    getUpcomingBookings(bookingRoom.val(), date.val());
+                }
+                if (withConf.is(":checked") && confServer.val()) {
+                    getUpcomingConferences(confServer.val(), date.val());
+                }
+            });
+            
+            // Обработка поля "Место проведения" по событию
+            bookingRoom.change(function (){
                 if (withBooking.is(":checked") && withConf.is(":checked")) {
                     updateConfServerField.bind(this)();
-                    if (!$('#id_booking_room').val()) {
-                        $("#id_conf_server").prop( "disabled", true );
-                    } else {
-                        $("#id_conf_server").prop( "disabled", false );
-                    }
+                    confServer.prop("disabled", !bookingRoom.val());
                 }
-                getUpcomingBookings($('#id_booking_room').val());
+                getUpcomingBookings(bookingRoom.val(), date.val());
             });
-        });
-
-        $('#id_with_conf').on('click', function () {
-            if ( $(this).is(':checked') ) {
-                $('#with_conf_div').show();
-                if (!$('#id_booking_room').val() && $('#id_with_booking').is(':checked')) {
-                    $("#id_conf_server").prop( "disabled", true );
-                } else {
-                    var booking_room = $('#id_booking_room');
-                    updateConfServerField.bind(booking_room)();
-                    $("#id_conf_server").prop( "disabled", false );
-                }
-            } else {
-                $('#with_conf_div').hide();
-            }
-        });
-        $(document).ready( function () {
-            if ( $('#id_with_conf').is(':checked') ) {
-                $('#with_conf_div').show();
-                if (!$('#id_booking_room').val() && $('#id_with_booking').is(':checked')) {
-                    $("#id_conf_server").prop( "disabled", true );
-                } else {
-                    var booking_room = $('#id_booking_room');
-                    updateConfServerField.bind(booking_room)();
-                    $("#id_conf_server").prop( "disabled", false );
-                    getUpcomingConferences($("#id_conf_server option:selected").val());
-                }
-            } else {
-                $('#with_conf_div').hide();
-            }
-        });
-        $('#id_with_booking').on('click', function () {
-            if ( $(this).is(':checked') ) {
-                $('#with_booking_div').show();
-                if (!$('#id_booking_room').val()) {
-                    $("#id_conf_server").prop( "disabled", true );
-                }
-            } else {
-                $('#with_booking_div').hide();
-                var booking_room = $('#id_booking_room');
-                booking_room.val('');
-                updateConfServerField.bind(booking_room)();
-                $("#id_conf_server").prop( "disabled", false );
-            }
-        });
-        $(document).ready( function () {
-            if ( $('#id_with_booking').is(':checked') ) {
-                $('#with_booking_div').show();
-                getUpcomingBookings($('#id_booking_room').val());
-            } else {
-                $('#with_booking_div').hide();
-            }
-        });
-
-
-
-        $(document).ready(function () {
-            var optionSelected = $("#id_conf_server option:selected");
-            var typeSelected = optionSelected.attr('data-server-type');
-            if (typeSelected === "{{ server_type_local }}") {
-                $('#div_id_conf_number_clients').show();
-                $('#div_id_conf_link').hide();
-                $('#div_id_conf_file').hide();
-                $('#div_id_conf_note').hide();
-            } else if (typeSelected === "{{ server_type_external }}") {
-                $('#div_id_conf_number_clients').hide();
-                $('#div_id_conf_link').show();
-                $('#div_id_conf_file').show();
-                $('#div_id_conf_note').show();
-            } else {
-                $('#div_id_conf_number_clients').hide();
-                $('#div_id_conf_link').hide();
-                $('#div_id_conf_file').hide();
-                $('#div_id_conf_note').hide();
-            }
-            // Блокирование полей в зависимости от типа сервер
-            $('#id_conf_server').change(function () {
-                var typeSelected = this.options[this.selectedIndex].getAttribute("data-server-type");
-                if (typeSelected === "{{ server_type_local }}") {
-                    $('#div_id_conf_number_clients').show();
-                    $('#div_id_conf_link').hide();
-                    $('#div_id_conf_file').hide();
-                    $('#div_id_conf_note').hide();
-                } else if (typeSelected === "{{ server_type_external }}") {
-                    $('#div_id_conf_number_clients').hide();
-                    $('#div_id_conf_link').show();
-                    $('#div_id_conf_file').show();
-                    $('#div_id_conf_note').show();
-                } else {
-                    $('#div_id_conf_number_clients').hide();
-                    $('#div_id_conf_link').hide();
-                    $('#div_id_conf_file').hide();
-                    $('#div_id_conf_note').hide();
-                }
-                getUpcomingConferences(this.options[this.selectedIndex].value);
+            
+            // Обработка поля "Сервер" по событию
+            confServer.change(function () {
+                let serverSelected = this.options[this.selectedIndex]
+                configureServerFields(serverSelected.getAttribute("data-server-type"))
+                getUpcomingConferences(serverSelected.value, date.val());
             });
-        });
 
-        function updateConfServerField () {
-            $.ajax(
-                {
-                    headers: {"X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()},
+            // SUPPORT FUNCTION
+            function configureServerFields(type) {
+                if (type === "{{ server_type_local }}") {
+                    localServerFields.show();
+                    externalServerFields.hide();
+                } else if (type === "{{ server_type_external }}") {
+                    localServerFields.hide();
+                    externalServerFields.show();
+                } else {
+                    localServerFields.hide();
+                    externalServerFields.hide();
+                }
+            }
+
+            function updateConfServerField () {
+                $.ajax({
+                    headers: {"X-CSRFToken": CSRFToken},
                     data: $(this).serialize(),
-                    type: $('#form').attr('method'),
+                    type: form.attr('method'),
                     url: "{% url 'get_server_for_room' %}",
-
                     success: function (response) {
-                        var newOptions = response.data
-                        var $el = $("#id_conf_server");
-                        $el.empty(); // remove old
-                        if (newOptions) {
-                            $.each(newOptions, function(key,value) {
-                                $el.append($("<option></option>")
-                                    .attr("value", key)
-                                    .attr("data-server-type", value['type'])
-                                    .text(value['name'])
-                                );
-                            });
-                            $el.trigger( "change" );
-                        }
+                        buildNewOptionsServerField(response.data);
                     },
-
                     error: function (response) {
-                        console.log(response.statusText)
+                        console.log(response.statusText);
                     }
                 });
-            return false;
-        }
-
-        function getUpcomingConferences (server_id) {
-            $.ajax(
-                {
-                    headers: {"X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()},
-                    data: {'conf_id': server_id},
-                    type: $('#form').attr('method'),
-                    url: "{% url 'get_upcoming_conferences' %}",
-
-                    success: function (response) {
-                        var eventList = response.data
-                        var $el = $("#id_conf_list");
-                        $el.empty();
-                        if (eventList) {
-                            $.each(eventList, function(index, value) {
-                                var percent = value.count/value.max_count * 100
-                                var th = $("<th></th>")
-                                    .text( value.time)
-                                    .attr("scope", "row")
-                                var td = $("<td></td>")
-                                    .text(value.name)
-                                    .append(
-                                        $("<div></div>").append(
-                                            $("<div></div>").append(
-                                                $("<small></small>")
-                                                    .text( "Свободно " + (value.max_count - value.count) + " лицензий из " + value.max_count)
-                                                    .attr("class", "justify-content-center d-flex position-absolute w-100")
-                                            )
-                                                .attr("class", "text-dark text-nowrap progress-bar " + styleFromPercent(percent))
-                                                .attr("role", "progressbar")
-                                                .attr("style", "width: " + percent + "%")
-                                                .attr("aria-valuenow", value.count)
-                                                .attr("aria-valuemin", "0")
-                                                .attr("aria-valuemax", value.max_count)
-                                        )
-                                            .attr("class", "progress position-relative")
-                                    )
-                                var tr = $("<tr></tr>")
-                                tr.append(th).append(td)
-                                $el.append(tr)
-                            });
-                        }
-                    },
-
-                    error: function (response) {
-                        console.log(response.statusText)
-                    }
-                });
-            return false;
-        }
-        function styleFromPercent(percent) {
-            if (percent === 100){
-                return 'bg-danger';
-            } else if (percent > 60) {
-                return 'bg-warning';
-            } else {
-                return 'bg-success';
+                return false;
             }
 
-        }
-        function getUpcomingBookings (room_id) {
-            $.ajax(
-                {
-                    headers: {"X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()},
-                    data: {'room_id': room_id},
-                    type: $('#form').attr('method'),
-                    url: "{% url 'get_upcoming_bookings' %}",
-
+            function getUpcomingConferences (server_id, date) {
+                /**
+                 * Запрашиваем временные интервалы в которые на сервере
+                 * с id = room_id заявлена конференция на дату date.
+                 */
+                $.ajax({
+                    headers: {"X-CSRFToken": CSRFToken},
+                    data: {'conf_id': server_id, 'date': date},
+                    type: form.attr('method'),
+                    url: "{% url 'get_upcoming_conferences' %}",
                     success: function (response) {
-                        var eventList = response.data
-                        var $el = $("#id_booking_list");
-                        $el.empty();
-                        if (eventList) {
-                            $.each(eventList, function(index, value) {
-                                var th = $("<th></th>")
-                                    .text( value.time)
-                                    .attr("scope", "row")
-                                var td = $("<td></td>")
-                                    .text(value.name)
-                                var tr = $("<tr></tr>")
-                                tr.append(th).append(td)
-                                $el.append(tr)
-                            });
-                        }
+                        buildBlockConfList(response.data);
                     },
-
                     error: function (response) {
-                        console.log(response.statusText)
+                        console.log(response.statusText);
                     }
                 });
-            return false;
-        }
+                return false;
+            }
+
+            function getUpcomingBookings (room_id, date) {
+                /**
+                 * Запрашиваем временные интервалы в которые помещение
+                 * с id = room_id забронировано на дату date.
+                 */
+                $.ajax({
+                    headers: {"X-CSRFToken": CSRFToken},
+                    data: {'room_id': room_id, 'date': date},
+                    type: form.attr('method'),
+                    url: "{% url 'get_upcoming_bookings' %}",
+                    success:
+                        function (response) {
+                            buildBlockBookingList(response.data)
+                        },
+                    error:
+                        function (response) {
+                            console.log(response.statusText);
+                        }
+                });
+                return false;
+            }
+
+            function buildNewOptionsServerField(data) {
+                confServer.empty();
+                if (data) {
+                    $.each(data, function(index, element) {
+                        let [id, name, type] = element;
+                        confServer.append($("<option></option>")
+                            .attr("value", id)
+                            .attr("data-server-type", type)
+                            .text(name)
+                        );
+                    });
+                    confServer.trigger( "change" );
+                }
+            }
+
+            function buildBlockBookingList(data) {
+                let tbody = $("#id_tbody_booking_list");
+                tbody.empty();
+                if (data) {
+                    $.each(data, function(index, element) {
+                        const { name: name, time: time} = element;
+                        let th = $("<th></th>")
+                            .text(time)
+                            .attr("scope", "row");
+                        let td = $("<td></td>")
+                            .text(name);
+                        let tr = $("<tr></tr>");
+                        tr.append(th).append(td);
+                        tbody.append(tr);
+                    });
+                }
+            }
+
+            function buildBlockConfList(data) {
+                let tbody = $("#id_tbody_conf_list");
+                tbody.empty();
+                if (data) {
+                    $.each(data, function(index, element) {
+                        const { name: name, time: time, count: count,  max_count: max_count} = element;
+                        const percent = count/max_count * 100;
+                        let th = $("<th></th>")
+                            .text(time)
+                            .attr("scope", "row");
+                        let td = $("<td></td>")
+                            .text(name)
+                            .append(
+                                $("<div></div>").append(
+                                    $("<div></div>").append(
+                                        $("<small></small>")
+                                            .text( "Свободно " + (max_count - count) + " лицензий из " + max_count)
+                                            .attr("class", "justify-content-center d-flex position-absolute w-100")
+                                    )
+                                        .attr("class", "text-dark text-nowrap progress-bar " + styleFromPercent(percent))
+                                        .attr("role", "progressbar")
+                                        .attr("style", "width: " + percent + "%")
+                                        .attr("aria-valuenow", count)
+                                        .attr("aria-valuemin", "0")
+                                        .attr("aria-valuemax", max_count)
+                                )
+                                    .attr("class", "progress position-relative")
+                            );
+                        let tr = $("<tr></tr>");
+                        tr.append(th).append(td);
+                        tbody.append(tr);
+                    });
+                }
+            }
+
+            function styleFromPercent(percent) {
+                if (percent === 100){
+                    return 'bg-danger';
+                } else if (percent > 60) {
+                    return 'bg-warning';
+                } else {
+                    return 'bg-success';
+                }
+            }
+        });
     </script>
 {% endblock script %}

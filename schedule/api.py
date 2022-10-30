@@ -4,6 +4,7 @@ from schedule.models import Server, Room
 
 
 def get_server_choice(room_id, user):
+    choices = [("", "---------", None)]
     qs = Server.objects.all()
     if room_id:
         assert user.organization.room.filter(id=room_id).exists()
@@ -12,7 +13,8 @@ def get_server_choice(room_id, user):
         )
     # Используем этот генератор вместо values,
     # что бы брать название из __str__
-    return {item.id: {'name': str(item), 'type': item.type} for item in qs}
+    choices.extend([(item.id, str(item), item.type) for item in qs])
+    return choices
 
 
 def get_conferences_on_server():
