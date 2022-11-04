@@ -36,6 +36,42 @@
     </div>
     <div class="row">
         <div class="col border m-2 p-2">
+            {% if event.with_booking %}
+                <h5 class="mt-3 text-center">Комната на {{ event.booking_room.quota }} мест(а) {{ event.booking_status|get_badge_status}}</h5>
+                {% if event.booking_status|is_rejection %}
+                    <div class="alert alert-danger" role="alert">
+                        Причина отказа: {{ event.booking_reason }}
+                    </div>
+                {% endif %}
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Адрес</th>
+                        <td>{{ event.booking_room.address|default_if_none:'' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Примечание</th>
+                        <td>{{ event.booking_note }}</td>
+                    </tr>
+                    <tr>
+                        <th>Ассистент</th>
+                        <td>
+                            {% if event.booking_assistant %}
+                                {{ event.booking_assistant }}<hr>
+                                телефон: {{ event.booking_assistant.phone }},
+                                email: <a href="mailto:{{ event.booking_assistant.email }}?subject={{ event }}">{{ event.booking_assistant.email }}</a>
+                            {% else %}
+                                Специалист еще не назначен
+                            {% endif %}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <h5 class="mt-3 text-center">Помещение не требуется</h5>
+            {% endif %}
+        </div>
+        <div class="col border m-2 p-2">
             {% if event.with_conf %}
                 <h5 class="mt-3 text-center">Видеоконференция {{ event.conf_status|get_badge_status}}</h5>
                 {% if event.conf_status|is_rejection  %}
@@ -47,11 +83,15 @@
                     <tbody>
                     <tr>
                         <th>Сервер</th>
-                        <td>{{ event.conf_server }}<br>({{ event.conf_server.get_type_display }})</td>
+                        <td>{{ event.conf_server|default_if_none:'' }}<br>
+                            <div class="text-success">
+                                {{ event.conf_server.get_type_display|default_if_none:'' }}
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th>Примечание</th>
-                        <td>{{ event.conf_note }}</td>
+                        <td>{{ event.conf_note|default_if_none:'' }}</td>
                     </tr>
                     <tr>
                         <th>Количество участников</th>
@@ -77,42 +117,6 @@
                 </table>
             {% else %}
                 <h5 class="mt-3 text-center">Видеоконференция не требуется"</h5>
-            {% endif %}
-        </div>
-        <div class="col border m-2 p-2">
-            {% if event.with_booking %}
-                <h5 class="mt-3 text-center">Комната на {{ event.booking_room.quota }} мест(а) {{ event.booking_status|get_badge_status}}</h5>
-                {% if event.booking_status|is_rejection %}
-                    <div class="alert alert-danger" role="alert">
-                        Причина отказа: {{ event.booking_reason }}
-                    </div>
-                {% endif %}
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>Адрес</th>
-                        <td>{{ event.booking_room.address }}</td>
-                    </tr>
-                    <tr>
-                        <th>Примечание</th>
-                        <td>{{ event.booking_note }}</td>
-                    </tr>
-                    <tr>
-                        <th>Ассистент</th>
-                        <td>
-                            {% if event.booking_assistant %}
-                                {{ event.booking_assistant }}<hr>
-                                телефон: {{ event.booking_assistant.phone }},
-                                email: <a href="mailto:{{ event.booking_assistant.email }}?subject={{ event }}">{{ event.booking_assistant.email }}</a>
-                            {% else %}
-                                Специалист еще не назначен
-                            {% endif %}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            {% else %}
-                <h5 class="mt-3 text-center">Помещение не требуется</h5>
             {% endif %}
         </div>
     </div>

@@ -1,11 +1,11 @@
 from django.urls import path
 
-from schedule.views.booking import BookingsListView, BookingCreateView, \
+from schedule.views_old.booking import BookingsListView, BookingCreateView, \
     BookingApproveView, BookingUpdateView, BookingDeleteView
-from schedule.views.conference import ConferencesListView, \
+from schedule.views_old.conference import ConferencesListView, \
     ConferenceCreateView, ConferenceApproveView, ConferenceUpdateView, \
     ConferenceDeleteView
-from schedule.views.event import EventsListView, MyEventsListView, \
+from schedule.views import EventsListView, MyEventsListView, \
     ArchiveEventsListView, EventCreateView, EventDetailView, EventUpdateView, \
     EventDeleteView, get_server_for_room, GradeCreate, \
     get_upcoming_conferences, get_upcoming_bookings

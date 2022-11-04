@@ -36,7 +36,7 @@
                     <div class="form-group" id="with_booking_div">
                         {{ form.booking_room|as_crispy_field }}
                         {{ form.booking_note|as_crispy_field }}
-                        <div class="pt-2">
+                        <div class="pt-2" id="id_div_booking_list" style="display: none;">
                             <h5 class="bg-info">Предстоящие мероприятия</h5>
                             <table class="table table-info">
                                 <thead>
@@ -67,7 +67,7 @@
                             {{ form.conf_link|as_crispy_field }}
                             {{ form.conf_file|as_crispy_field }}
                         </div>
-                        <div class="pt-2">
+                        <div class="pt-2" id="id_div_conf_list" style="display: none;">
                             <h5 class="bg-info">Предстоящие мероприятия</h5>
                             <table class="table table-info">
                                 <thead>
@@ -98,7 +98,7 @@
     <script>
         $(document).ready(function () {
             let form = $('#form');
-            const CSRFToken = $('[name=csrfmiddlewaretoken]').val();
+            const CSRFToken = $("[name=csrfmiddlewaretoken]").val();
             let date = $('#id_date');
             let bookingRoom = $('#id_booking_room');
             let confServer = $("#id_conf_server");
@@ -228,7 +228,7 @@
                  */
                 $.ajax({
                     headers: {"X-CSRFToken": CSRFToken},
-                    data: {'conf_id': server_id, 'date': date},
+                    data: {'server_id': server_id, 'date': date},
                     type: form.attr('method'),
                     url: "{% url 'get_upcoming_conferences' %}",
                     success: function (response) {
@@ -264,15 +264,19 @@
             }
 
             function buildNewOptionsServerField(data) {
+                const currentValue = confServer.val()
                 confServer.empty();
                 if (data) {
                     $.each(data, function(index, element) {
                         let [id, name, type] = element;
-                        confServer.append($("<option></option>")
+                        let option = $("<option></option>")
                             .attr("value", id)
                             .attr("data-server-type", type)
-                            .text(name)
-                        );
+                            .text(name);
+                        if (currentValue === id.toString()) {
+                            option.attr("selected", true)
+                        }
+                        confServer.append(option);
                     });
                     confServer.trigger( "change" );
                 }
@@ -280,31 +284,36 @@
 
             function buildBlockBookingList(data) {
                 let tbody = $("#id_tbody_booking_list");
+                let div_cont = $("#id_div_booking_list");
+                div_cont.hide();
                 tbody.empty();
                 if (data) {
                     $.each(data, function(index, element) {
-                        const { name: name, time: time} = element;
+                        const { name: name, time_start: time_start, time_end: time_end,} = element;
                         let th = $("<th></th>")
-                            .text(time)
+                            .text(time_start.slice(0, 5) + " - " + time_end.slice(0, 5))
                             .attr("scope", "row");
                         let td = $("<td></td>")
                             .text(name);
                         let tr = $("<tr></tr>");
                         tr.append(th).append(td);
                         tbody.append(tr);
+                        div_cont.show();
                     });
                 }
             }
 
             function buildBlockConfList(data) {
                 let tbody = $("#id_tbody_conf_list");
+                let div_cont = $("#id_div_conf_list");
+                div_cont.hide();
                 tbody.empty();
                 if (data) {
                     $.each(data, function(index, element) {
-                        const { name: name, time: time, count: count,  max_count: max_count} = element;
+                        const { name: name, time_start: time_start, time_end: time_end, count: count,  max_count: max_count} = element;
                         const percent = count/max_count * 100;
                         let th = $("<th></th>")
-                            .text(time)
+                            .text(time_start.slice(0, 5) + " - " + time_end.slice(0, 5))
                             .attr("scope", "row");
                         let td = $("<td></td>")
                             .text(name)
@@ -327,6 +336,7 @@
                         let tr = $("<tr></tr>");
                         tr.append(th).append(td);
                         tbody.append(tr);
+                        div_cont.show();
                     });
                 }
             }
