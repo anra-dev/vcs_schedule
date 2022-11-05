@@ -8,7 +8,7 @@
 {% block data %}
     <h3 class="mt-4 bg-info">Создание нового мероприятия</h3>
     <div>
-        <form action=""  method="POST" id="form">
+        <form method="POST" id="form" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.name|as_crispy_field }}
             <div class="form-row">
