@@ -1,6 +1,15 @@
 from django.db import models
 
 
+EVENT_MESSAGES_DICT = {
+    'create': 'Мероприятие создано!',
+    'update': 'Мероприятие изменено!',
+    'delete': 'Мероприятие удалено!',
+    'conf_approve': 'Видеоконференция обработана!',
+    'booking_approve': 'Бронирование обработано!',
+}
+
+
 class StatusEnum(models.IntegerChoices):
 
     STATUS_DRAFT = 1, 'Создание'
@@ -24,24 +33,3 @@ class StatusEnum(models.IntegerChoices):
 class ServerTypeEnum(models.IntegerChoices):
     SERVER_TYPE_EXTERNAL = 1, 'Внешний сервер'
     SERVER_TYPE_LOCAL = 2, 'Внутренний сервер'
-
-
-EVENT_MESSAGES = {
-    'create': 'Мероприятие создано!',
-    'update': 'Мероприятие изменено!',
-    'delete': 'Мероприятие удалено!'
-}
-
-CONF_MESSAGES = {
-    'create': 'Видеоконференция создана!',
-    'update': 'Видеоконференция изменена!',
-    'approve': 'Видеоконференция обработана!',
-    'delete': 'Видеоконференция удалена!'
-}
-
-BOOKING_MESSAGES = {
-    'create': 'Бронирование создано!',
-    'update': 'Бронирование изменено!',
-    'approve': 'Бронирование обработано!',
-    'delete': 'Бронирование удалено!'
-}

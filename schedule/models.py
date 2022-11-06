@@ -1,4 +1,9 @@
+from datetime import datetime
+
 from django.db import models
+from django.db.models import Q
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.shortcuts import _get_queryset
@@ -62,13 +67,30 @@ class User(AbstractUser):
         return f'{self.last_name} {self.first_name}'
 
 
-class Event(models.Model):
+class EventManager(models.Manager):
+    """
+    Менеджер, который списывает мероприятия в архив.
 
-    MESSAGES = {
-        'create': 'Мероприятие создано!',
-        'update': 'Мероприятие изменено!',
-        'delete': 'Мероприятие удалено!'
-    }
+    Данная реализация потенциально вызывает много запросов. На данный
+    момент некритично, но в дальнейшем лучше переделать.
+    """
+    def get_queryset(self):
+        now = datetime.now()
+        current_date = now.date()
+        current_time = now.time()
+        super().get_queryset().filter(
+            Q(date__lt=current_date) |
+            Q(date=current_date, time_end__lt=current_time),
+        ).update(
+            status=StatusEnum.STATUS_COMPLETED,
+            conf_status=StatusEnum.STATUS_COMPLETED,
+            booking_status=StatusEnum.STATUS_COMPLETED,
+        )
+        return super().get_queryset()
+
+
+class Event(models.Model):
+    objects = EventManager()
 
     name = models.CharField(
         verbose_name='Название мероприятия',
@@ -617,3 +639,25 @@ class Grade(models.Model):
         ordering = ['created_at']
         verbose_name = 'Оценка'
         verbose_name_plural = 'Оценки'
+
+
+@receiver(pre_save, sender=Event)
+def update_status_event(instance, **kwargs):
+    """
+    Обновляет статус мероприятия
+    """
+    from dispatch.calling import send_out_message
+
+    statuses = {instance.conf_status, instance.booking_status}
+    if len(statuses) == 0:
+        instance.status = StatusEnum.STATUS_DRAFT
+    elif len(statuses) == 1:
+        same_status = statuses.pop()
+        if same_status == StatusEnum.STATUS_READY:
+            send_out_message(instance)
+        instance.status = same_status
+    else:
+        if StatusEnum.STATUS_WAIT in statuses:
+            instance.status = StatusEnum.STATUS_WAIT
+        if StatusEnum.STATUS_REJECTION in statuses:
+            instance.status = StatusEnum.STATUS_REJECTION

@@ -2,7 +2,7 @@ import datetime
 
 from django import forms
 
-from schedule.enums import ServerTypeEnum
+from schedule.enums import ServerTypeEnum, StatusEnum
 from schedule.models import Event, Conference, Booking, get_object_or_none
 from schedule.api import check_free_quota, check_room_is_free
 
@@ -150,6 +150,13 @@ class EventCreateForm(forms.ModelForm):
             cleaned_data['booking_note'] = None
 
         return cleaned_data
+
+    def save(self, *args, **kwargs):
+        if self.cleaned_data['with_booking']:
+            self.instance.booking_status = StatusEnum.STATUS_WAIT
+        if self.cleaned_data['with_conf']:
+            self.instance.conf_status = StatusEnum.STATUS_WAIT
+        return super().save(*args, **kwargs)
 
     class Meta:
         model = Event

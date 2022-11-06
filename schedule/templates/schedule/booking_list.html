@@ -12,24 +12,22 @@
             <th scope="col">Дата и время</th>
             <th scope="col">Мероприятие</th>
             <th scope="col">Адрес</th>
-            <th scope="col">Количество участников</th>
             <th scope="col">Организация</th>
             <th scope="col">Ответственный</th>
             <th scope="col">Действие</th>
         </tr>
         </thead>
         <tbody>
-        {% for booking in page_obj %}
-            {% if booking.status == 'wait' %}
+        {% for event in page_obj %}
+            {% if event.booking_status == statuses.STATUS_WAIT %}
                 <tr>
-                    <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} {{ booking.date|date:"d.m.Y" }}</td>
-                    <td>{{ booking.event }}</td>
-                    <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
-                    <td>{{ booking.quota }}</td>
-                    <td>{{ booking.event.organization }}</td>
-                    <td>{{ booking.owner }}</td>
+                    <td>{{ event.time_start|date:"H:i" }}-{{ event.time_end|date:"H:i" }} {{ event.date|date:"d.m.Y" }}</td>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.booking_room.address }} ({{ event.booking_room.room }})</td>
+                    <td>{{ event.organization }}</td>
+                    <td>{{ event.owner }}</td>
                     <td>
-                        <a class="btn btn-success" href="{% url 'booking_approve' pk=booking.pk %}" role="button">Обработать</a>
+                        <a class="btn btn-success" href="{% url 'booking_approve' pk=event.pk %}" role="button">Обработать</a>
                     </td>
                 </tr>
             {%  endif %}
@@ -58,24 +56,22 @@
             <th scope="col">Дата и время</th>
             <th scope="col">Мероприятие</th>
             <th scope="col">Адрес</th>
-            <th scope="col">Количество участников</th>
             <th scope="col">Организация</th>
             <th scope="col">Ответственный</th>
             <th scope="col">Действие</th>
         </tr>
         </thead>
         <tbody>
-        {% for booking in page_obj %}
-            {% if booking.status == 'ready' %}
+        {% for event in page_obj %}
+            {% if event.booking_status == statuses.STATUS_READY %}
                 <tr>
-                    <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} {{ booking.date|date:"d.m.Y" }}</td>
-                    <td>{{ booking.event }}</td>
-                    <td>{{ booking.room.address }} ({{ booking.room.room }})</td>
-                    <td>{{ booking.quota }}</td>
-                    <td>{{ booking.event.organization }}</td>
-                    <td>{{ booking.owner }}</td>
+                    <td>{{ event.time_start|date:"H:i" }}-{{ event.time_end|date:"H:i" }} {{ event.date|date:"d.m.Y" }}</td>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.booking_room.address }} ({{ event.booking_room.room }})</td>
+                    <td>{{ event.organization }}</td>
+                    <td>{{ event.owner }}</td>
                     <td>
-                        <a class="btn btn-success" href="{% url 'booking_approve' pk=booking.pk %}" role="button">Изменить</a>
+                        <a class="btn btn-success" href="{% url 'booking_approve' pk=event.pk %}" role="button">Изменить</a>
                     </td>
                 </tr>
             {% endif %}

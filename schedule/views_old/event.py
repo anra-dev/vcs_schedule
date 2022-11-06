@@ -10,8 +10,7 @@ from schedule.api import get_server_choice, get_conferences_on_server, \
 from schedule.enums import StatusEnum, ServerTypeEnum
 from schedule.models import Event, Conference, Booking, Grade, get_object_or_none
 from schedule.forms import EventCreateForm, EventUpdateForm
-from schedule.services import set_status_completed
-from schedule.views.mixins import HelpMixin, UserIsOwnerMixin
+from schedule.mixins import HelpMixin, UserIsOwnerMixin
 
 
 class EventsListView(LoginRequiredMixin, HelpMixin, ListView):
@@ -23,7 +22,6 @@ class EventsListView(LoginRequiredMixin, HelpMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        set_status_completed(queryset)
         return queryset.filter(
             status__in=(
                 StatusEnum.STATUS_WAIT,
@@ -42,7 +40,6 @@ class MyEventsListView(LoginRequiredMixin, HelpMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        set_status_completed(queryset)
         return queryset.filter(
             status__in=(
                 StatusEnum.STATUS_WAIT,
@@ -65,7 +62,6 @@ class ArchiveEventsListView(LoginRequiredMixin, HelpMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        set_status_completed(queryset)
         return queryset.filter(
             status__in=(
                 StatusEnum.STATUS_COMPLETED,
@@ -130,6 +126,7 @@ class EventUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
         kwargs = super().get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+
 
 class EventDeleteView(UserIsOwnerMixin, HelpMixin, DeleteView):
     """

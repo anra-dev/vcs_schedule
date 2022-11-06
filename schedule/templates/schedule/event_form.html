@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div align="right">
+            <div class="float-right">
                 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
                 <input type="submit" class="btn btn-success" value="Сохранить">
             </div>
@@ -193,10 +193,10 @@
 
             // SUPPORT FUNCTION
             function configureServerFields(type) {
-                if (type === "{{ server_type_local }}") {
+                if (type === "{{ server_type.SERVER_TYPE_LOCAL }}") {
                     localServerFields.show();
                     externalServerFields.hide();
-                } else if (type === "{{ server_type_external }}") {
+                } else if (type === "{{ server_type.SERVER_TYPE_EXTERNAL }}") {
                     localServerFields.hide();
                     externalServerFields.show();
                 } else {

@@ -6,7 +6,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from dispatch.calling import send_telegram_message_booking_all, send_telegram_message_booking_today
 from ..models import Event, Conference, Booking, Room, get_object_or_none
 from ..forms import BookingCreateForm, BookingUpdateForm
-from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsAssistantMixin, UserIsOwnerMixin
 
 
@@ -19,7 +18,6 @@ class BookingsListView(UserIsAssistantMixin, HelpMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        set_status_completed(queryset)
         return queryset.filter(
             Q(status__in=('wait', 'ready'), room__in=Room.objects.filter(assistants=self.request.user)),
             Q(conference__isnull=True) | Q(conference__in=Conference.objects.filter(status=Conference.STATUS_READY))

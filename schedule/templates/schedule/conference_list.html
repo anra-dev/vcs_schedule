@@ -20,17 +20,17 @@
         </tr>
         </thead>
         <tbody>
-        {% for conference in page_obj %}
-            {% if conference.status == 'wait' %}
+        {% for event in page_obj %}
+            {% if event.conf_status == statuses.STATUS_WAIT %}
             <tr>
-                <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
-                <td>{{ conference.event }}</td>
-                <td>{{ conference.server }}</td>
-                <td>{{ conference.quota|default_if_none:'' }}</td>
-                <td>{{ conference.event.organization }}</td>
-                <td>{{ conference.owner }}</td>
+                <td>{{ event.time_start|date:"H:i" }}-{{ event.time_end|date:"H:i" }} {{ event.date|date:"d.m.Y" }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.conf_server }}</td>
+                <td>{{ event.conf_number_clients|default_if_none:'' }}</td>
+                <td>{{ event.organization }}</td>
+                <td>{{ event.owner }}</td>
                 <td>
-                    <a class="btn btn-success" href="{% url 'conference_approve' pk=conference.pk %}" role="button">Обработать</a>
+                    <a class="btn btn-success" href="{% url 'conference_approve' pk=event.pk %}" role="button">Обработать</a>
                 </td>
             </tr>
             <tr class="table-secondary">
@@ -54,17 +54,17 @@
         </tr>
         </thead>
         <tbody>
-        {% for conference in page_obj %}
-            {% if conference.status == 'ready' %}
+        {% for event in page_obj %}
+            {% if event.conf_status == statuses.STATUS_READY %}
             <tr>
-                <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
-                <td>{{ conference.event }}</td>
-                <td>{{ conference.server }}</td>
-                <td>{{ conference.quota|default_if_none:'' }}</td>
-                <td>{{ conference.event.organization }}</td>
-                <td>{{ conference.owner }}</td>
+                <td>{{ event.time_start|date:"H:i" }}-{{ event.time_end|date:"H:i" }} {{ event.date|date:"d.m.Y" }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.conf_server }}</td>
+                <td>{{ event.conf_number_clients|default_if_none:'' }}</td>
+                <td>{{ event.organization }}</td>
+                <td>{{ event.owner }}</td>
                 <td>
-                    <a class="btn btn-success" href="{% url 'conference_approve' pk=conference.pk %}" role="button">Изменить</a>
+                    <a class="btn btn-success" href="{% url 'conference_approve' pk=event.pk %}" role="button">Изменить</a>
                 </td>
             </tr>
             <tr class="table-secondary">

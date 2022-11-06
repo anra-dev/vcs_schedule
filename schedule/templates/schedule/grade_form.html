@@ -9,7 +9,7 @@
         <form action=""  method="POST">
             {% csrf_token %}
             {{ form|crispy }}
-            <div align="right">
+            <div class="float-right">
                 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
                 <input type="submit" class="btn btn-success" value="Сохранить">
             </div>

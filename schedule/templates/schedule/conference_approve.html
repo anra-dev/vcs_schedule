@@ -4,74 +4,73 @@
 {% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block data %}
-    <h1 class="mt-4">Видеоконференция "{{ conference.server }}"</h1>
-    {% if conference.comment %}
+    <h1 class="mt-4">Видеоконференция "{{ event.conf_server }}"</h1>
+    {% if event.conf_reason %}
         <div class="alert alert-danger" role="alert">
-            Причина отказа: {{ conference.comment }}
+            Причина отказа: {{ event.conf_reason }}
         </div>
     {% endif %}
     <table class="table">
         <tbody>
         <tr>
             <th>Мероприятие</th>
-            <td>{{ conference.event.name }}</td>
+            <td>{{ event.name }}</td>
         </tr>
         <tr>
             <th>Организация</th>
-            <td>{{ conference.event.organization }}</td>
+            <td>{{ event.organization }}</td>
         </tr>
         <tr>
             <th>Дата и время</th>
-            <td>{{ conference.time_start|date:"H:i" }}-{{ conference.time_end|date:"H:i" }} {{ conference.date|date:"d.m.Y" }}</td>
+            <td>{{ event.time_start|date:"H:i" }}-{{ event.time_end|date:"H:i" }} {{ event.date|date:"d.m.Y" }}</td>
         </tr>
         <tr>
             <th>Сервер</th>
-            <td>{{ conference.server }}({{ conference.server.get_server_type_display }})</td>
+            <td>{{ event.conf_server }}({{ event.conf_server.get_type_display }})</td>
         </tr>
-        {% if conference.quota %}
+        {% if event.quota %}
             <tr>
                 <th>Количество участников</th>
-                <td>{{ conference.quota|default_if_none:'' }}</td>
+                <td>{{ event.conf_number_clients|default_if_none:'' }}</td>
             </tr>
         {% endif %}
-        {% if conference.link %}
+        {% if event.link %}
             <tr>
                 <th>Ссылка</th>
-                <td>{{ conference.link|default_if_none:'' }}</td>
+                <td>{{ event.conf_link|default_if_none:'' }}</td>
             </tr>
         {% endif %}
         <tr>
             <th>Ответственный специалист</th>
-            <td>{{ conference.owner }}<hr>телефон: {{ conference.owner.phone }}, email: {{ conference.owner.email }}</td>
+            <td>{{ event.owner }}<hr>телефон: {{ event.owner.phone }}, email: {{ event.owner.email }}</td>
         </tr>
         </tbody>
     </table>
     <div>
         <form action=""  method="POST">
             {% csrf_token %}
-            {{ form.nom_du_champ }}
             <div class="fieldWrapper">
-                {{ form.link|as_crispy_field }}
+                {{ form.conf_link|as_crispy_field }}
             </div>
-            <div align="right">
+            <div class="float-right">
                 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
                 <!-- Кнопка-триггер модального окна -->
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Отказать</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionModal">Отказать</button>
                 <input type="submit" name="ready" class="btn btn-success" value="Подтвердить">
 
                 <!-- Модальное окно -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="rejectionModal" tabindex="-1" aria-labelledby="rejectionModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Обязательно укажите причину отказа!</h5>
+                                <h5 class="modal-title" id="rejectionModalLabel">Обязательно укажите причину отказа!</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="fieldWrapper">
-                                    {{ form.comment|as_crispy_field }}
+                                    {{ form.conf_reason|as_crispy_field }}
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -85,3 +84,11 @@
         </form>
     </div>
 {% endblock data %}
+
+{% block script %}
+    <script>
+        {% if form.errors.conf_reason %}
+            $("#rejectionModal").modal("show");
+        {% endif %}
+    </script>
+{% endblock script %}

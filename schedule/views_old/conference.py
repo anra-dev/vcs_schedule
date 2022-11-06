@@ -5,7 +5,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from ..models import Event, Conference, Booking, Server, get_object_or_none
 from ..forms import ConferenceCreateForm, ConferenceUpdateForm
-from ..services import set_status_completed
 from .mixins import HelpMixin, UserIsOperatorMixin, UserIsOwnerMixin
 
 
@@ -18,7 +17,6 @@ class ConferencesListView(UserIsOperatorMixin, HelpMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        set_status_completed(queryset)
         return queryset.filter(
             status__in=('wait', 'ready'),
             server__in=Server.objects.filter(operators=self.request.user))

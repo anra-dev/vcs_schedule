@@ -5,68 +5,63 @@
 
 {% block data %}
     <h1 class="mt-4">Подтверждение бронирования помещения</h1>
-    {% if booking.comment %}
+    {% if event.booking_reason %}
         <div class="alert alert-danger" role="alert">
-            Причина отказа: {{ booking.comment }}
+            Причина отказа: {{ event.booking_reason }}
         </div>
     {% endif %}
     <table class="table">
         <tbody>
         <tr>
             <th>Мероприятие</th>
-            <td>{{ booking.event.name }}</td>
+            <td>{{ event.name }}</td>
         </tr>
         <tr>
             <th>Организация</th>
-            <td>{{ booking.event.organization }}</td>
+            <td>{{ event.organization }}</td>
         </tr>
         <tr>
             <th>Дата и время</th>
-            <td>{{ booking.time_start|date:"H:i" }}-{{ booking.time_end|date:"H:i" }} {{ booking.date|date:"d.m.Y" }}</td>
+            <td>{{ event.time_start|date:"H:i" }}-{{ event.time_end|date:"H:i" }} {{ event.date|date:"d.m.Y" }}</td>
         </tr>
         <tr>
             <th>Помещение</th>
-            <td>{{ booking.room }}</td>
+            <td>{{ event.booking_room }}</td>
         </tr>
-        <tr>
-            <th>Количество участников</th>
-            <td>{{ booking.quota}}</td>
-        </tr>
-        {% if booking.conference.link %}
+        {% if event.conf_link %}
             <tr class="table-info">
                 <th>Ссылка на конференцию</th>
-                <td>{{ booking.conference.link }}</td>
+                <td>{{ event.conf_link }}</td>
             </tr>
         {% endif %}
         <tr>
             <th>Ответственный специалист</th>
-            <td>{{ booking.owner }}<hr>телефон: {{ booking.owner.phone }}, email: {{ booking.owner.email }}</td>
+            <td>{{ event.owner }}<hr>телефон: {{ event.owner.phone }}, email: {{ event.owner.email }}</td>
         </tr>
         </tbody>
     </table>
     <div>
         <form action=""  method="POST">
             {% csrf_token %}
-            {{ form.nom_du_champ }}
-            <div align="right">
+            <div class="float-right">
                 <a class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Отмена</a>
                 <!-- Кнопка-триггер модального окна -->
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Отказать</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionModal">Отказать</button>
                 <input type="submit" name="ready" class="btn btn-success" value="Подтвердить">
 
                 <!-- Модальное окно -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="rejectionModal" tabindex="-1" aria-labelledby="rejectionModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Напишите причину отказа</h5>
+                                <h5 class="modal-title" id="rejectionModalLabel">Напишите причину отказа</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="fieldWrapper">
-                                    {{ form.comment|as_crispy_field }}
+                                    {{ form.booking_reason|as_crispy_field }}
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -80,3 +75,11 @@
         </form>
     </div>
 {% endblock data %}
+
+{% block script %}
+    <script>
+        {% if form.errors.booking_reason %}
+            $("#rejectionModal").modal("show");
+        {% endif %}
+    </script>
+{% endblock script %}
