@@ -161,10 +161,12 @@ class EventCreateView(LoginRequiredMixin, HelpMixin, CreateView):
     """
     model = Event
     form_class = EventCreateForm
+    title = "Создание мероприятия"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['server_type'] = ServerTypeEnum
+        context['title'] = self.title
         return context
 
     def get_success_url(self):
@@ -192,10 +194,12 @@ class EventUpdateView(UserIsOwnerMixin, HelpMixin, UpdateView):
     """
     model = Event
     form_class = EventUpdateForm
+    title = "Редактирование мероприятия"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['server_type'] = ServerTypeEnum
+        context['title'] = self.title
         return context
 
     def get_success_url(self):
@@ -247,7 +251,7 @@ class EventOperatorApproveView(UserIsOperatorMixin, HelpMixin, UpdateView):
 
 class EventAssistantApproveView(UserIsAssistantMixin, HelpMixin, UpdateView):
     """
-    РЕДАКТИРОВАНИЕ БРОНИ ОПЕРАТОРОМ
+    РЕДАКТИРОВАНИЕ МЕРОПРИЯТИЯ АСИССТЕНТОМ
     """
     model = Event
     fields = ['booking_reason']

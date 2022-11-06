@@ -24,8 +24,6 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Event)
-admin.site.register(Conference)
-admin.site.register(Booking)
 admin.site.register(Organization)
 admin.site.register(Room)
 admin.site.register(Server)

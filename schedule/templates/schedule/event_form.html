@@ -6,7 +6,7 @@
 {% block bottom_nav %}{% endblock bottom_nav %}
 
 {% block data %}
-    <h3 class="mt-4 bg-info">Создание нового мероприятия</h3>
+    <h3 class="mt-4 bg-info">{{ title }}</h3>
     <div>
         <form method="POST" id="form" enctype="multipart/form-data">
             {% csrf_token %}

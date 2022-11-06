@@ -1,6 +1,6 @@
 import datetime
 from django.db.models import Q
-from schedule.models import Booking, Conference, User, get_object_or_none
+from schedule.models import User, get_object_or_none
 from .templates_message import get_message_event_ready, get_message_bookings
 
 
