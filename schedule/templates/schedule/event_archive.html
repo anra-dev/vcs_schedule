@@ -10,8 +10,8 @@
 
 {% block grade %}
     <td>
-        {% if event.get_avg_grade %}
-            {{ event.get_grade }}(сред. {{ event.get_avg_grade }})
+        {% if event.avg_grade %}
+            {{ event.user_grade }}(сред. {{ event.avg_grade }})
         {% else %}
             <a class="btn btn-success" href="{% url 'grade' pk=event.pk %}" role="button">Оценить</a>
         {% endif %}

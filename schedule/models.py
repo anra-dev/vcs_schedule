@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.shortcuts import _get_queryset
 
-from schedule.enums import StatusEnum, ServerTypeEnum
+from schedule.enums import StatusEnum, ServerTypeEnum, GradeEnum
 
 
 def get_object_or_none(klass, *args, **kwargs):
@@ -16,8 +16,8 @@ def get_object_or_none(klass, *args, **kwargs):
     Uses get() to return an object or None if the object does not exist.
     klass may be a Model, Manager, or QuerySet object. All other passed
     arguments and keyword arguments are used in the get() query.
-    Note: Like with get(), a MultipleObjectsReturned will be raised if more than one
-    object is found.
+    Note: Like with get(), a MultipleObjectsReturned will be raised if
+    more than one object is found.
     """
     queryset = _get_queryset(klass)
     try:
@@ -228,14 +228,6 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'pk': self.pk})
 
-    def get_avg_grade(self):
-        return Grade.objects.filter(
-            event=self
-        ).aggregate(models.Avg('grade'))['grade__avg']
-
-    def get_grade(self):
-        return get_object_or_none(Grade, event=self).grade
-
     class Meta:
         ordering = ['date', 'time_start']
         verbose_name = 'Мероприятие'
@@ -376,20 +368,6 @@ class Application(models.Model):
 
 class Grade(models.Model):
 
-    GRADE_1 = 1
-    GRADE_2 = 2
-    GRADE_3 = 3
-    GRADE_4 = 4
-    GRADE_5 = 5
-
-    GRADE_CHOICES = (
-        (GRADE_1, 'Очень плохо'),
-        (GRADE_2, 'Плохо'),
-        (GRADE_3, 'Удовлетворительно'),
-        (GRADE_4, 'Хорошо'),
-        (GRADE_5, 'Отлично')
-    )
-
     event = models.ForeignKey(
         'Event',
         verbose_name='Мероприятие',
@@ -402,7 +380,7 @@ class Grade(models.Model):
     )
     grade = models.PositiveSmallIntegerField(
         verbose_name='Оценка',
-        choices=GRADE_CHOICES,
+        choices=GradeEnum.choices,
     )
     comment = models.TextField(
         verbose_name='Комментарий',

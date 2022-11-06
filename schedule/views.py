@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, Avg, Subquery, OuterRef
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -21,7 +21,7 @@ from schedule.api import (
     get_bookings_on_room,
 )
 from schedule.enums import StatusEnum, ServerTypeEnum, EVENT_MESSAGES_DICT
-from schedule.models import Event, Grade, get_object_or_none
+from schedule.models import Event, Grade
 from schedule.forms import EventCreateForm, EventUpdateForm
 from schedule.mixins import (
     HelpMixin,
@@ -140,11 +140,17 @@ class ArchiveEventsListView(LoginRequiredMixin, HelpMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        user = self.request.user
+        user_grade = Grade.objects.filter(
+            event_id=OuterRef("pk"),
+            created_by=user
+            )
         return queryset.filter(
-            status__in=(
-                StatusEnum.STATUS_COMPLETED,
-            ),
-            owner=self.request.user
+            status=StatusEnum.STATUS_COMPLETED,
+            owner=user
+        ).annotate(
+            user_grade=Subquery(user_grade.values('grade')[:1]),
+            avg_grade=Avg('grade__grade'),
         )
 
 
@@ -300,14 +306,24 @@ class GradeCreate(LoginRequiredMixin, HelpMixin, CreateView):
     success_url = reverse_lazy('event_archive')
 
     def get_success_url(self):
-        messages.add_message(self.request, messages.INFO, 'Спасибо за оценку!')
+        messages.add_message(
+            self.request,
+            messages.INFO,
+            'Спасибо за оценку!',
+        )
         return reverse_lazy('event_archive')
 
     def form_valid(self, form):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        form.instance.event = get_object_or_none(Event, pk=pk)  # Возможно надо обработать None
-        form.instance.created_by = self.request.user
-        if Grade.objects.filter(event=form.instance.event, created_by=form.instance.created_by):
+        user = self.request.user
+        try:
+            event = Event.objects.get(pk=pk)
+        except Event.DoesNotExist:
+            form.add_error('', 'Мероприятие не найдено')
+            return self.form_invalid(form)
+        form.instance.event = event
+        form.instance.created_by = user
+        if Grade.objects.filter(event=event, created_by=user).exists():
             form.add_error('', 'Оценить мероприятие можно только один раз')
             return self.form_invalid(form)
         return super().form_valid(form)

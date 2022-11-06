@@ -11,7 +11,9 @@ EVENT_MESSAGES_DICT = {
 
 
 class StatusEnum(models.IntegerChoices):
-
+    """
+    Статусы в мероприятии
+    """
     STATUS_DRAFT = 1, 'Создание'
     STATUS_WAIT = 2, 'Ожидание'
     STATUS_READY = 3, 'Готово'
@@ -31,5 +33,19 @@ class StatusEnum(models.IntegerChoices):
 
 
 class ServerTypeEnum(models.IntegerChoices):
+    """
+    Тип сервера
+    """
     SERVER_TYPE_EXTERNAL = 1, 'Внешний сервер'
     SERVER_TYPE_LOCAL = 2, 'Внутренний сервер'
+
+
+class GradeEnum(models.IntegerChoices):
+    """
+    Оценка мероприятия
+    """
+    GRADE_1 = 1, 'Очень плохо'
+    GRADE_2 = 2, 'Плохо'
+    GRADE_3 = 3, 'Удовлетворительно'
+    GRADE_4 = 4, 'Хорошо'
+    GRADE_5 = 5, 'Отлично'
