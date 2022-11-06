@@ -123,9 +123,11 @@ class EventForAssistantListView(UserIsAssistantMixin, HelpMixin, ListView):
 
     def post(self, request):
         if request.POST.get('send_telegram_all', False):
-            send_telegram_message_booking_all(chat_id=self.request.user.telegram)
+            send_telegram_message_booking_all(
+                chat_id=self.request.user.telegram,)
         if request.POST.get('send_telegram_today', False):
-            send_telegram_message_booking_today(chat_id=self.request.user.telegram)
+            send_telegram_message_booking_today(
+                chat_id=self.request.user.telegram)
         return self.get(request)
 
 

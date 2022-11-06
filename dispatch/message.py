@@ -1,18 +1,17 @@
 import datetime
 from django.db.models import Q
-from schedule.models import User, get_object_or_none
-from .templates_message import get_message_event_ready, get_message_bookings
+
+from schedule.enums import StatusEnum
+from schedule.models import User, get_object_or_none, Event
+from dispatch.templates_message import get_message_event_ready, get_message_bookings
 
 
 def get_message(event=None):
-    conferences = Conference.objects.filter(event=event).exclude(booking__without_conference=False)
-    bookings = Booking.objects.filter(event=event)
-    return get_message_event_ready(event, conferences, bookings)
+    return get_message_event_ready(event)
 
 
 def get_recipients(event=None):
-    users = [booking.assistant for booking in Booking.objects.filter(event=event)]
-    users.append(event.owner)
+    users = [event.owner, event.booking_assistant]
 
     recipients = {'mail': [], 'telegram': []}
     for user in set(users):
@@ -26,24 +25,42 @@ def get_recipients(event=None):
 def get_message_for_booking_today(chat_id):
     user = get_object_or_none(User, telegram=chat_id)
     if user is not None:
-        bookings_today = Booking.objects.filter(Q(status='ready', date=datetime.datetime.now()),
-                                               Q(owner=user) | Q(assistant=user))
-        if bookings_today:
-            return get_message_bookings(bookings_today)
+        events_today = Event.objects.filter(
+            Q(
+                status=StatusEnum.STATUS_READY,
+                date=datetime.datetime.now(),
+                with_booking=True,
+            ),
+            Q(owner=user) | Q(booking_assistant=user),
+        )
+        if events_today:
+            message = ''
+            for event in events_today:
+                message += get_message_event_ready(event)
+            return message
         else:
             return "Сегодня нет запланированных и обработанных мероприятий"
     else:
-        return "Пользователь не заарегистрирован в системе"
+        return "Пользователь не зарегистрирован в системе"
 
 
 # TODO: Кондидат на рефакторизацию
 def get_message_for_booking_all(chat_id):
     user = get_object_or_none(User, telegram=chat_id)
     if user is not None:
-        bookings_all = Booking.objects.filter(Q(status='ready'), Q(owner=user) | Q(assistant=user))
-        if bookings_all:
-            return get_message_bookings(bookings_all)
+        all_events = Event.objects.filter(
+            Q(
+                status=StatusEnum.STATUS_READY,
+                with_booking=True,
+            ),
+            Q(owner=user) | Q(booking_assistant=user),
+        )
+        if all_events:
+            message = ''
+            for event in all_events:
+                message += get_message_event_ready(event)
+            return message
         else:
             return "Нет запланированных и обработанных мероприятий"
     else:
-        return "Пользователь не заарегистрирован в системе"
+        return "Пользователь не зарегистрирован в системе"

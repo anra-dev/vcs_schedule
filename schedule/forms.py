@@ -154,8 +154,12 @@ class EventCreateForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         if self.cleaned_data['with_booking']:
             self.instance.booking_status = StatusEnum.STATUS_WAIT
+        else:
+            self.instance.booking_status = None
         if self.cleaned_data['with_conf']:
             self.instance.conf_status = StatusEnum.STATUS_WAIT
+        else:
+            self.instance.conf_status = None
         return super().save(*args, **kwargs)
 
     class Meta:

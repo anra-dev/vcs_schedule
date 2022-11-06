@@ -410,7 +410,12 @@ def update_status_event(instance, **kwargs):
     """
     from dispatch.calling import send_out_message
 
-    statuses = {instance.conf_status, instance.booking_status}
+    statuses = set()
+    if instance.conf_status is not None:
+        statuses.add(instance.conf_status)
+    if instance.booking_status is not None:
+        statuses.add(instance.booking_status)
+
     if len(statuses) == 0:
         instance.status = StatusEnum.STATUS_DRAFT
     elif len(statuses) == 1:
